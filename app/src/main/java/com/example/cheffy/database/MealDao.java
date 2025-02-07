@@ -15,11 +15,11 @@ import java.util.List;
 @Dao
 public interface MealDao {
     @Query("SELECT * FROM " + AppStrings.TABLE_NAME)
-    LiveData<List<MealsResponse.Meal>> getAllMeals();
+    LiveData<List<MealsResponse.Meal>> getFavoriteMeals();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMeal(MealsResponse.Meal meal);
+    void addMealToFavorite(MealsResponse.Meal meal);
 
     @Delete
-    void deleteMeal(MealsResponse.Meal meal);
+    void removeMealFromFavorite(MealsResponse.Meal meal);
 }

@@ -21,7 +21,7 @@ public class Repository {
         this.context = context;
         appDataBase = AppDataBase.getInstance(context);
         mealDao = appDataBase.getMealDao();
-        storedMeals = mealDao.getAllMeals();
+        storedMeals = mealDao.getFavoriteMeals();
 
     }
 
@@ -37,9 +37,9 @@ public class Repository {
     }
 
     public void insertMeal(MealsResponse.Meal meal) {
-        new Thread(() -> mealDao.insertMeal(meal));
+        new Thread(() -> mealDao.addMealToFavorite(meal));
     }
     public void deleteMeal(MealsResponse.Meal meal) {
-        new Thread(() -> mealDao.deleteMeal(meal));
+        new Thread(() -> mealDao.removeMealFromFavorite(meal));
     }
 }

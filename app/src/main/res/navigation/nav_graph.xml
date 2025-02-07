@@ -13,9 +13,6 @@
             android:id="@+id/action_onboardFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
-    <action
-        android:id="@+id/action_loginFragment_to_home_nav_graph"
-        app:destination="@id/home_nav_graph" />
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.example.cheffy.SplashFragment"
@@ -25,9 +22,6 @@
             android:id="@+id/action_splashFragment_to_onboardFragment"
             app:destination="@id/onboardFragment" />
     </fragment>
-    <action
-        android:id="@+id/action_registerFragment_to_home_nav_graph"
-        app:destination="@id/home_nav_graph" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.cheffy.LoginFragment"

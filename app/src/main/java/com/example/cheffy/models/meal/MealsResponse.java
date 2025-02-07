@@ -1,6 +1,14 @@
 package com.example.cheffy.models.meal;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import com.example.cheffy.utils.AppStrings;
+
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 public class MealsResponse {
     List<Meal> meals;
@@ -20,7 +28,10 @@ public class MealsResponse {
                 '}';
     }
 
+    @Entity(tableName = AppStrings.TABLE_NAME)
     public static class Meal {
+        @PrimaryKey
+        @NonNull
         String idMeal;
         String strMeal;
         String strDrinkAlternate;
