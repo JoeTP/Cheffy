@@ -1,6 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph">
-
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+    <fragment
+        android:id="@+id/onboardFragment"
+        android:name="com.example.cheffy.OnboardFragment"
+        android:label="fragment_onboard"
+        tools:layout="@layout/fragment_onboard">
+        <action
+            android:id="@+id/action_onboardFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_loginFragment_to_home_nav_graph"
+        app:destination="@id/home_nav_graph" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.cheffy.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_onboardFragment"
+            app:destination="@id/onboardFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_registerFragment_to_home_nav_graph"
+        app:destination="@id/home_nav_graph" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.cheffy.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.cheffy.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_registerFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="com.example.cheffy.CalendarFragment"
+        android:label="fragment_calendar"
+        tools:layout="@layout/fragment_calendar" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.cheffy.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_mealFragment"
+            app:destination="@id/mealFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_calendarFragment"
+            app:destination="@id/calendarFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment2"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_createCustonMealFragment"
+            app:destination="@id/createCustonMealFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCustonMealFragment"
+        android:name="com.example.cheffy.CreateCustonMealFragment"
+        android:label="fragment_create_custon_meal"
+        tools:layout="@layout/fragment_create_custon_meal" />
+    <fragment
+        android:id="@+id/mealFragment"
+        android:name="com.example.cheffy.MealFragment"
+        android:label="fragment_meal"
+        tools:layout="@layout/fragment_meal" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.cheffy.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.example.cheffy.NotificationFragment"
+        android:label="fragment_notification"
+        tools:layout="@layout/fragment_notification" />
 </navigation>
