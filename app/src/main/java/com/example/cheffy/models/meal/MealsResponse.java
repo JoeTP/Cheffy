@@ -20,7 +20,7 @@ public class MealsResponse {
                 '}';
     }
 
-    class Meal {
+    public static class Meal {
         String idMeal;
         String strMeal;
         String strDrinkAlternate;

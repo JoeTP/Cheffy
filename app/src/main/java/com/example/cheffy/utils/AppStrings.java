@@ -7,8 +7,8 @@ public interface AppStrings {
     String END_POINT = "";
 
     //?DataBase
-    String TABLE_NAME = "";
-    String DN_NAME = "";
+    String TABLE_NAME = "meal_table";
+    String DB_NAME = "";
 
     //!SharedPreference
     String SHARED_PREF_NAME = "AppPrefs";
