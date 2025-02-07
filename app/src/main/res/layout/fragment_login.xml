@@ -35,7 +35,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:id="@+id/tvLogin"
+                android:id="@+id/tvTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
@@ -53,7 +53,7 @@
                 android:text="Email"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-                app:layout_constraintTop_toBottomOf="@+id/tvLogin" />
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
             <EditText
                 android:id="@+id/etEmail"
@@ -94,7 +94,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvPassword" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnRegister"
+                android:id="@+id/btnLogin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="64dp"
@@ -117,7 +117,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-                app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
+                app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLoginGoogle"
@@ -138,7 +138,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="24dp"
-                android:text="Haven't Account?"
+                android:text="@string/haven_t_account"
                 android:textAlignment="textEnd"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvRegister"
@@ -149,7 +149,7 @@
                 android:id="@+id/tvRegister"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Register now"
+                android:text="@string/register_now"
                 android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"

@@ -35,7 +35,7 @@
             android:paddingBottom="16dp">
 
             <TextView
-                android:id="@+id/tvLogin"
+                android:id="@+id/tvTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
@@ -46,14 +46,14 @@
                 />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnLoginGoogle"
+                android:id="@+id/btnRegisterGoogle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="@string/google"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
                 app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/tvLogin"/>
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle"/>
 
             <TextView
                 android:id="@+id/textView8"
@@ -64,10 +64,10 @@
                 android:textAlignment="center"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
                 app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/btnLoginGoogle" />
+                app:layout_constraintTop_toBottomOf="@+id/btnRegisterGoogle" />
 
             <TextView
-                android:id="@+id/tvEmail3"
+                android:id="@+id/tvName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -77,7 +77,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
             <EditText
-                android:id="@+id/etEmail3"
+                android:id="@+id/etName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -86,7 +86,7 @@
                 android:inputType="text"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
                 app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/tvEmail3" />
+                app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
 
             <TextView
@@ -97,7 +97,7 @@
                 android:text="@string/email"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
                 app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/etEmail3" />
+                app:layout_constraintTop_toBottomOf="@+id/etName" />
 
             <EditText
                 android:id="@+id/etEmail"
@@ -178,13 +178,13 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/have_an_account"
                 android:textAlignment="textEnd"
-                app:layout_constraintEnd_toStartOf="@+id/tvRegister"
+                app:layout_constraintEnd_toStartOf="@+id/tvSignIn"
                 app:layout_constraintStart_toStartOf="@+id/guideline4"
                 app:layout_constraintTop_toBottomOf="@+id/btnRegister"
                 />
 
             <TextView
-                android:id="@+id/tvRegister"
+                android:id="@+id/tvSignIn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/sign_in"

@@ -1,15 +1,21 @@
 package com.example.cheffy;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterFragment extends Fragment {
 
+    private FirebaseAuth mAuth;
 
 
     public RegisterFragment() {
@@ -17,10 +23,38 @@ public class RegisterFragment extends Fragment {
     }
 
 
+    EditText etName, etEmail, etPassword, etConfirmPassword;
+    MaterialButton btnRegister, btnRegisterGoogle;
+    TextView tvSignIn;
+
+    void initViews(View view){
+        btnRegister = view.findViewById(R.id.btnRegister);
+        btnRegisterGoogle = view.findViewById(R.id.btnRegisterGoogle);
+        tvSignIn = view.findViewById(R.id.tvSignIn);
+        etName = view.findViewById(R.id.etName);
+        etEmail = view.findViewById(R.id.etEmail);
+        etPassword = view.findViewById(R.id.etPassword);
+        etConfirmPassword = view.findViewById(R.id.etConfirmPassword);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false);
+        View view = inflater.inflate(R.layout.fragment_register, container, false);
+        mAuth = FirebaseAuth.getInstance();
+        initViews(view);
+
+        btnRegister.setOnClickListener(v -> mAuth.createUserWithEmailAndPassword(
+                etEmail.getText().toString(), etPassword.getText().toString()
+        ).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+            }
+        }));
+
+
+        return view;
+
     }
 }
