@@ -14,4 +14,20 @@
     <string name="haven_t_account">Haven\'t Account?</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="register">Register</string>
+    <string name="register_now">Register now</string>
+    <string name="or_login_with">Or, login with</string>
+    <string name="full_name">Full Name</string>
+    <string name="or_register_with_email">Or, Register with email</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="email">Email</string>
+    <string name="enter_email">Enter email</string>
+    <string name="password">Password</string>
+    <string name="enter_password">Enter password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="have_an_account">Have an Account?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign up</string>
+    <string name="google">Google</string>
+    <string name="login">Login</string>
 </resources>
