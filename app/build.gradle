@@ -42,14 +42,17 @@ dependencies {
     androidTestImplementation libs.espresso.core
 
     //?NavGraph
-    implementation "androidx.navigation:navigation-fragment:2.5.3"
-    implementation "androidx.navigation:navigation-ui:2.5.3"
+    implementation "androidx.navigation:navigation-fragment:2.7.7"
+    implementation "androidx.navigation:navigation-ui:2.7.7"
 
     //?Firebase
     implementation platform('com.google.firebase:firebase-bom:33.8.0')
     implementation 'com.google.firebase:firebase-analytics'
     //*FirebaseAuth
     implementation("com.google.firebase:firebase-auth")
+    //*Auth with Google
+    implementation("com.google.android.gms:play-services-auth:21.3.0")
+
 
     //?Room DB
     implementation ("androidx.room:room-runtime:2.6.1")

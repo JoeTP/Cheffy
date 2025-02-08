@@ -8,9 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class CreateCustonMealFragment extends Fragment {
+public class CreateCustomMealFragment extends Fragment {
 
-    public CreateCustonMealFragment() {
+    public CreateCustomMealFragment() {
         // Required empty public constructor
     }
 

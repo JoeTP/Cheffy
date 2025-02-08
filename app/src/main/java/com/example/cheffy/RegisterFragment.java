@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.cheffy.models.user.User;
+import com.example.cheffy.utils.AppFunctions;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -27,7 +29,7 @@ public class RegisterFragment extends Fragment {
     MaterialButton btnRegister, btnRegisterGoogle;
     TextView tvSignIn;
 
-    void initViews(View view){
+    void initViews(View view) {
         btnRegister = view.findViewById(R.id.btnRegister);
         btnRegisterGoogle = view.findViewById(R.id.btnRegisterGoogle);
         tvSignIn = view.findViewById(R.id.tvSignIn);
@@ -36,6 +38,7 @@ public class RegisterFragment extends Fragment {
         etPassword = view.findViewById(R.id.etPassword);
         etConfirmPassword = view.findViewById(R.id.etConfirmPassword);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,15 +46,24 @@ public class RegisterFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         initViews(view);
 
-        btnRegister.setOnClickListener(v -> mAuth.createUserWithEmailAndPassword(
-                etEmail.getText().toString(), etPassword.getText().toString()
-        ).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
-            }
-        }));
+        btnRegisterGoogle.setOnClickListener(v -> Toast.makeText(getContext(), "NOT WORKING YET", Toast.LENGTH_SHORT).show());
+
+        btnRegister.setOnClickListener(v -> {
+            ///TODO: Validation function HERE
+            User user = new User();
+            mAuth.createUserWithEmailAndPassword(
+                    etEmail.getText().toString(), etPassword.getText().toString()
+            ).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    AppFunctions.navigateTo(v, R.id.action_registerFragment_to_homeFragment);
+                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+
+        tvSignIn.setOnClickListener(v -> AppFunctions.navigateTo(v, R.id.action_registerFragment_to_loginFragment));
 
 
         return view;

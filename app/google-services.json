@@ -12,7 +12,20 @@
           "package_name": "com.example.cheffy"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1001114199026-o2nsld0knr1241poo16qj942vipctf9h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cheffy",
+            "certificate_hash": "f511941402c951711f574118e4d589bea75d862f"
+          }
+        },
+        {
+          "client_id": "1001114199026-hbooip1183ahp8rd4bpgts4g1l1pbd39.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAJkNjXib9jdmG_4fRTKyJx0xq8fVeWNQk"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1001114199026-hbooip1183ahp8rd4bpgts4g1l1pbd39.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

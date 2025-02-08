@@ -53,12 +53,17 @@ public class LoginFragment extends Fragment {
 
         btnLogin.setOnClickListener(v -> mAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString(
         )).addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
+            if (task.isSuccessful()) {
                 Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
-            }else{
+                AppFunctions.navigateTo(v, R.id.action_loginFragment_to_homeFragment);
+            } else {
                 Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
             }
         }));
+
+        btnLoginGoogle.setOnClickListener(v -> Toast.makeText(getContext(), "NOT WORKING YET",
+                Toast.LENGTH_SHORT).show());
+
         tvRegister.setOnClickListener(v -> AppFunctions.navigateTo(v,
                 R.id.action_loginFragment_to_registerFragment));
 

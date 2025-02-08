@@ -42,6 +42,9 @@
         <action
             android:id="@+id/action_registerFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/calendarFragment"
@@ -59,34 +62,10 @@
         <action
             android:id="@+id/action_homeFragment_to_calendarFragment"
             app:destination="@id/calendarFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_profileFragment2"
-            app:destination="@id/profileFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_createCustonMealFragment"
-            app:destination="@id/createCustonMealFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_notificationFragment"
-            app:destination="@id/notificationFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/createCustonMealFragment"
-        android:name="com.example.cheffy.CreateCustonMealFragment"
-        android:label="fragment_create_custon_meal"
-        tools:layout="@layout/fragment_create_custon_meal" />
     <fragment
         android:id="@+id/mealFragment"
         android:name="com.example.cheffy.MealFragment"
         android:label="fragment_meal"
         tools:layout="@layout/fragment_meal" />
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.cheffy.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
-    <fragment
-        android:id="@+id/notificationFragment"
-        android:name="com.example.cheffy.NotificationFragment"
-        android:label="fragment_notification"
-        tools:layout="@layout/fragment_notification" />
 </navigation>

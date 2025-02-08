@@ -5,7 +5,7 @@ import android.view.View;
 import androidx.navigation.Navigation;
 
 public abstract class AppFunctions {
-     public static void navigateTo(View view, int layoutId) {
-        Navigation.findNavController(view).navigate(layoutId);
+     public static void navigateTo(View view, int actionId) {
+        Navigation.findNavController(view).navigate(actionId);
     }
 }
