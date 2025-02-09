@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_graph">
+
+    <fragment
+        android:id="@+id/onboardFragment"
+        android:name="com.example.cheffy.features.onboard.view.OnboardFragment"
+        tools:layout="@layout/fragment_onboard"
+        android:label="fragment_onboard"/>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.cheffy.features.auth.view.RegisterFragment"
+        tools:layout="@layout/fragment_register"
+        android:label="fragment_register"/>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.cheffy.features.splash.view.SplashFragment"
+        tools:layout="@layout/fragment_splash"
+        android:label="fragment_splash"/>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.cheffy.features.auth.view.LoginFragment"
+        tools:layout="@layout/fragment_login"
+        android:label="fragment_login"/>
+</navigation>

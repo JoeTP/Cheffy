@@ -5,7 +5,7 @@ public interface AppStrings {
     //*API
     String PHP = ".php";
     String CATEGORIES_END_POINT = "categories" + PHP;
-    String BASE_URL = "www.themealdb.com/api/json/v1/1/";
+    String BASE_URL = "https://www.themealdb.com/api/json/v1/1/";
     String RANDOM_MEAL_END_POINT = "random" + PHP;
     String SEARCH_MEAL_END_POINT = "search" + PHP;
     String FILTER_END_POINT = "filter" + PHP;
@@ -18,8 +18,9 @@ public interface AppStrings {
     String INGREDIENT_LIST = "list" + PHP +"?" + INGREDIENT_QUERY + "=list";
 
     //?DataBase
-    String TABLE_NAME = "meal_table";
-    String DB_NAME = "";
+    String MEAL_TABLE_NAME = "meal_table";
+    String CATEGORY_TABLE_NAME = "category_table";
+    String DB_NAME = "appdb";
 
     //!SharedPreference
     String SHARED_PREF_NAME = "AppPrefs";
