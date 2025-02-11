@@ -60,7 +60,7 @@ public class MealDataRepositoryImpl implements MealDataRepository {
             @Override
             public void onResponse(Call<MealsResponse> call, Response<MealsResponse> response) {
                 if (response.isSuccessful()) {
-                    Log.i("TEST", "fetchMeals: FROM REPO" + response.body());
+                    Log.i("TEST", "fetchMeals: FROM REPO " + response.body().getMeals().size());
 
                 }
             }

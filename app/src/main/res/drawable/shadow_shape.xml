@@ -1,0 +1,30 @@
+<!-- res/drawable/custom_shape_with_shadow.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Shadow Layer -->
+    <item>
+        <shape>
+            <solid android:color="#80000000" /> <!-- Shadow color -->
+            <corners
+                android:bottomLeftRadius="0dp"
+                android:bottomRightRadius="140dp"
+                android:topLeftRadius="0dp"
+                android:topRightRadius="0dp" />
+            <gradient
+                android:endColor="#F00"
+                android:type="linear"
+                android:angle="90"
+                android:gradientRadius="280dp"/>
+            <padding>padding: 20dp</padding>
+        </shape>
+    </item>
+
+    <!-- Custom Shape Layer -->
+    <item
+        android:bottom="14dp"> <!-- Adjust these values to control the shadow offset -->
+        <shape>
+<!--            <solid android:color="#FFFFFF" /> &lt;!&ndash; Background color &ndash;&gt;-->
+            <corners android:bottomRightRadius="180dp" /> <!-- Rounded corners -->
+            <padding>20dp</padding>
+        </shape>
+    </item>
+</layer-list>
