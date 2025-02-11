@@ -18,7 +18,7 @@
             android:name=".features.auth.view.AuthActivity"
             android:exported="false" />
         <activity
-            android:name=".features.home.view.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

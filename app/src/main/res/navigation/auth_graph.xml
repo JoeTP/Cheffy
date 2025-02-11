@@ -8,20 +8,36 @@
         android:id="@+id/onboardFragment"
         android:name="com.example.cheffy.features.onboard.view.OnboardFragment"
         tools:layout="@layout/fragment_onboard"
-        android:label="fragment_onboard"/>
+        android:label="fragment_onboard">
+        <action
+            android:id="@+id/action_onboardFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.cheffy.features.auth.view.RegisterFragment"
         tools:layout="@layout/fragment_register"
-        android:label="fragment_register"/>
+        android:label="fragment_register">
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment2"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.example.cheffy.features.splash.view.SplashFragment"
         tools:layout="@layout/fragment_splash"
-        android:label="fragment_splash"/>
+        android:label="fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_onboardFragment"
+            app:destination="@id/onboardFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.cheffy.features.auth.view.LoginFragment"
         tools:layout="@layout/fragment_login"
-        android:label="fragment_login"/>
+        android:label="fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
 </navigation>

@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".features.home.view.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineRight2"
         android:layout_width="wrap_content"
@@ -29,8 +28,81 @@
         app:layout_constraintGuide_begin="16dp" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="TESTTTTTTTTT" />
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft2"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTop2"
+        tools:text="Greetings MSG" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:text="User Name" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose the right meal for you"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/back_button"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTop2" />
+
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft2"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:singleLine="false"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true" />
+
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.chip.ChipGroup>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="true"
+        android:paddingStart="8dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft2"
+        app:layout_constraintTop_toBottomOf="@+id/chipGroup"
+        app:spanCount="2"
+        tools:listitem="@layout/home_card" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
