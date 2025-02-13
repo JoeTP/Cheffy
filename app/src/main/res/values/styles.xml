@@ -16,6 +16,10 @@
         <item name="android:textSize">22sp</item>
         <item name="android:textStyle">normal</item>
     </style>
+    <style name="hyperlink">
+        <item name="android:fontFamily">@font/glory_bold</item>
+        <item name="android:textSize">22sp</item>
+    </style>
 
     <style name="description_style">
         <item name="android:fontFamily">@font/glory</item>

@@ -27,8 +27,8 @@ public class SplashFragment extends Fragment {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-//                NavHostFragment.findNavController(SplashFragment.this)
-//                        .navigate(R.id.action_splashFragment_to_onboardFragment);
+                NavHostFragment.findNavController(SplashFragment.this)
+                        .navigate(R.id.action_splashFragment_to_onboardFragment);
             }
         }, 3000);
         return view;

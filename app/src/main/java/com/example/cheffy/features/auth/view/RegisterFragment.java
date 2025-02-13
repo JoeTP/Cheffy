@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.cheffy.MainActivity;
 import com.example.cheffy.R;
 import com.example.cheffy.features.auth.model.User;
 import com.example.cheffy.utils.AppFunctions;
@@ -51,23 +52,30 @@ public class RegisterFragment extends Fragment {
 
         btnRegister.setOnClickListener(v -> {
             ///TODO: Validation function HERE
-            User user = new User();
-            mAuth.createUserWithEmailAndPassword(
-                    etEmail.getText().toString(), etPassword.getText().toString()
-            ).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-//                    AppFunctions.navigateTo(v, R.id.action_registerFragment_to_homeFragment);
-                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
-                }
-            });
+            AppFunctions.navigateWithIntentTo(view, MainActivity.class);
+
+//        firebaseRegister(v);
         });
 
-//        tvSignIn.setOnClickListener(v -> AppFunctions.navigateTo(v, R.id.action_registerFragment_to_loginFragment));
+        tvSignIn.setOnClickListener(v -> AppFunctions.navigateTo(v, R.id.action_registerFragment_to_loginFragment));
 
 
         return view;
 
+    }
+
+    private void firebaseRegister(View view) {
+
+        User user = new User();
+        mAuth.createUserWithEmailAndPassword(
+                etEmail.getText().toString(), etPassword.getText().toString()
+        ).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                AppFunctions.navigateWithIntentTo(view, MainActivity.class);
+                Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

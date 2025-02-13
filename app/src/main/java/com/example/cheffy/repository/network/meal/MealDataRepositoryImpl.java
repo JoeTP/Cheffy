@@ -1,4 +1,4 @@
-package com.example.cheffy.repository;
+package com.example.cheffy.repository.network.meal;
 
 import android.util.Log;
 
@@ -7,8 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
 import com.example.cheffy.repository.models.meal.MealsResponse;
-import com.example.cheffy.repository.network.NetworkCallback;
-import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
 
 import java.util.List;
 
@@ -56,20 +54,7 @@ public class MealDataRepositoryImpl implements MealDataRepository {
     //!Network
     @Override
     public void fetchMeals() {
-        mealsRemoteSource.fetchDailyMeal(new Callback<MealsResponse>() {
-            @Override
-            public void onResponse(Call<MealsResponse> call, Response<MealsResponse> response) {
-                if (response.isSuccessful()) {
-                    Log.i("TEST", "fetchMeals: FROM REPO " + response.body().getMeals().size());
 
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MealsResponse> call, Throwable t) {
-                Log.i("TEST", "onFailure: " + t.getMessage().toString());
-            }
-        });
     }
 
 }

@@ -26,7 +26,7 @@ public class OnboardFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_onboard, container, false);
         btnStart = view.findViewById(R.id.btnStart);
-//        btnStart.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_onboardFragment_to_loginFragment));
+        btnStart.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_onboardFragment_to_loginFragment));
         return view;
     }
 }

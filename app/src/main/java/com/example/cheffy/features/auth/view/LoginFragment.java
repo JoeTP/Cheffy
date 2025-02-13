@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.cheffy.MainActivity;
 import com.example.cheffy.R;
 import com.example.cheffy.utils.AppFunctions;
 import com.google.android.material.button.MaterialButton;
@@ -52,22 +53,30 @@ public class LoginFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
 
 
-        btnLogin.setOnClickListener(v -> mAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString(
-        )).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
-         //       AppFunctions.navigateTo(v, R.id.action_loginFragment_to_homeFragment);
-            } else {
-                Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
-            }
-        }));
+        btnLogin.setOnClickListener(v -> {
+//            firebaseLogin();
+            AppFunctions.navigateWithIntentTo(view, MainActivity.class);
+
+        });
 
         btnLoginGoogle.setOnClickListener(v -> Toast.makeText(getContext(), "NOT WORKING YET",
                 Toast.LENGTH_SHORT).show());
 
-//        tvRegister.setOnClickListener(v -> AppFunctions.navigateTo(v,
-//                R.id.action_loginFragment_to_registerFragment));
+        tvRegister.setOnClickListener(v -> AppFunctions.navigateTo(v,
+                R.id.action_loginFragment_to_registerFragment));
 
         return view;
+    }
+
+    void firebaseLogin(View view){
+        mAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString(
+        )).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                AppFunctions.navigateWithIntentTo(view, MainActivity.class);
+            } else {
+                Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

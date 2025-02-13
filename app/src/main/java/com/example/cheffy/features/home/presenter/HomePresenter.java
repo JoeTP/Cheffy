@@ -1,24 +1,40 @@
 package com.example.cheffy.features.home.presenter;
 
-import android.util.Log;
-
-import androidx.lifecycle.LiveData;
-
-import com.example.cheffy.repository.MealDataRepositoryImpl;
-import com.example.cheffy.repository.models.meal.MealsResponse;
+import com.example.cheffy.features.home.contract.HomeContract;
+import com.example.cheffy.features.home.view.OnCardClick;
+import com.example.cheffy.repository.models.category.CategoryResponse;
+import com.example.cheffy.repository.network.category.CategoryDataRepositoryImpl;
+import com.example.cheffy.repository.network.meal.MealDataRepositoryImpl;
 
 import java.util.List;
 
-public class HomePresenter {
-    MealDataRepositoryImpl repository;
+import io.reactivex.rxjava3.core.Single;
 
-    public HomePresenter(MealDataRepositoryImpl repository) {
-        this.repository = repository;
+public class HomePresenter implements HomeContract.Presenter , OnCardClick {
+
+    private HomeContract.View view;
+    MealDataRepositoryImpl mealRepo;
+    CategoryDataRepositoryImpl categoryRepo;
+
+    public HomePresenter(HomeContract.View view, MealDataRepositoryImpl mealRepo, CategoryDataRepositoryImpl categoryRepo) {
+        this.view = view;
+        this.mealRepo = mealRepo;
+        this.categoryRepo = categoryRepo;
     }
 
-    public LiveData<List<MealsResponse.Meal>> fetchMeals(){
-        Log.i("TEST", "fetchMeals: FROM PRESENTER");
-        repository.fetchMeals();
-        return repository.mealList;
+
+    @Override
+    public void getMeals() {
+
+    }
+
+    @Override
+    public Single<CategoryResponse>  getCategories() {
+       return categoryRepo.getCategoriesRemote();
+    }
+
+    @Override
+    public void onCardClick(Object type) {
+
     }
 }
