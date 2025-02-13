@@ -28,7 +28,6 @@
                 android:id="@+id/card_image"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:cardBackground="@drawable/card_bg"
                 app:cardElevation="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +38,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="248dp"
                     android:scaleType="centerCrop"
-                    android:background="@drawable/card_bg"
                     android:src="@drawable/ic_launcher_background" />
             </androidx.cardview.widget.CardView>
 
@@ -84,6 +82,7 @@
                 android:id="@+id/ingredientTitle"
                 style="@style/subtitles"
                 android:layout_width="0dp"
+
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/ingredient"
