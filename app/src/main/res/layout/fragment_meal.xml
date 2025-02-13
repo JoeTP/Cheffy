@@ -24,16 +24,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/circularImageView"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_image"
                 android:layout_width="0dp"
-                android:layout_height="246dp"
-                android:clipToOutline="true"
-                android:background="@drawable/shadow_shape"
-                android:src="@drawable/ic_launcher_background"
+                android:layout_height="wrap_content"
+                app:cardBackground="@drawable/card_bg"
+                app:cardElevation="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/circularImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="248dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/card_bg"
+                    android:src="@drawable/ic_launcher_background" />
+            </androidx.cardview.widget.CardView>
 
 
             <TextView
@@ -44,7 +52,7 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-                app:layout_constraintTop_toBottomOf="@+id/circularImageView"
+                app:layout_constraintTop_toBottomOf="@+id/card_image"
                 tools:text="MealTitle" />
 
 
@@ -153,7 +161,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </TableLayout>
+            <TextView
+                android:id="@+id/watchTitle"
+                style="@style/subtitles"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Watch"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+                app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/table" />
 
+            <VideoView
+                android:id="@+id/videoView"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/watchTitle"
+                app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+                app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+                />
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineLeft"
                 android:layout_width="wrap_content"
@@ -169,6 +196,7 @@
                 app:layout_constraintGuide_end="16dp" />
 
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -182,18 +210,6 @@
         android:src="@drawable/favorite_unselect"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:text="Play video"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
-        app:layout_constraintEnd_toStartOf="@+id/floatingActionButton"
-        app:layout_constraintTop_toTopOf="@+id/floatingActionButton" />
 
     <ImageView
         android:id="@+id/btnBack"
