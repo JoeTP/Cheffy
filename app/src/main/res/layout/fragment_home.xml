@@ -1,14 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    tools:context=".features.home.view.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineRight2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTop2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLeft2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/tvGreetingMsg"
+        style="@style/titles"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintEnd_toStartOf="@+id/ivUserImage"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft2"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTop2"
+        tools:text="Greetings MSG" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tvUserName"
+        style="@style/subtitles"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/tvGreetingMsg"
+        app:layout_constraintStart_toStartOf="@+id/tvGreetingMsg"
+        app:layout_constraintTop_toBottomOf="@+id/tvGreetingMsg"
+        tools:text="User Name" />
+
+    <TextView
+        android:id="@+id/tvTodaySpecial"
+        style="@style/subtitles"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/today_s_special"
+        android:textColor="@color/dark_green_color"
+        app:layout_constraintEnd_toEndOf="@+id/tvUserName"
+        app:layout_constraintStart_toStartOf="@+id/tvUserName"
+        app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
+
+    <TextView
+        android:id="@+id/textView5"
+        style="@style/description_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose the right meal for you"
+        app:layout_constraintStart_toStartOf="@+id/tvTodaySpecial"
+        app:layout_constraintTop_toBottomOf="@+id/tvTodaySpecial" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivUserImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/testimg"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTop2" />
+
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft2"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:singleLine="false"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/categoryChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:checked="true"
+            android:text="@string/category"
+            app:checkedIconVisible="false"
+            app:chipIcon="@drawable/profile" />
+
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/countryChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="@string/country"
+            app:chipIcon="@drawable/profile" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/ingredientChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="@string/ingredient"
+            app:chipIcon="@drawable/profile" />
+    </com.google.android.material.chip.ChipGroup>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingStart="8dp"
+        android:paddingBottom="120dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft2"
+        app:layout_constraintTop_toBottomOf="@+id/chipGroup"
+        app:spanCount="2"
+        tools:listitem="@layout/home_card" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

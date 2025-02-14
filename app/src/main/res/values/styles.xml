@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CircularImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20%</item>
+
+    </style>
+
+    <style name="titles">
+        <item name="android:fontFamily">@font/glory_bold</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="subtitles">
+        <item name="android:fontFamily">@font/glory_bold</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="hyperlink">
+        <item name="android:fontFamily">@font/glory_bold</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="description_style">
+        <item name="android:fontFamily">@font/glory</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/description_color</item>
+    </style>
+
+    <style name="back_button_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:background">@drawable/back_button</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:src">@drawable/baseline_arrow_back_24</item>
+    </style>
+
+    <style name="fab_circle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+        <item name="color">@color/main_green_color</item>
+    </style>
+</resources>
