@@ -10,6 +10,7 @@ import com.example.cheffy.repository.models.meal.MealsResponse;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Single;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -55,6 +56,11 @@ public class MealDataRepositoryImpl implements MealDataRepository {
     @Override
     public void fetchMeals() {
 
+    }
+
+    @Override
+    public Single<MealsResponse> getAreasRemote() {
+        return mealsRemoteSource.fetchAreas();
     }
 
 }

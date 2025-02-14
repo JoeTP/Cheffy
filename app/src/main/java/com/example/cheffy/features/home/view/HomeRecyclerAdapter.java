@@ -58,12 +58,9 @@ public class HomeRecyclerAdapter<T> extends RecyclerView.Adapter<HomeRecyclerAda
             holder.bind(category.getStrCategoryThumb(), category.getStrCategory());
         } else if (list.get(position) instanceof MealsResponse.Meal) {
             MealsResponse.Meal meal = (MealsResponse.Meal) list.get(position);
-            holder.bind(meal.getStrMealThumb(), meal.getStrMeal());
+            holder.bind(meal.getStrMealThumb(), meal.getStrArea());
         }
     }
-//    public void setOnCardClickListener(OnCardClick<T> onCardClickListener) {
-//        this.onCardClickListener = onCardClickListener;
-//    }
 
     @Override
     public int getItemCount() {

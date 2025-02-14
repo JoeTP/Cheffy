@@ -12,6 +12,7 @@
         android:title="" />
     <item
         android:id="@+id/profileFragment"
-        android:icon="@drawable/profile"
+        android:icon="@drawable/favorite_select"
+        android:iconTint="@color/main_green_color"
         android:title="" />
 </menu>

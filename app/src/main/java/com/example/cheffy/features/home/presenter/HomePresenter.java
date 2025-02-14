@@ -3,6 +3,7 @@ package com.example.cheffy.features.home.presenter;
 import com.example.cheffy.features.home.contract.HomeContract;
 import com.example.cheffy.features.home.view.OnCardClick;
 import com.example.cheffy.repository.models.category.CategoryResponse;
+import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.network.category.CategoryDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealDataRepositoryImpl;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Single;
 
-public class HomePresenter implements HomeContract.Presenter , OnCardClick {
+public class HomePresenter implements HomeContract.Presenter  {
 
     private HomeContract.View view;
     MealDataRepositoryImpl mealRepo;
@@ -34,7 +35,7 @@ public class HomePresenter implements HomeContract.Presenter , OnCardClick {
     }
 
     @Override
-    public void onCardClick(Object type) {
-
+    public Single<MealsResponse> getAreas() {
+        return mealRepo.getAreasRemote();
     }
 }

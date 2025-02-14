@@ -27,9 +27,9 @@ public interface MealsService {
     public Single<MealsResponse> filterByIngredient(@Query(AppStrings.INGREDIENT_QUERY) String ingredient);
 
     @GET(AppStrings.AREA_LIST)
-    public Call<MealsResponse> getAreas();
+    public Single<MealsResponse> getAreas();
 
     @GET(AppStrings.INGREDIENT_LIST)
-    public Call<MealsResponse> getIngredients();
+    public Single<MealsResponse> getIngredients();
 
 }

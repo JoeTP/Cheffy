@@ -15,5 +15,6 @@ public interface HomeContract {
     interface Presenter {
         void getMeals();
         Single<CategoryResponse>  getCategories();
+        Single<MealsResponse> getAreas();
     }
 }

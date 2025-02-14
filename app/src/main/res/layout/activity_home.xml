@@ -44,14 +44,20 @@
             app:menu="@menu/bnb_menus">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabCalendar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="20dp"
                 android:backgroundTint="@color/main_green_color"
+                android:cropToPadding="false"
                 android:outlineSpotShadowColor="@color/main_green_color"
+                android:padding="0dp"
+                android:src="@drawable/calendar"
                 app:borderWidth="0dp"
                 app:elevation="8dp"
+                app:fabCustomSize="64dp"
+                app:maxImageSize="38dp"
                 app:shapeAppearanceOverlay="@style/fab_circle" />
         </com.google.android.material.bottomnavigation.BottomNavigationView>
 

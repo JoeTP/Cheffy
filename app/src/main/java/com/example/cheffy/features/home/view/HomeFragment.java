@@ -67,6 +67,13 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
     }
 
     private void checkChipGroupChecks() {
+        if (chipGroup.getCheckedChipIds().isEmpty()) {
+            // No chip is selected, clear the RecyclerView
+            if (adapter != null) {
+                adapter.updateList(new ArrayList<>());
+            }
+            return;
+        }
         chipGroup.getCheckedChipIds().forEach(id -> {
             if (id == R.id.categoryChip) {
                 subscribeCategory();
@@ -97,28 +104,35 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(categoryResponse -> {
                     if (adapter == null) {
-                        adapter = new HomeRecyclerAdapter(new ArrayList<CategoryResponse.Category>(),
+                        adapter = new HomeRecyclerAdapter(categoryResponse.getCategories(),
                                 getContext(), this);
+                        recyclerView.setAdapter(adapter);
                     } else {
                         adapter.updateList(categoryResponse.getCategories());
                     }
-                    recyclerView.setAdapter(adapter);
+                }, throwable -> {
+                    Log.e(TAG, "Error fetching categories: ", throwable);
                 });
     }
 
     private void subscribeCountry() {
-//        adapter = new HomeRecyclerAdapter(new ArrayList<>(),
-//                getContext(), this);
-        adapter.updateList(new ArrayList<>());
-//        presenter.getCountries().subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(countryResponse -> {
-//                    adapter = new HomeRecyclerAdapter(new ArrayList<CountryResponse.Country>(),
-//                            getContext(), this);
-//                    adapter.updateList(countryResponse.getCountries());
-//                    recyclerView.setAdapter(adapter);
-//                    });
+        presenter.getAreas()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mealResponse -> {
+                    Log.i(TAG, "subscribeCountry: " + mealResponse.getMeals().size());
+                    if (adapter == null) {
+                        adapter = new HomeRecyclerAdapter(mealResponse.getMeals(),
+                                getContext(), this);
+                        recyclerView.setAdapter(adapter);
+                    } else {
+                        adapter.updateList(mealResponse.getMeals());
+                    }
+                }, throwable -> {
+                    Log.e(TAG, "Error fetching countries: ", throwable);
+                });
     }
+
 
     private void subscribeIngredient() {
 //        adapter = new HomeRecyclerAdapter(new ArrayList<>(),

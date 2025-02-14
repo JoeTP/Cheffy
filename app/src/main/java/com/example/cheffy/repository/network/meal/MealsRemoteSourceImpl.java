@@ -3,6 +3,7 @@ package com.example.cheffy.repository.network.meal;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.network.ApiClient;
 
+import io.reactivex.rxjava3.core.Single;
 import retrofit2.Callback;
 
 public class MealsRemoteSourceImpl implements MealsRemoteSource {
@@ -22,7 +23,11 @@ public class MealsRemoteSourceImpl implements MealsRemoteSource {
 
     @Override
     public void fetchDailyMeal(Callback<MealsResponse> callback) {
-        mealsService.getDailyMeal().enqueue(callback);
+    }
+
+    @Override
+    public Single<MealsResponse> fetchAreas() {
+        return mealsService.getAreas();
     }
 
 }

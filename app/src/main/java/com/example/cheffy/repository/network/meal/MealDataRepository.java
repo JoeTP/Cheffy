@@ -6,6 +6,8 @@ import com.example.cheffy.repository.models.meal.MealsResponse;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Single;
+
 public interface MealDataRepository {
     LiveData<List<MealsResponse.Meal>> getStoredFavoriteMeals();
 
@@ -13,5 +15,6 @@ public interface MealDataRepository {
 
     void deleteMeal(MealsResponse.Meal meal);
     void fetchMeals();
+    Single<MealsResponse> getAreasRemote();
 
 }
