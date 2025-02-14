@@ -172,7 +172,9 @@
                     android:id="@+id/textView7"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@string/have_an_account"
                     android:textAlignment="textEnd"
                     app:layout_constraintEnd_toStartOf="@+id/tvSignIn"
@@ -183,9 +185,11 @@
                     android:id="@+id/tvSignIn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/sign_in"
+                    android:layout_marginEnd="-24dp"
+                    android:text="@string/login_now"
                     android:textAlignment="textStart"
                     app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/textView7"
                     app:layout_constraintTop_toTopOf="@+id/textView7" />
 

@@ -14,6 +14,7 @@ import com.example.cheffy.MainActivity;
 import com.example.cheffy.R;
 import com.example.cheffy.features.auth.model.User;
 import com.example.cheffy.utils.AppFunctions;
+import com.example.cheffy.utils.Validator;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -51,31 +52,31 @@ public class RegisterFragment extends Fragment {
         btnRegisterGoogle.setOnClickListener(v -> Toast.makeText(getContext(), "NOT WORKING YET", Toast.LENGTH_SHORT).show());
 
         btnRegister.setOnClickListener(v -> {
-            ///TODO: Validation function HERE
-            AppFunctions.navigateWithIntentTo(view, MainActivity.class);
-
-//        firebaseRegister(v);
+            firebaseRegister(v);
         });
 
         tvSignIn.setOnClickListener(v -> AppFunctions.navigateTo(v, R.id.action_registerFragment_to_loginFragment));
-
 
         return view;
 
     }
 
     private void firebaseRegister(View view) {
-
-        User user = new User();
-        mAuth.createUserWithEmailAndPassword(
-                etEmail.getText().toString(), etPassword.getText().toString()
-        ).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                AppFunctions.navigateWithIntentTo(view, MainActivity.class);
-                Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (Validator.validateEmpty(etName) &&
+            Validator.validateEmail(etEmail) &&
+            Validator.validatePassword(etPassword) &&
+            Validator.validateMismatch(etPassword,etConfirmPassword)) {
+            User user = new User();
+            mAuth.createUserWithEmailAndPassword(
+                    etEmail.getText().toString(), etPassword.getText().toString()
+            ).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    AppFunctions.navigateWithIntentTo(view, MainActivity.class);
+                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        }
     }
-}

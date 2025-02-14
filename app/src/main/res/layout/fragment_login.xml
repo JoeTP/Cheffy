@@ -35,7 +35,6 @@
             app:layout_constraintStart_toStartOf="parent">
 
 
-
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="0dp"
@@ -163,6 +162,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/register_now"
                 android:textAlignment="textStart"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintStart_toEndOf="@+id/textView7"

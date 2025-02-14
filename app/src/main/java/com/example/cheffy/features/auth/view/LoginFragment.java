@@ -18,6 +18,7 @@ import com.example.cheffy.MainActivity;
 import com.example.cheffy.R;
 import com.example.cheffy.utils.AppFunctions;
 import com.example.cheffy.utils.SharedPreferencesHelper;
+import com.example.cheffy.utils.Validator;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,7 +37,8 @@ public class LoginFragment extends Fragment {
         sharedPreferencesHelper = new SharedPreferencesHelper(requireContext());
     }
 
-    public LoginFragment() {}
+    public LoginFragment() {
+    }
 
     void initViews(View view) {
         btnLogin = view.findViewById(R.id.btnLogin);
@@ -64,9 +66,7 @@ public class LoginFragment extends Fragment {
 
 
         btnLogin.setOnClickListener(v -> {
-//            firebaseLogin();
-            AppFunctions.navigateWithIntentTo(view, MainActivity.class);
-            sharedPreferencesHelper.saveBoolean(IS_LOGGED_IN_KEY, true).subscribe();
+            firebaseLogin(v);
         });
 
         btnLoginGoogle.setOnClickListener(v -> Toast.makeText(getContext(), "NOT WORKING YET",
@@ -78,15 +78,18 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
-    void firebaseLogin(View view){
-        mAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString(
-        )).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
-                AppFunctions.navigateWithIntentTo(view, MainActivity.class);
-            } else {
-                Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
-            }
-        });
+    void firebaseLogin(View view) {
+        if (Validator.validateEmail(etEmail) && Validator.validatePassword(etPassword)) {
+            mAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString(
+            )).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                    AppFunctions.navigateWithIntentTo(view, MainActivity.class);
+                    sharedPreferencesHelper.saveBoolean(IS_LOGGED_IN_KEY, true).subscribe();
+                } else {
+                    Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }
