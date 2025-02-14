@@ -20,12 +20,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         bnb = findViewById(R.id.bnb);
-//        bnb.getMenu().getItem(1).setEnabled(false);
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.home_nav_host_fragment);
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.home_nav_host_fragment);
         navController = navHostFragment.getNavController();
 
         NavigationUI.setupWithNavController(bnb, navController);
+
+
 
     }
 }

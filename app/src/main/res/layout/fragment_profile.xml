@@ -28,19 +28,13 @@
         app:layout_constraintTop_toBottomOf="@+id/circleImageView">
 
         <include
-            android:id="@+id/tile2"
+            android:id="@+id/tileAccountSetting"
             layout="@layout/profile_list_tile"
             android:text="Custom Title 2"
             app:srcCompat="@drawable/back_button" />
 
         <include
-            android:id="@+id/tile2"
-            layout="@layout/profile_list_tile"
-            android:text="Custom Title 2"
-            app:srcCompat="@drawable/back_button" />
-
-        <include
-            android:id="@+id/tile3"
+            android:id="@+id/tileLogout"
             layout="@layout/profile_list_tile"
             android:text="Custom Title 2"
             app:srcCompat="@drawable/back_button" />

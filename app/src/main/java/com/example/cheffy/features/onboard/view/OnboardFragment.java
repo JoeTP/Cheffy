@@ -1,6 +1,6 @@
 package com.example.cheffy.features.onboard.view;
 
-import static com.example.cheffy.utils.AppStrings.IS_FIRST_TIME_LAUNCH_KEY;
+import static com.example.cheffy.utils.AppStrings.IS_BRAND_NEW_LAUNCH;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -40,7 +40,7 @@ public class OnboardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_onboard, container, false);
         btnStart = view.findViewById(R.id.btnStart);
         btnStart.setOnClickListener(v -> {
-            sharedPreferencesHelper.saveBoolean(IS_FIRST_TIME_LAUNCH_KEY, false)
+            sharedPreferencesHelper.saveBoolean(IS_BRAND_NEW_LAUNCH, false)
                     .subscribe(() -> {
                         Navigation.findNavController(view).navigate(R.id.action_onboardFragment_to_loginFragment);
                     }, throwable -> {

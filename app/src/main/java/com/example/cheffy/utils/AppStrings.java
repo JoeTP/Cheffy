@@ -24,8 +24,9 @@ public interface AppStrings {
 
     //!SharedPreference
     String SHARED_PREF_NAME = "AppPrefs";
-    String IS_FIRST_TIME_LAUNCH_KEY = "IsFirstTimeLaunch";
+    String IS_BRAND_NEW_LAUNCH = "IsFirstTimeLaunch";
     String IS_LOGGED_IN_KEY = "IsLoggedIn";
+    String IS_LOG_OUT_KEY = "IsLoggedIn";
 
 
 }

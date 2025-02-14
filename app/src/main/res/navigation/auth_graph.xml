@@ -39,7 +39,9 @@
         android:id="@+id/loginFragment"
         android:name="com.example.cheffy.features.auth.view.LoginFragment"
         tools:layout="@layout/fragment_login"
-        android:label="fragment_login">
+        android:label="fragment_login"
+        app:popUpTo="@id/auth_graph"
+        app:popUpToInclusive="false">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
