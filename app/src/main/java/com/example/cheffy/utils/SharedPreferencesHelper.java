@@ -1,19 +1,21 @@
+package com.example.cheffy.utils;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class SharedPreferencesHelper {
 
-    private static final String PREF_NAME = "MyAppPreferences";
-    private final SharedPreferences sharedPreferences;
+    private static  SharedPreferences sharedPreferences = null;
 
     public SharedPreferencesHelper(Context context) {
-        sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(AppStrings.SHARED_PREF_NAME, Context.MODE_PRIVATE);
     }
 
-    // Save a String value to SharedPreferences
     public Completable saveString(String key, String value) {
         return Completable.fromAction(() -> {
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -22,14 +24,12 @@ public class SharedPreferencesHelper {
         }).subscribeOn(Schedulers.io());
     }
 
-    // Retrieve a String value from SharedPreferences
-    public Single<String> getString(String key, String defaultValue) {
+    public static Single<String> getString(String key, String defaultValue) {
         return Single.fromCallable(() -> sharedPreferences.getString(key, defaultValue))
                 .subscribeOn(Schedulers.io());
     }
 
-    // Save an Integer value to SharedPreferences
-    public Completable saveInt(String key, int value) {
+    public static Completable saveInt(String key, int value) {
         return Completable.fromAction(() -> {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putInt(key, value);
@@ -37,29 +37,25 @@ public class SharedPreferencesHelper {
         }).subscribeOn(Schedulers.io());
     }
 
-    // Retrieve an Integer value from SharedPreferences
-    public Single<Integer> getInt(String key, int defaultValue) {
+    public static Single<Integer> getInt(String key, int defaultValue) {
         return Single.fromCallable(() -> sharedPreferences.getInt(key, defaultValue))
                 .subscribeOn(Schedulers.io());
     }
 
-    // Save a Boolean value to SharedPreferences
-    public Completable saveBoolean(String key, boolean value) {
+    public static Completable saveBoolean(String key, boolean value) {
         return Completable.fromAction(() -> {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(key, value);
             editor.apply();
-        }).subscribeOn(Schedulers.io());
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    // Retrieve a Boolean value from SharedPreferences
-    public Single<Boolean> getBoolean(String key, boolean defaultValue) {
+    public static Single<Boolean> getBoolean(String key, boolean defaultValue) {
         return Single.fromCallable(() -> sharedPreferences.getBoolean(key, defaultValue))
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    // Clear a specific key from SharedPreferences
-    public Completable clearKey(String key) {
+    public static Completable deleteKey(String key) {
         return Completable.fromAction(() -> {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.remove(key);
@@ -67,12 +63,5 @@ public class SharedPreferencesHelper {
         }).subscribeOn(Schedulers.io());
     }
 
-    // Clear all data from SharedPreferences
-    public Completable clearAll() {
-        return Completable.fromAction(() -> {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.clear();
-            editor.apply();
-        }).subscribeOn(Schedulers.io());
-    }
+
 }
