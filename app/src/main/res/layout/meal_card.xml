@@ -6,17 +6,17 @@
 <!--    app:cardUseCompatPadding="true"-->
 <!--    >-->
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mealCardLayout"
     android:layout_width="180dp"
     android:layout_height="255dp"
     android:clipToPadding="false"
     android:padding="10dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/ivUserImage"
+        android:id="@+id/ivMeal"
         android:layout_width="145dp"
         android:layout_height="145dp"
         android:elevation="5dp"
@@ -44,7 +44,7 @@
 
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -58,6 +58,7 @@
             tools:text="MealName\nnew line" />
 
         <ImageView
+            android:id="@+id/ivCountry"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="16dp"
@@ -65,10 +66,10 @@
             android:src="@drawable/testimg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView5" />
+            app:layout_constraintTop_toTopOf="@+id/ivFavorite" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/ivFavorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
