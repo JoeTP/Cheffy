@@ -22,5 +22,6 @@ public interface RegisterContract {
         void register(EditText etName, EditText etEmail, EditText etPassword, EditText etConfirmPassword);
         void handleGoogleRegister();
         void navigateToLogin();
+
     }
 }
