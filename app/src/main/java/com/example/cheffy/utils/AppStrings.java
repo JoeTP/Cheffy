@@ -17,6 +17,9 @@ public interface AppStrings {
     String AREA_LIST = "list" + PHP +"?" + AREA_QUERY + "=list";
     String INGREDIENT_LIST = "list" + PHP +"?" + INGREDIENT_QUERY + "=list";
 
+    //?Firebase
+    String USERID_COLLECTION = "users";
+
     //?DataBase
     String MEAL_TABLE_NAME = "meal_table";
     String CATEGORY_TABLE_NAME = "category_table";

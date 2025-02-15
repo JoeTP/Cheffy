@@ -5,9 +5,12 @@ import static com.example.cheffy.utils.AppStrings.IS_LOGGED_IN_KEY;
 import android.widget.EditText;
 
 import com.example.cheffy.features.auth.contract.RegisterContract;
+import com.example.cheffy.features.auth.model.User;
+import com.example.cheffy.utils.AppStrings;
 import com.example.cheffy.utils.SharedPreferencesHelper;
 import com.example.cheffy.utils.Validator;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Completable;
@@ -16,10 +19,12 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class RegisterPresenter implements RegisterContract.Presenter {
     private RegisterContract.View view;
     private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firestore;
     private SharedPreferencesHelper sharedPreferencesHelper;
 
     public RegisterPresenter() {
         firebaseAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
     }
 
     @Override
@@ -35,11 +40,15 @@ public class RegisterPresenter implements RegisterContract.Presenter {
                 etConfirmPassword)) return;
         view.showLoading();
 
+
         Completable.create(emitter -> {
                     firebaseAuth.createUserWithEmailAndPassword(etEmail.getText().toString(),
                             etPassword.getText().toString()).addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             emitter.onComplete();
+                            String userId = firebaseAuth.getCurrentUser().getUid();
+                            User user = new User(etName.getText().toString(), etEmail.getText().toString());
+                            firestore.collection(AppStrings.USERID_COLLECTION).document(userId).set(user.toMap());
                             sharedPreferencesHelper.saveBoolean(IS_LOGGED_IN_KEY, true);
                         } else {
                             emitter.onError(task.getException() != null ? task.getException() : new Exception("Register failed"));
