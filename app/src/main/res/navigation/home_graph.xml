@@ -15,11 +15,11 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_mealFragment"
-            app:destination="@id/mealFragment" />
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_calendarFragment"
-            app:destination="@id/calendarFragment" />
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/mealFragment"
@@ -31,4 +31,26 @@
         android:name="com.example.cheffy.features.profile.view.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/favoriteMealsFragment"
+        android:name="com.example.cheffy.features.FavoriteMealsFragment"
+        android:label="fragment_favorite_meals"
+        tools:layout="@layout/fragment_favorite_meals" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.cheffy.features.home.view.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_mealFragment"
+            app:destination="@id/mealFragment" />
+        <argument
+            android:name="category"
+            app:nullable="true"
+            app:argType="com.example.cheffy.repository.models.category.CategoryResponse" />
+        <argument
+            android:name="meal"
+            app:nullable="true"
+            app:argType="com.example.cheffy.repository.models.meal.MealsResponse" />
+    </fragment>
 </navigation>

@@ -3,11 +3,15 @@ package com.example.cheffy.features.home.presenter;
 import android.util.Log;
 import android.widget.TextView;
 
+import androidx.navigation.Navigation;
+
+import com.example.cheffy.R;
 import com.example.cheffy.features.home.contract.HomeContract;
 import com.example.cheffy.repository.models.category.CategoryResponse;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.network.category.CategoryDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealDataRepositoryImpl;
+import com.example.cheffy.utils.AppFunctions;
 import com.example.cheffy.utils.AppStrings;
 import com.example.cheffy.utils.SharedPreferencesHelper;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -131,19 +135,16 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void handleIngredientChip() {
-
+        view.clearList();
     }
 
     @Override
     public void onCardClicked(Object item) {
         if (item instanceof CategoryResponse.Category) {
-            // Handle category click
             CategoryResponse.Category category = (CategoryResponse.Category) item;
-            // Implement navigation or other actions
+//            Navigation.findNavController(view).navigate(actionId);
         } else if (item instanceof MealsResponse.Meal) {
-            // Handle meal click
             MealsResponse.Meal meal = (MealsResponse.Meal) item;
-            // Implement navigation or other actions
         }
     }
 }

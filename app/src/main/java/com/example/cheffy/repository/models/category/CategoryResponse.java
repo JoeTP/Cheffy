@@ -6,9 +6,10 @@ import androidx.room.PrimaryKey;
 
 import com.example.cheffy.utils.AppStrings;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CategoryResponse {
+public class CategoryResponse implements Serializable {
     List<Category> categories;
 
 

@@ -68,116 +68,51 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         presenter = new HomePresenter(this, getMealRepositoryInstance(getContext()), getCategoryRepositoryInstance());
         presenter.handleGreetingMsg().subscribe(s -> tvGreetingMsg.setText(s));
         presenter.loadUserData();
+        presenter.handleCategoryChip();
+        setupChipListeners();
 
-
-        ///TODO: first thing u do is to make the chips cant uncheck if the others are unchecked
-
-        chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
-            Log.i(TAG, "GROUP LISTEN ");
-            checkChipGroupChecks();
-        });
 
 
         return view;
     }
 
-
-//    private void getUser() {
-//
-//        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-//        SharedPreferencesHelper sharedPreferences = new SharedPreferencesHelper(getContext());
-//        userSubscription =
-//                sharedPreferences.getString(AppStrings.CURRENT_USERID, "null")
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe((s, throwable) -> {
-//                    if (throwable != null) {
-//                        Log.e("SharedPreferencesError", "Error getting user ID", throwable);
-//                        return;
-//                    }
-//                    Log.i("TAG", "User ID retrieved: " + s);
-//
-//                    userListener = firestore.collection(AppStrings.USER_COLLECTION).document(s).addSnapshotListener((value, error) -> {
-//                        if (error != null) {
-//                            Log.e("FirestoreError", "Error fetching user data", error);
-//                            return;
-//                        }
-//                        if (value != null && value.exists()) {
-//                            Log.i("TAG", "User document exists");
-//                            if (tvUserName != null) {
-//                                tvUserName.post(() -> tvUserName.setText(value.getString("name")));
-//                            } else {
-//                                Log.e("TAG", "tvUserName is null");
-//                            }
-//                        } else {
-//                            Log.e("TAG", "User document does not exist or is null");
-//                        }
-//                    });
-//                });
-//    }
-
-
-    private void checkChipGroupChecks() {
-        if (chipGroup.getCheckedChipIds().isEmpty()) {
-            // No chip is selected, clear the RecyclerView
-            if (adapter != null) {
-                adapter.updateList(new ArrayList<>());
-            }
-            return;
-        }
-        chipGroup.getCheckedChipIds().forEach(id -> {
-            if (id == R.id.categoryChip) {
+    private void setupChipListeners() {
+        categoryChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!isChecked) {
+                if (!countryChip.isChecked() && !ingredientChip.isChecked()) {
+                    buttonView.setChecked(true);
+                }
+            } else {
+                countryChip.setChecked(false);
+                ingredientChip.setChecked(false);
                 presenter.handleCategoryChip();
-                Log.i(TAG, "subscribeCategory: ");
-            } else if (id == R.id.countryChip) {
+            }
+        });
+
+        countryChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!isChecked) {
+                if (!categoryChip.isChecked() && !ingredientChip.isChecked()) {
+                    buttonView.setChecked(true);
+                }
+            } else {
+                categoryChip.setChecked(false);
+                ingredientChip.setChecked(false);
                 presenter.handleCountryChip();
-                Log.i(TAG, "subscribeCountry: ");
-            } else if (id == R.id.ingredientChip) {
+            }
+        });
+
+        ingredientChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!isChecked) {
+                if (!categoryChip.isChecked() && !countryChip.isChecked()) {
+                    buttonView.setChecked(true);
+                }
+            } else {
+                categoryChip.setChecked(false);
+                countryChip.setChecked(false);
                 presenter.handleIngredientChip();
-                Log.i(TAG, "subscribeIngredient: ");
             }
         });
     }
-
-
-//    private void subscribeCategory() {
-//        presenter.getCategories().subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(categoryResponse -> {
-//                    if (adapter == null) {
-//                        adapter = new HomeRecyclerAdapter(categoryResponse.getCategories(),
-//                                getContext(), this);
-//                        recyclerView.setAdapter(adapter);
-//                    } else {
-//                        adapter.updateList(categoryResponse.getCategories());
-//                    }
-//                }, throwable -> {
-//                    Log.e(TAG, "Error fetching categories: ", throwable);
-//                });
-//    }
-
-//    private void subscribeCountry() {
-//        presenter.getAreas()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(mealResponse -> {
-//                    Log.i(TAG, "subscribeCountry: " + mealResponse.getMeals().size());
-//                    if (adapter == null) {
-//                        adapter = new HomeRecyclerAdapter(mealResponse.getMeals(),
-//                                getContext(), this);
-//                        recyclerView.setAdapter(adapter);
-//                    } else {
-//                        adapter.updateList(mealResponse.getMeals());
-//                    }
-//                }, throwable -> {
-//                    Log.e(TAG, "Error fetching countries: ", throwable);
-//                });
-//    }
-
-
-//    private void subscribeIngredient() {
-//        adapter.updateList(new ArrayList<>());
-//    }
-
 
     private MealDataRepositoryImpl getMealRepositoryInstance(Context context) {
         return MealDataRepositoryImpl.getInstance(MealsRemoteSourceImpl.getInstance(), MealsLocalSourceImpl.getInstance(context));

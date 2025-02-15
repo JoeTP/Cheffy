@@ -37,5 +37,5 @@
     <string name="today_s_special"><u>Today\'s Special\!</u></string>
     <string name="category">Category</string>
     <string name="country">Country</string>
-<!--        <string name="today_s_special">Today\'s Special</string>-->
+    <!--        <string name="today_s_special">Today\'s Special</string>-->
 </resources>
