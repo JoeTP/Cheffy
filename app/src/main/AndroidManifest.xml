@@ -17,6 +17,7 @@
         <activity
             android:name=".features.auth.view.AuthActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"
             android:noHistory="true">
             <intent-filter>
@@ -29,6 +30,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:noHistory="true"
             >
 
