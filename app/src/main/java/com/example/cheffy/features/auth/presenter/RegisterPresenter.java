@@ -1,7 +1,9 @@
 package com.example.cheffy.features.auth.presenter;
 
 import static com.example.cheffy.utils.AppStrings.IS_LOGGED_IN_KEY;
+import static com.example.cheffy.utils.AppStrings.CURRENT_USERID;
 
+import android.util.Log;
 import android.widget.EditText;
 
 import com.example.cheffy.features.auth.contract.RegisterContract;
@@ -35,8 +37,8 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     @Override
     public void register(EditText etName, EditText etEmail, EditText etPassword, EditText etConfirmPassword) {
-        if (!Validator.validateEmpty(etName) && !Validator.validateEmail(etEmail) &&
-                !Validator.validatePassword(etPassword) && !Validator.validateMismatch(etPassword,
+        if (!Validator.validateEmpty(etName) || !Validator.validateEmail(etEmail) ||
+                !Validator.validatePassword(etPassword) || !Validator.validateMismatch(etPassword,
                 etConfirmPassword)) return;
         view.showLoading();
 
@@ -48,8 +50,10 @@ public class RegisterPresenter implements RegisterContract.Presenter {
                             emitter.onComplete();
                             String userId = firebaseAuth.getCurrentUser().getUid();
                             User user = new User(etName.getText().toString(), etEmail.getText().toString());
-                            firestore.collection(AppStrings.USERID_COLLECTION).document(userId).set(user.toMap());
-                            sharedPreferencesHelper.saveBoolean(IS_LOGGED_IN_KEY, true);
+                            firestore.collection(AppStrings.USER_COLLECTION).document(userId).set(user.toMap());
+                            sharedPreferencesHelper.saveBoolean(IS_LOGGED_IN_KEY, true).subscribe();
+                            Log.i("TAG", "register: USER ID: " + userId);
+                            sharedPreferencesHelper.saveString(CURRENT_USERID, userId).subscribe();
                         } else {
                             emitter.onError(task.getException() != null ? task.getException() : new Exception("Register failed"));
                         }

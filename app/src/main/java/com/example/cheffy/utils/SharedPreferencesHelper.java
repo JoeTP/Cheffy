@@ -10,7 +10,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class SharedPreferencesHelper {
 
-    private static  SharedPreferences sharedPreferences = null;
+    private static SharedPreferences sharedPreferences = null;
 
     public SharedPreferencesHelper(Context context) {
         sharedPreferences = context.getSharedPreferences(AppStrings.SHARED_PREF_NAME, Context.MODE_PRIVATE);

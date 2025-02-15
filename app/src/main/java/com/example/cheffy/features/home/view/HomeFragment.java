@@ -21,12 +21,17 @@ import com.example.cheffy.repository.network.category.CategoriesRemoteSourceImpl
 import com.example.cheffy.repository.network.category.CategoryDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
+import com.example.cheffy.utils.AppStrings;
+import com.example.cheffy.utils.SharedPreferencesHelper;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.ArrayList;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
@@ -34,7 +39,6 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
 
     private static final String TAG = "TEST";
     HomePresenter presenter;
-
     RecyclerView recyclerView;
     TextView tvGreetingMsg;
     TextView tvUserName;
@@ -56,6 +60,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         initUI(view);
         presenter = new HomePresenter(this, getMealRepositoryInstance(getContext()), getCategoryRepositoryInstance());
 
+        getUser();
         ///TODO: first thing u do is to make the chips cant uncheck if the others are unchecked
 
         chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
@@ -64,6 +69,55 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         });
 
         return view;
+    }
+
+    private ListenerRegistration userListener;
+    private Disposable userSubscription;
+
+    private void getUser() {
+        Log.i("TAG", "getUser() called");
+        if (getContext() == null) return;
+
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        SharedPreferencesHelper sharedPreferences = new SharedPreferencesHelper(getContext());
+        userSubscription =
+                sharedPreferences.getString(AppStrings.CURRENT_USERID, "null")
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe((s, throwable) -> {
+                    if (throwable != null) {
+                        Log.e("SharedPreferencesError", "Error getting user ID", throwable);
+                        return;
+                    }
+                    Log.i("TAG", "User ID retrieved: " + s);
+
+                    userListener = firestore.collection(AppStrings.USER_COLLECTION).document(s).addSnapshotListener((value, error) -> {
+                        if (error != null) {
+                            Log.e("FirestoreError", "Error fetching user data", error);
+                            return;
+                        }
+                        if (value != null && value.exists()) {
+                            Log.i("TAG", "User document exists");
+                            if (tvUserName != null) {
+                                tvUserName.post(() -> tvUserName.setText(value.getString("name")));
+                            } else {
+                                Log.e("TAG", "tvUserName is null");
+                            }
+                        } else {
+                            Log.e("TAG", "User document does not exist or is null");
+                        }
+                    });
+                });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (userListener != null) {
+            userListener.remove();
+        }
+        if (userSubscription != null) {
+            userSubscription.dispose();
+        }
     }
 
     private void checkChipGroupChecks() {

@@ -1,6 +1,8 @@
 package com.example.cheffy.features.profile.view;
 
+import static com.example.cheffy.utils.AppStrings.CURRENT_USERID;
 import static com.example.cheffy.utils.AppStrings.IS_LOGGED_IN_KEY;
+import static com.example.cheffy.utils.AppStrings.IS_LOG_OUT_KEY;
 
 import android.content.Context;
 import android.content.Intent;
@@ -49,6 +51,7 @@ public class ProfileFragment extends Fragment {
             sharedPreferencesHelper.saveBoolean(IS_LOGGED_IN_KEY, false)
                     .subscribe(() -> {
                         navigateToAuthActivity();
+                        sharedPreferencesHelper.deleteKey(CURRENT_USERID).subscribe();
                     }, throwable -> {
                         Toast.makeText(getContext(), "Error during logout", Toast.LENGTH_SHORT).show();
                     });
@@ -65,7 +68,7 @@ public class ProfileFragment extends Fragment {
     private void navigateToAuthActivity() {
         Intent intent = new Intent(requireActivity(), AuthActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra("FROM_LOGOUT", true);  // Add this flag
+        intent.putExtra(IS_LOG_OUT_KEY, true);// Add this flag
         startActivity(intent);
         requireActivity().finish();
     }

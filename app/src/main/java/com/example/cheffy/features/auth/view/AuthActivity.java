@@ -2,6 +2,7 @@ package com.example.cheffy.features.auth.view;
 
 import static com.example.cheffy.utils.AppStrings.IS_BRAND_NEW_LAUNCH;
 import static com.example.cheffy.utils.AppStrings.IS_LOGGED_IN_KEY;
+import static com.example.cheffy.utils.AppStrings.IS_LOG_OUT_KEY;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ public class AuthActivity extends AppCompatActivity {
                 .findFragmentById(R.id.auth_nav_host_fragment);
         navController = navHostFragment.getNavController();
 
-        if (getIntent().getBooleanExtra("FROM_LOGOUT", false)) {
+        if (getIntent().getBooleanExtra(IS_LOG_OUT_KEY, false)) {
             navController.navigate(R.id.loginFragment);
         } else {
             disposables.add(
