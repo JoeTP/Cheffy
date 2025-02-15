@@ -3,6 +3,7 @@ package com.example.cheffy.features.auth.presenter;
 import static com.example.cheffy.utils.AppStrings.IS_LOGGED_IN_KEY;
 import static com.example.cheffy.utils.AppStrings.CURRENT_USERID;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.widget.EditText;
 
@@ -57,8 +58,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                                     Log.i("TAG", "login presenter user ID: " + userId);
                                     sharedPreferencesHelper.saveString(CURRENT_USERID, userId).subscribe();
                                 } else {
-                                    emitter.onError(task.getException() != null ?
-                                            task.getException() : new Exception("Login failed"));
+                                    emitter.onError(task.getException());
                                 }
                             });
                 })
