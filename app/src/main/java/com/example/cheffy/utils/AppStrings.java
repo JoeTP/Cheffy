@@ -17,6 +17,11 @@ public interface AppStrings {
     String AREA_LIST = "list" + PHP +"?" + AREA_QUERY + "=list";
     String INGREDIENT_LIST = "list" + PHP +"?" + INGREDIENT_QUERY + "=list";
 
+    //?Firebase
+    String USER_COLLECTION = "users";
+    String CURRENT_USERID = "";
+
+
     //?DataBase
     String MEAL_TABLE_NAME = "meal_table";
     String CATEGORY_TABLE_NAME = "category_table";
@@ -26,7 +31,7 @@ public interface AppStrings {
     String SHARED_PREF_NAME = "AppPrefs";
     String IS_BRAND_NEW_LAUNCH = "IsFirstTimeLaunch";
     String IS_LOGGED_IN_KEY = "IsLoggedIn";
-    String IS_LOG_OUT_KEY = "IsLoggedIn";
+    String IS_LOG_OUT_KEY = "FROM_LOGOUT";
 
 
 }

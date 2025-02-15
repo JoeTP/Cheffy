@@ -13,6 +13,5 @@ public abstract class AppFunctions {
      public static void navigateWithIntentTo(View view, Class _class) {
          Intent intent = new Intent(view.getContext(), _class);
          view.getContext().startActivity(intent);
-//         ((Activity) view.getContext()).finish();
      }
 }

@@ -1,10 +1,19 @@
 package com.example.cheffy.features.auth.model;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 public class User {
     String id;
     String name;
     String email;
     String password;
+    public User(){}
+    public User(String name, String email){
+        this.name = name;
+        this.email = email;
+    }
 
     public String getId() {
         return id;
@@ -38,13 +47,17 @@ public class User {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+    public Map<String, Object> toMap() {
+        Map<String, Object> user = new HashMap<>();
+        user.put("name", name);
+        user.put("email", email);
+        return user;
+    }
+    public User fromMap(Map<String, Object> map){
+        User user = new User();
+        user.setId(map.get("id").toString());
+        user.setName(map.get("name").toString());
+        user.setEmail(map.get("email").toString());
+        return  user;
     }
 }
