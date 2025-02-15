@@ -10,10 +10,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cheffy.R;
+import com.example.cheffy.features.FavoriteMealsFragmentDirections;
 import com.example.cheffy.features.home.contract.HomeContract;
 import com.example.cheffy.features.home.presenter.HomePresenter;
 import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
@@ -23,6 +27,7 @@ import com.example.cheffy.repository.network.category.CategoriesRemoteSourceImpl
 import com.example.cheffy.repository.network.category.CategoryDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
+import com.example.cheffy.utils.AppFunctions;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
@@ -64,6 +69,14 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        requireActivity().getOnBackPressedDispatcher().addCallback(
+                getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        requireActivity().finish();
+                    }
+                }
+        );
         initUI(view);
         presenter = new HomePresenter(this, getMealRepositoryInstance(getContext()), getCategoryRepositoryInstance());
         presenter.handleGreetingMsg().subscribe(s -> tvGreetingMsg.setText(s));
@@ -155,23 +168,25 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
 
     @Override
     public void updateCategories(List<CategoryResponse.Category> categories) {
+        Log.i(TAG, "updateCategories: " + categories.size());
         if (adapter == null) {
             adapter = new HomeRecyclerAdapter(categories, getContext(), this);
-            recyclerView.setAdapter(adapter);
+            Log.i(TAG, "updateCategories: AFTER NULL");
         } else {
             adapter.updateList(categories);
+            Log.i(TAG, "updateCategories: ELSE");
         }
-
+            recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void updateAreas(List<MealsResponse.Meal> areas) {
         if (adapter == null) {
             adapter = new HomeRecyclerAdapter(areas, getContext(), this);
-            recyclerView.setAdapter(adapter);
         } else {
             adapter.updateList(areas);
         }
+            recyclerView.setAdapter(adapter);
     }
 
     @Override

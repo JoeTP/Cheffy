@@ -8,7 +8,11 @@
         android:id="@+id/calendarFragment"
         android:name="com.example.cheffy.features.calendar.view.CalendarFragment"
         android:label="fragment_calendar"
-        tools:layout="@layout/fragment_calendar" />
+        tools:layout="@layout/fragment_calendar" >
+        <action
+            android:id="@+id/action_calendarFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.cheffy.features.home.view.HomeFragment"
@@ -16,10 +20,12 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            />
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            app:destination="@id/searchFragment"
+            />
     </fragment>
     <fragment
         android:id="@+id/mealFragment"
@@ -35,7 +41,11 @@
         android:id="@+id/favoriteMealsFragment"
         android:name="com.example.cheffy.features.FavoriteMealsFragment"
         android:label="fragment_favorite_meals"
-        tools:layout="@layout/fragment_favorite_meals" />
+        tools:layout="@layout/fragment_favorite_meals" >
+        <action
+            android:id="@+id/action_favoriteMealsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.cheffy.features.home.view.SearchFragment"
