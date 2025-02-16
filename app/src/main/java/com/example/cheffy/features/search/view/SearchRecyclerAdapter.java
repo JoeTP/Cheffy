@@ -1,4 +1,4 @@
-package com.example.cheffy.features.home.view;
+package com.example.cheffy.features.search.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -31,7 +31,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     }
 
     public void updateList(List<MealsResponse.Meal> list) {
-        this.list.clear();
+//        this.list.clear();
         this.list = list;
         notifyDataSetChanged();
     }

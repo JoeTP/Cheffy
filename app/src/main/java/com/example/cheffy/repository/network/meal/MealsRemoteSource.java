@@ -13,4 +13,6 @@ public interface MealsRemoteSource {
     Single<MealsResponse> filterByCategory(String category);
     Single<MealsResponse> filterByArea(String area);
     Single<MealsResponse> filterByIngredient(String ingredient);
+
+    Single<MealsResponse> searchMeal(String meal);
 }

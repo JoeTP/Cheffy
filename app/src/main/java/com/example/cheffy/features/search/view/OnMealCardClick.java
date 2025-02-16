@@ -1,4 +1,4 @@
-package com.example.cheffy.features.home.view;
+package com.example.cheffy.features.search.view;
 
 import com.example.cheffy.repository.models.meal.MealsResponse;
 

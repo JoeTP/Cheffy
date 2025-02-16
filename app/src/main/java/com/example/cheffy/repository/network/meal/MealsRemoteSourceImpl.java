@@ -45,5 +45,10 @@ public class MealsRemoteSourceImpl implements MealsRemoteSource {
         return mealsService.filterByIngredient(ingredient);
     }
 
+    @Override
+    public Single<MealsResponse> searchMeal(String meal) {
+        return mealsService.searchMeal(meal);
+    }
+
 }
 

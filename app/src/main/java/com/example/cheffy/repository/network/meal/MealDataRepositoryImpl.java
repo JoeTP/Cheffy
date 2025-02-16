@@ -78,4 +78,9 @@ public class MealDataRepositoryImpl implements MealDataRepository {
         return mealsRemoteSource.filterByIngredient(ingredient);
     }
 
+    @Override
+    public Single<MealsResponse> searchMeal(String meal) {
+        return mealsRemoteSource.searchMeal(meal);
+    }
+
 }
