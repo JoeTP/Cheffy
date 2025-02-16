@@ -24,8 +24,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     Context context;
     OnMealCardClick listener;
 
-    public SearchRecyclerAdapter(List<MealsResponse.Meal> list, Context context,
-                                 OnMealCardClick listener) {
+    public SearchRecyclerAdapter(List<MealsResponse.Meal> list, Context context, OnMealCardClick listener) {
         this.list = list;
         this.context = context;
         this.listener = listener;
@@ -51,8 +50,6 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     public void onBindViewHolder(@NonNull SearchRecyclerAdapter.ViewHolder holder, int position) {
 
         MealsResponse.Meal meal = list.get(position);
-        holder.layout.setOnClickListener(v -> listener.onCardClick(meal));
-        holder.ivFavorite.setOnClickListener(v -> listener.onFavoriteClick(meal));
         Glide.with(context)
                 .load(meal.getStrMealThumb())
                 .placeholder(R.drawable.ic_launcher_foreground)
@@ -62,6 +59,8 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(holder.ivCountry);
         holder.tvTitle.setText(meal.getStrMeal());
+        holder.layout.setOnClickListener(v -> listener.onCardClick(meal));
+        holder.ivFavorite.setOnClickListener(v -> listener.onFavoriteClick(meal));
     }
 
     @Override
@@ -77,21 +76,13 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         ConstraintLayout layout;
         View view;
 
-        public void bind(String url, String title) {
-            Glide.with(context)
-                    .load(url)
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .into(ivMeal);
-            tvTitle.setText(title);
-        }
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivMeal = itemView.findViewById(R.id.ivMeal);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             ivFavorite = itemView.findViewById(R.id.ivFavorite);
             ivCountry = itemView.findViewById(R.id.ivCountry);
-            layout = itemView.findViewById(R.id.cardLayout);
+            layout = itemView.findViewById(R.id.mealCardLayout);
             view = itemView;
         }
     }

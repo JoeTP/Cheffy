@@ -47,8 +47,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
     ProgressBar progressBar;
     HomeRecyclerAdapter adapter;
 
-    public HomeFragment() {
-    }
+    public HomeFragment() {}
 
     private void initUI(View view) {
         tvGreetingMsg = view.findViewById(R.id.tvGreetingMsg);
@@ -61,6 +60,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         recyclerView = view.findViewById(R.id.recyclerView);
         progressBar = view.findViewById(R.id.progressBar);
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -140,18 +140,18 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
             presenter.filterByArea(f)
                     .subscribe((meals, throwable) -> {
                         MealsResponse.Meal[] mealsArray = meals.toArray(new MealsResponse.Meal[0]);
-                        Log.i(TAG, "onCardClick: " + f);
-                        Log.i(TAG, "onCardClick: " + f + " " + meals.size());
-                        Navigation.findNavController(requireView()).navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(f, mealsArray));
+//                        Log.i(TAG, "onCardClick: " + f);
+//                        Log.i(TAG, "onCardClick: " + f + " " + meals.size());
+                        Navigation.findNavController(requireView()).navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(f + " Meals", mealsArray));
                     });
         } else {
             f = ((CategoryResponse.Category) filter).getStrCategory();
             Log.i(TAG, "CATEGORY NAME: " + f);
             presenter.filterByCategory(f).subscribe((meals, throwable) -> {
                 MealsResponse.Meal[] mealsArray = meals.toArray(new MealsResponse.Meal[0]);
-                Log.i(TAG, "onCardClick: " + f);
-                Log.i(TAG, "onCardClick: " + f + " " + meals.size());
-                Navigation.findNavController(requireView()).navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(f, mealsArray));
+//                Log.i(TAG, "onCardClick: " + f);
+//                Log.i(TAG, "onCardClick: " + f + " " + meals.size());
+                Navigation.findNavController(requireView()).navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment("Meals with " + f, mealsArray));
             });
         }
 
