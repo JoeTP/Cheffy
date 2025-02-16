@@ -9,6 +9,8 @@ public interface AppStrings {
     String RANDOM_MEAL_END_POINT = "random" + PHP;
     String SEARCH_MEAL_END_POINT = "search" + PHP;
     String FILTER_END_POINT = "filter" + PHP;
+    String LOOKUP_END_POINT = "lookup" + PHP;
+    String ID_QUERY = "i";
     String CATEGORY_QUERY = "c";
     String AREA_QUERY = "a";
     String INGREDIENT_QUERY = "i";

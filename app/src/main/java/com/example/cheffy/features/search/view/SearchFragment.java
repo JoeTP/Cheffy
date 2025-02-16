@@ -116,6 +116,7 @@ public class SearchFragment extends Fragment implements OnMealCardClick, SearchC
         Log.i(TAG, "onCardClick: " + meal.getStrMeal());
         Navigation.findNavController(requireView())
                 .navigate(SearchFragmentDirections.actionSearchFragmentToMealFragment(meal));
+        etSearch.setText("");
     }
 
     @Override

@@ -46,7 +46,7 @@ public class AuthActivity extends AppCompatActivity {
         } else {
             disposables.add(
                     Completable.complete()
-                            .delay(2, TimeUnit.SECONDS)
+                            .delay(2, TimeUnit.MILLISECONDS)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(() -> checkAuthenticationState(),

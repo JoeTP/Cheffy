@@ -1,7 +1,5 @@
 package com.example.cheffy.repository.network.meal;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -11,9 +9,6 @@ import com.example.cheffy.repository.models.meal.MealsResponse;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Single;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MealDataRepositoryImpl implements MealDataRepository {
 
@@ -79,8 +74,8 @@ public class MealDataRepositoryImpl implements MealDataRepository {
     }
 
     @Override
-    public Single<MealsResponse> searchMeal(String meal) {
-        return mealsRemoteSource.searchMeal(meal);
+    public Single<MealsResponse> searchMealById(String meal) {
+        return mealsRemoteSource.searchMealById(meal);
     }
 
 }

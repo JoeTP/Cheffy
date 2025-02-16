@@ -13,6 +13,6 @@ public interface SearchContract {
         void showError(String message);
     }
     interface Presenter {
-        Single<List<MealsResponse.Meal>> searchForMeal(String query);
+//        Single<List<MealsResponse.Meal>> searchForMeal(String query);
     }
 }

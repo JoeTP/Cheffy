@@ -19,6 +19,6 @@ public interface MealDataRepository {
     Single<MealsResponse> getFilterByCategory(String category);
     Single<MealsResponse> getFilterByArea(String area);
     Single<MealsResponse> getFilterByIngredient(String ingredient);
-    Single<MealsResponse> searchMeal(String meal);
+    Single<MealsResponse> searchMealById(String meal);
 
 }

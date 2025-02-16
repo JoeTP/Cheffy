@@ -19,8 +19,10 @@ public class SearchPresenter implements SearchContract.Presenter {
         this.view = view;
     }
 
-    @Override
-    public Single<List<MealsResponse.Meal>> searchForMeal(String query) {
-        return null;
-    }
+//    @Override
+//    public Single<List<MealsResponse.Meal>> searchForMeal(String query) {
+//        return repo.searchMeal(query).subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .map(mealsResponse -> mealsResponse.getMeals());
+//    }
 }

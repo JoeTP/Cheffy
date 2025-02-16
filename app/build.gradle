@@ -67,7 +67,7 @@ dependencies {
     //*FirebaseAuth
     implementation("com.google.firebase:firebase-auth")
     //*Auth with Google
-//    implementation("com.google.android.gms:play-services-auth:21.3.0")
+    implementation("com.google.android.gms:play-services-auth:21.3.0")
 
     //*Firestore
     implementation("com.google.firebase:firebase-firestore")

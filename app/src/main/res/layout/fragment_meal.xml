@@ -16,30 +16,48 @@
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="130dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_image"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:cardElevation="8dp"
+
+<!--                        <androidx.cardview.widget.CardView-->
+<!--                            android:id="@+id/card_image"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:cardElevation="8dp"-->
+<!--                            app:layout_constraintEnd_toEndOf="parent"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"-->
+<!--                            app:layout_constraintTop_toTopOf="parent">-->
+
+
+
+            <ImageView
+                android:id="@+id/ivMeal"
+                android:layout_width="match_parent"
+                android:layout_height="248dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/circularImageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="248dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_launcher_background" />
-            </androidx.cardview.widget.CardView>
+            <ImageView
+                android:id="@+id/btnFavorite"
+                style="@style/fav_button_style"
+                android:paddingTop="18dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/ivMeal"
+                app:layout_constraintEnd_toEndOf="parent" />
+            <!--            </androidx.cardview.widget.CardView>-->
 
 
             <TextView
@@ -50,7 +68,7 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-                app:layout_constraintTop_toBottomOf="@+id/card_image"
+                app:layout_constraintTop_toBottomOf="@+id/ivMeal"
                 tools:text="MealTitle" />
 
 
@@ -73,6 +91,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:checkable="false"
+                app:chipIcon="@drawable/testimg"
+                app:chipIconSize="24dp"
                 app:layout_constraintEnd_toStartOf="@id/countryChip"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
@@ -85,7 +105,7 @@
 
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@string/ingredient"
+                android:text="@string/instructions"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
                 app:layout_constraintTop_toBottomOf="@id/categoryChip" />
@@ -109,7 +129,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/instructions"
+                android:text="@string/ingredient"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
                 app:layout_constraintTop_toBottomOf="@id/tvInstructions" />
@@ -160,6 +180,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </TableLayout>
+
             <TextView
                 android:id="@+id/watchTitle"
                 style="@style/subtitles"
@@ -171,15 +192,26 @@
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
                 app:layout_constraintTop_toBottomOf="@id/table" />
 
-            <VideoView
+
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
                 android:id="@+id/videoView"
                 android:layout_width="0dp"
                 android:layout_height="250dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@id/watchTitle"
-                app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+                app:autoPlay="false"
                 app:layout_constraintEnd_toStartOf="@id/guidelineRight"
-                />
+                app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+                app:layout_constraintTop_toBottomOf="@id/watchTitle" />
+
+            <!--            <VideoView-->
+            <!--                android:id="@+id/videoView"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="250dp"-->
+            <!--                android:layout_marginTop="8dp"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/watchTitle"-->
+            <!--                app:layout_constraintStart_toStartOf="@id/guidelineLeft"-->
+            <!--                app:layout_constraintEnd_toStartOf="@id/guidelineRight"-->
+            <!--                />-->
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineLeft"
                 android:layout_width="wrap_content"
@@ -195,26 +227,26 @@
                 app:layout_constraintGuide_end="16dp" />
 
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="26dp"
-        android:layout_marginBottom="26dp"
-        android:clickable="true"
-        android:src="@drawable/favorite_unselect"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/btnBack"
         style="@style/back_button_style"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guidelineTop" />
+
+
+    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--        android:id="@+id/floatingActionButton"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginEnd="26dp"-->
+    <!--        android:layout_marginBottom="146dp"-->
+    <!--        android:clickable="true"-->
+    <!--        android:src="@drawable/favorite_unselect"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

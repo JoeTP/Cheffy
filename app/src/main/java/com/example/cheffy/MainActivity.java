@@ -1,15 +1,12 @@
 package com.example.cheffy;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.cheffy.utils.AppFunctions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -43,11 +40,6 @@ public class MainActivity extends AppCompatActivity {
             navController.navigate(R.id.calendarFragment);
             bnb.setSelectedItemId(R.id.calendarFragment);
         });
-//        navController.addOnDestinationChangedListener((navController1, navDestination, bundle) -> {
-//            if(navDestination.getId() == R.id.favoriteMealsFragment){
-//
-//            }
-//        });
 
         bnb.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -60,14 +52,5 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
-
-
-
-//
-//        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-//            if (destination.getId() == R.id.calendarFragment) {
-//                bnb.setSelectedItemId(R.id.calendarFragment);
-//            }
-//        });
     }
 }
