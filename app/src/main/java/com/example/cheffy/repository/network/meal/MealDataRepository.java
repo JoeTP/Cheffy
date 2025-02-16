@@ -16,5 +16,8 @@ public interface MealDataRepository {
     void deleteMeal(MealsResponse.Meal meal);
     void fetchMeals();
     Single<MealsResponse> getAreasRemote();
+    Single<MealsResponse> getFilterByCategory(String category);
+    Single<MealsResponse> getFilterByArea(String area);
+    Single<MealsResponse> getFilterByIngredient(String ingredient);
 
 }

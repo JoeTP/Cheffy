@@ -1,6 +1,7 @@
 package com.example.cheffy.features.home.view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeRecyclerAdapter<T> extends RecyclerView.Adapter<HomeRecyclerAdapter.ViewHolder> {
+    private static final String TAG = "TEST";
     List<T> list;
     Context context;
     OnCardClick onCardClickListener;
@@ -50,9 +52,7 @@ public class HomeRecyclerAdapter<T> extends RecyclerView.Adapter<HomeRecyclerAda
     @Override
     public void onBindViewHolder(@NonNull HomeRecyclerAdapter.ViewHolder holder, int position) {
 
-        holder.layout.setOnClickListener(v -> {
-                onCardClickListener.onCardClick(list.get(position));
-        });
+        holder.layout.setOnClickListener(v -> onCardClickListener.onCardClick(list.get(position)));
 
         if (list.get(position) instanceof CategoryResponse.Category) {
             Category category = (CategoryResponse.Category) list.get(position);

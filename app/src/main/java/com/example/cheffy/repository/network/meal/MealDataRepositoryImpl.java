@@ -63,4 +63,19 @@ public class MealDataRepositoryImpl implements MealDataRepository {
         return mealsRemoteSource.fetchAreas();
     }
 
+    @Override
+    public Single<MealsResponse> getFilterByCategory(String category) {
+        return mealsRemoteSource.filterByCategory(category);
+    }
+
+    @Override
+    public Single<MealsResponse> getFilterByArea(String area) {
+        return mealsRemoteSource.filterByArea(area);
+    }
+
+    @Override
+    public Single<MealsResponse> getFilterByIngredient(String ingredient) {
+        return mealsRemoteSource.filterByIngredient(ingredient);
+    }
+
 }

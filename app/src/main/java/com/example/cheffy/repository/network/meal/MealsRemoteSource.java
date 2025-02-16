@@ -10,4 +10,7 @@ public interface MealsRemoteSource {
     void fetchDailyMeal(Callback<MealsResponse> callback);
 
     Single<MealsResponse> fetchAreas();
+    Single<MealsResponse> filterByCategory(String category);
+    Single<MealsResponse> filterByArea(String area);
+    Single<MealsResponse> filterByIngredient(String ingredient);
 }

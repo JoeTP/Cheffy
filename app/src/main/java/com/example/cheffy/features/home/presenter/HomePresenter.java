@@ -1,27 +1,20 @@
 package com.example.cheffy.features.home.presenter;
 
 import android.util.Log;
-import android.widget.TextView;
 
-import androidx.navigation.Navigation;
-
-import com.example.cheffy.R;
 import com.example.cheffy.features.home.contract.HomeContract;
-import com.example.cheffy.repository.models.category.CategoryResponse;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.network.category.CategoryDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealDataRepositoryImpl;
-import com.example.cheffy.utils.AppFunctions;
 import com.example.cheffy.utils.AppStrings;
 import com.example.cheffy.utils.SharedPreferencesHelper;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.type.TimeOfDay;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -139,12 +132,18 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void onCardClicked(Object item) {
-        if (item instanceof CategoryResponse.Category) {
-            CategoryResponse.Category category = (CategoryResponse.Category) item;
-//            Navigation.findNavController(view).navigate(actionId);
-        } else if (item instanceof MealsResponse.Meal) {
-            MealsResponse.Meal meal = (MealsResponse.Meal) item;
-        }
+    public Single<List<MealsResponse.Meal>> filterByCategory(String category) {
+        return mealRepo.getFilterByCategory(category)
+                .map(mealsResponse -> mealsResponse.getMeals())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Single<List<MealsResponse.Meal>> filterByArea(String filter) {
+        return mealRepo.getFilterByArea((filter))
+                .map(mealsResponse -> mealsResponse.getMeals())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

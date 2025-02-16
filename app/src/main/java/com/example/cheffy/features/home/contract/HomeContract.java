@@ -1,15 +1,12 @@
 package com.example.cheffy.features.home.contract;
 
 import android.content.Context;
-import android.widget.TextView;
 
 import com.example.cheffy.repository.models.category.CategoryResponse;
 import com.example.cheffy.repository.models.meal.MealsResponse;
-import com.google.type.TimeOfDay;
 
 import java.util.List;
 
-import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 
@@ -31,7 +28,9 @@ public interface HomeContract {
         void handleCategoryChip();
         void handleCountryChip();
         void handleIngredientChip();
-        void onCardClicked(Object item);
+        Single<List<MealsResponse.Meal>> filterByCategory(String filter);
+        Single<List<MealsResponse.Meal>> filterByArea(String filter);
+
 
     }
 }

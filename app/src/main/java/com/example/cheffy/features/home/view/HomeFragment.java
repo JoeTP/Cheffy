@@ -13,11 +13,9 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cheffy.R;
-import com.example.cheffy.features.FavoriteMealsFragmentDirections;
 import com.example.cheffy.features.home.contract.HomeContract;
 import com.example.cheffy.features.home.presenter.HomePresenter;
 import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
@@ -27,7 +25,6 @@ import com.example.cheffy.repository.network.category.CategoriesRemoteSourceImpl
 import com.example.cheffy.repository.network.category.CategoryDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
-import com.example.cheffy.utils.AppFunctions;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
@@ -85,7 +82,6 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         setupChipListeners();
 
 
-
         return view;
     }
 
@@ -136,14 +132,30 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
     }
 
     @Override
-    public void onCardClick(Object type) {
-        if (type instanceof CategoryResponse.Category) {
-            CategoryResponse.Category category = (CategoryResponse.Category) type;
-            ///TODO send the type to the navigate
-        } else if (type instanceof MealsResponse.Meal) {
-            MealsResponse.Meal meal = (MealsResponse.Meal) type;
-            ///TODO send the type to the navigate
+    public void onCardClick(Object filter) {
+        String f;
+        if (filter instanceof MealsResponse.Meal) {
+            f = ((MealsResponse.Meal) filter).getStrArea();
+            Log.i(TAG, "AREA NAME: " + f);
+            presenter.filterByArea(f)
+                    .subscribe((meals, throwable) -> {
+                        MealsResponse.Meal[] mealsArray = meals.toArray(new MealsResponse.Meal[0]);
+                        Log.i(TAG, "onCardClick: " + f);
+                        Log.i(TAG, "onCardClick: " + f + " " + meals.size());
+                        Navigation.findNavController(requireView()).navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(f, mealsArray));
+                    });
+        } else {
+            f = ((CategoryResponse.Category) filter).getStrCategory();
+            Log.i(TAG, "CATEGORY NAME: " + f);
+            presenter.filterByCategory(f).subscribe((meals, throwable) -> {
+                MealsResponse.Meal[] mealsArray = meals.toArray(new MealsResponse.Meal[0]);
+                Log.i(TAG, "onCardClick: " + f);
+                Log.i(TAG, "onCardClick: " + f + " " + meals.size());
+                Navigation.findNavController(requireView()).navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(f, mealsArray));
+            });
         }
+
+
     }
 
     @Override
@@ -168,15 +180,12 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
 
     @Override
     public void updateCategories(List<CategoryResponse.Category> categories) {
-        Log.i(TAG, "updateCategories: " + categories.size());
         if (adapter == null) {
             adapter = new HomeRecyclerAdapter(categories, getContext(), this);
-            Log.i(TAG, "updateCategories: AFTER NULL");
         } else {
             adapter.updateList(categories);
-            Log.i(TAG, "updateCategories: ELSE");
         }
-            recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -186,7 +195,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         } else {
             adapter.updateList(areas);
         }
-            recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

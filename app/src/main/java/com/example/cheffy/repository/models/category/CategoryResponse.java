@@ -9,7 +9,7 @@ import com.example.cheffy.utils.AppStrings;
 import java.io.Serializable;
 import java.util.List;
 
-public class CategoryResponse implements Serializable {
+public class CategoryResponse  {
     List<Category> categories;
 
 
@@ -21,7 +21,7 @@ public class CategoryResponse implements Serializable {
         this.categories = categories;
     }
 
-    public static class Category {
+    public static class Category implements Serializable {
         String idCategory;
         String strCategory;
         String strCategoryThumb;

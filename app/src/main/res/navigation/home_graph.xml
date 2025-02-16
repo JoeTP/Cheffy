@@ -55,12 +55,10 @@
             android:id="@+id/action_searchFragment_to_mealFragment"
             app:destination="@id/mealFragment" />
         <argument
-            android:name="category"
-            app:nullable="true"
-            app:argType="com.example.cheffy.repository.models.category.CategoryResponse" />
+            android:name="filter"
+            app:argType="string" />
         <argument
-            android:name="meal"
-            app:nullable="true"
-            app:argType="com.example.cheffy.repository.models.meal.MealsResponse" />
+            android:name="meals"
+            app:argType="com.example.cheffy.repository.models.meal.MealsResponse$Meal[]" />
     </fragment>
 </navigation>

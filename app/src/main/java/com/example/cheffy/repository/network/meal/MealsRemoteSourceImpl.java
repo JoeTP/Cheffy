@@ -30,5 +30,20 @@ public class MealsRemoteSourceImpl implements MealsRemoteSource {
         return mealsService.getAreas();
     }
 
+    @Override
+    public Single<MealsResponse> filterByCategory(String category) {
+        return mealsService.filterByCategory(category);
+    }
+
+    @Override
+    public Single<MealsResponse> filterByArea(String area) {
+        return mealsService.filterByArea(area);
+    }
+
+    @Override
+    public Single<MealsResponse> filterByIngredient(String ingredient) {
+        return mealsService.filterByIngredient(ingredient);
+    }
+
 }
 
