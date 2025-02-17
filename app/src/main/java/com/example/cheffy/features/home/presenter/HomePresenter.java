@@ -13,6 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
@@ -21,7 +22,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class HomePresenter implements HomeContract.Presenter {
 
-    private static final String TAG = "HomePresenter";
+    private static final String TAG = "TEST";
     private final HomeContract.View view;
     private final CategoryDataRepositoryImpl categoryRepo;
     private final MealDataRepositoryImpl mealRepo;
@@ -116,19 +117,35 @@ public class HomePresenter implements HomeContract.Presenter {
                 .subscribe(
                         areas -> {
                             view.hideLoading();
+                            Log.i(TAG, "handleIngredientChip: " + areas.getMeals().size());
                             view.updateAreas(areas.getMeals());
                         },
                         throwable -> {
                             view.hideLoading();
-                            view.showError("Failed to load categories");
-                            Log.e(TAG, "Error loading categories", throwable);
+                            view.showError("Failed to load areas");
+                            Log.e(TAG, "Error loading areas", throwable);
                         }
                 );
     }
 
     @Override
     public void handleIngredientChip() {
-        view.clearList();
+        view.showLoading();
+        mealRepo.getIngredientsRemote()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        ingredients -> {
+                            view.hideLoading();
+                            Log.i(TAG, "handleIngredientChip: " + ingredients.getMeals().size());
+                            view.updateIngredients(ingredients.getMeals());
+                        },
+                        throwable -> {
+                            view.hideLoading();
+                            view.showError("Failed to load ingredients");
+                            Log.e(TAG, "Error loading ingredients", throwable);
+                        }
+                );
     }
 
     @Override
@@ -145,5 +162,25 @@ public class HomePresenter implements HomeContract.Presenter {
                 .map(mealsResponse -> mealsResponse.getMeals())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Single<List<MealsResponse.Meal>> todayMeal() {
+        return mealRepo.getDailyMealRemote()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(mealsResponse -> mealsResponse.getMeals());
+    }
+
+    @Override
+    public Single<List<MealsResponse.Meal>> searchForMealById(String id) {
+        return mealRepo.searchMealById(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(mealsResponse ->
+                        mealsResponse.getMeals().stream()
+                                .filter(meal -> meal.getIdMeal().equals(id))
+                                .collect(Collectors.toList())
+                );
     }
 }

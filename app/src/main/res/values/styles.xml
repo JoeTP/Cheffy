@@ -52,4 +52,14 @@
         <item name="cornerSize">50%</item>
         <item name="color">@color/main_green_color</item>
     </style>
+
+    <style name="search_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:drawableEnd">@drawable/profile</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawableStart">@drawable/profile</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:drawablePadding">8dp</item>
+    </style>
 </resources>

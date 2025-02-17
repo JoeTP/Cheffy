@@ -34,6 +34,10 @@ public interface AppStrings {
     String IS_BRAND_NEW_LAUNCH = "IsFirstTimeLaunch";
     String IS_LOGGED_IN_KEY = "IsLoggedIn";
     String IS_LOG_OUT_KEY = "FROM_LOGOUT";
+    String CURRENT_DAY = "currentDay";
+    String TODAYS_MEAL_ID = "";
+    String TODAYS_MEAL = "";
+
 
 
 }

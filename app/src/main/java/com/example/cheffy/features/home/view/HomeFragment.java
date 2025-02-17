@@ -6,15 +6,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.cheffy.R;
 import com.example.cheffy.features.home.contract.HomeContract;
 import com.example.cheffy.features.home.presenter.HomePresenter;
@@ -25,17 +29,23 @@ import com.example.cheffy.repository.network.category.CategoriesRemoteSourceImpl
 import com.example.cheffy.repository.network.category.CategoryDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
+import com.example.cheffy.utils.AppStrings;
+import com.example.cheffy.utils.SharedPreferencesHelper;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 public class HomeFragment extends Fragment implements HomeContract.View, OnCardClick {
 
     private static final String TAG = "TEST";
     HomePresenter presenter;
+    SharedPreferencesHelper sharedPreferencesHelper;
     RecyclerView recyclerView;
     TextView tvGreetingMsg;
     TextView tvUserName;
@@ -45,9 +55,65 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
     Chip countryChip;
     Chip ingredientChip;
     ProgressBar progressBar;
-    HomeRecyclerAdapter adapter;
 
-    public HomeFragment() {}
+    ConstraintLayout todaySpecialCard;
+    ImageView ivSpecialMealClose;
+    ImageView ivSpecialMeal;
+    TextView tvSpecialMealTitle;
+    TextView tvSpecialMealCategory;
+    TextView tvSpecialMealArea;
+    TextView tvSeeMore;
+    HomeRecyclerAdapter adapter;
+    private static MealsResponse.Meal todayMeal;
+
+    public HomeFragment() {
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        sharedPreferencesHelper = new SharedPreferencesHelper(context);
+        presenter = new HomePresenter(this, getMealRepositoryInstance(context), getCategoryRepositoryInstance());
+
+        // Get the saved day from SharedPreferences
+        sharedPreferencesHelper.getInt(AppStrings.CURRENT_DAY, -1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(savedDay -> {
+                    int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+                    if (savedDay != currentDay) {
+                        // Day has changed, fetch the new daily meal
+                        presenter.todayMeal().subscribe(meals -> {
+                            MealsResponse.Meal todayMeal = meals.get(0);
+                            updateTodaySpecialCard(todayMeal);
+
+                            // Save the new day and meal ID
+                            sharedPreferencesHelper.saveInt(AppStrings.CURRENT_DAY, currentDay)
+                                    .andThen(sharedPreferencesHelper.saveString(AppStrings.TODAYS_MEAL_ID,
+                                            todayMeal.getIdMeal()))
+                                    .subscribe(() -> {
+                                        // Data saved successfully
+                                    }, throwable -> {
+                                        // Handle error
+                                    });
+                        });
+                    } else {
+                        // Day hasn't changed, use the saved meal
+                        sharedPreferencesHelper.getString(AppStrings.TODAYS_MEAL_ID, "")
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(savedMealId -> {
+                                    if (!savedMealId.isEmpty()) {
+                                        // Fetch the saved meal details and update the UI
+                                        presenter.searchForMealById(savedMealId).subscribe(meal -> {
+                                            updateTodaySpecialCard(meal.get(0));
+                                        });
+                                    }
+                                });
+                    }
+                });
+    }
 
     private void initUI(View view) {
         tvGreetingMsg = view.findViewById(R.id.tvGreetingMsg);
@@ -59,6 +125,13 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         ingredientChip = view.findViewById(R.id.ingredientChip);
         recyclerView = view.findViewById(R.id.recyclerView);
         progressBar = view.findViewById(R.id.progressBar);
+        todaySpecialCard = view.findViewById(R.id.todaySpecialCard);
+        ivSpecialMealClose = view.findViewById(R.id.ivSpecialMealClose);
+        ivSpecialMeal = view.findViewById(R.id.ivSpecialMeal);
+        tvSpecialMealTitle = view.findViewById(R.id.tvSpecialMealTitle);
+        tvSpecialMealCategory = view.findViewById(R.id.tvSpecialMealCategory);
+        tvSpecialMealArea = view.findViewById(R.id.tvSpecialMealArea);
+        tvSeeMore = view.findViewById(R.id.tvSeeMore);
     }
 
 
@@ -75,7 +148,52 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
                 }
         );
         initUI(view);
-        presenter = new HomePresenter(this, getMealRepositoryInstance(getContext()), getCategoryRepositoryInstance());
+
+
+        tvTodaySpecial.setOnClickListener(v -> {
+            // Get the saved day from SharedPreferences
+            sharedPreferencesHelper.getInt(AppStrings.CURRENT_DAY, -1)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(savedDay -> {
+                        int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+                        if (savedDay != currentDay) {
+                            // Day has changed, fetch the new daily meal
+                            presenter.todayMeal().subscribe(meals -> {
+                                MealsResponse.Meal todayMeal = meals.get(0);
+                                updateTodaySpecialCard(todayMeal);
+
+                                // Save the new day and meal ID
+                                sharedPreferencesHelper.saveInt(AppStrings.CURRENT_DAY, currentDay)
+                                        .andThen(sharedPreferencesHelper.saveString(AppStrings.TODAYS_MEAL_ID,
+                                                todayMeal.getIdMeal()))
+                                        .subscribe(() -> {
+                                            // Data saved successfully
+                                        }, throwable -> {
+                                            // Handle error
+                                        });
+                            });
+                        } else {
+                            // Day hasn't changed, use the saved meal
+                            sharedPreferencesHelper.getString(AppStrings.TODAYS_MEAL_ID, "")
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(savedMealId -> {
+                                        if (!savedMealId.isEmpty()) {
+                                            // Fetch the saved meal details and update the UI
+                                            presenter.searchForMealById(savedMealId).subscribe(meal -> {
+                                                updateTodaySpecialCard(meal.get(0));
+                                            });
+                                        }
+                                    });
+                        }
+                    });
+        });
+
+        ivSpecialMealClose.setOnClickListener(v -> handleTodaySpecialCard());
+        tvTodaySpecial.setOnClickListener(v -> handleTodaySpecialCard());
+
         presenter.handleGreetingMsg().subscribe(s -> tvGreetingMsg.setText(s));
         presenter.loadUserData();
         presenter.handleCategoryChip();
@@ -83,6 +201,13 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
 
 
         return view;
+    }
+
+    private void updateTodaySpecialCard(MealsResponse.Meal meal) {
+        Glide.with(getContext()).load(meal.getStrMealThumb()).into(ivSpecialMeal);
+        tvSpecialMealTitle.setText(meal.getStrMeal());
+        tvSpecialMealCategory.setText(meal.getStrCategory());
+        tvSpecialMealArea.setText(meal.getStrArea());
     }
 
     private void setupChipListeners() {
@@ -200,13 +325,21 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
 
     @Override
     public void updateIngredients(List<MealsResponse.Meal> ingredients) {
-        adapter.updateList(new ArrayList());
+        if (adapter == null) {
+            adapter = new HomeRecyclerAdapter(ingredients, getContext(), this);
+        } else {
+            adapter.updateList(ingredients);
+        }
+        recyclerView.setAdapter(adapter);
 
     }
 
-    @Override
-    public void clearList() {
-        adapter.updateList(new ArrayList());
+    private void handleTodaySpecialCard() {
+        if (todaySpecialCard.getVisibility() == View.GONE) {
+            todaySpecialCard.setVisibility(View.VISIBLE);
+        } else {
+            todaySpecialCard.setVisibility(View.GONE);
+        }
     }
 
     @Override

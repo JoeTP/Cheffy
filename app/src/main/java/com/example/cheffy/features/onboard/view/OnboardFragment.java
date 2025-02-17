@@ -42,7 +42,7 @@ public class OnboardFragment extends Fragment {
         btnStart.setOnClickListener(v -> {
             sharedPreferencesHelper.saveBoolean(IS_BRAND_NEW_LAUNCH, false)
                     .subscribe(() -> {
-                        Navigation.findNavController(view).navigate(R.id.action_onboardFragment_to_loginFragment);
+                        Navigation.findNavController(v).navigate(R.id.action_onboardFragment_to_loginFragment);
                     }, throwable -> {
                         Log.e(TAG, "Error saving first-time launch state", throwable);
                     });

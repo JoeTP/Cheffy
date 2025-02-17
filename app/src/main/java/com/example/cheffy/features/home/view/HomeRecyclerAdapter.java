@@ -34,7 +34,7 @@ public class HomeRecyclerAdapter<T> extends RecyclerView.Adapter<HomeRecyclerAda
     }
 
     public void updateList(List<T> list) {
-        this.list.clear();
+//        this.list.clear();
         this.list = list;
         notifyDataSetChanged();
     }

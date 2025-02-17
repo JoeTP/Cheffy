@@ -19,7 +19,6 @@ public interface HomeContract {
         void updateCategories(List<CategoryResponse.Category> categories);
         void updateAreas(List<MealsResponse.Meal> areas);
         void updateIngredients(List<MealsResponse.Meal> ingredients);
-        void clearList();
         Context getViewContext();
     }
     interface Presenter {
@@ -30,7 +29,7 @@ public interface HomeContract {
         void handleIngredientChip();
         Single<List<MealsResponse.Meal>> filterByCategory(String filter);
         Single<List<MealsResponse.Meal>> filterByArea(String filter);
-
-
+        Single<List<MealsResponse.Meal>> todayMeal();
+        Single<List<MealsResponse.Meal>> searchForMealById(String id);
     }
 }

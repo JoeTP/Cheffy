@@ -40,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
             navController.navigate(R.id.calendarFragment);
             bnb.setSelectedItemId(R.id.calendarFragment);
         });
+//        navController.addOnDestinationChangedListener((navController1, navDestination, bundle) -> {
+//            if(navDestination.getId() == R.id.favoriteMealsFragment){
+//
+//            }
+//        });
 
         bnb.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();

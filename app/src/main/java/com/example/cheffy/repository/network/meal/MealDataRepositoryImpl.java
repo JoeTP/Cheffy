@@ -32,10 +32,7 @@ public class MealDataRepositoryImpl implements MealDataRepository {
     }
 
     //!Local
-    @Override
-    public LiveData<List<MealsResponse.Meal>> getStoredFavoriteMeals() {
-        return mealsLocalSource.getFavoriteMeals();
-    }
+
 
     @Override
     public void insertMeal(MealsResponse.Meal meal) {
@@ -56,6 +53,16 @@ public class MealDataRepositoryImpl implements MealDataRepository {
     @Override
     public Single<MealsResponse> getAreasRemote() {
         return mealsRemoteSource.fetchAreas();
+    }
+
+    @Override
+    public Single<MealsResponse> getDailyMealRemote() {
+        return mealsRemoteSource.fetchDailyMeal();
+    }
+
+    @Override
+    public Single<MealsResponse> getIngredientsRemote() {
+        return mealsRemoteSource.fetchIngredients();
     }
 
     @Override

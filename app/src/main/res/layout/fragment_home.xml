@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".features.home.view.HomeFragment">
 
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineRight2"
         android:layout_width="wrap_content"
@@ -120,6 +121,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="4dp"
         android:clipToPadding="false"
         android:paddingStart="8dp"
         android:paddingBottom="120dp"
@@ -127,7 +129,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft2"
-        app:layout_constraintTop_toBottomOf="@+id/chipGroup"
+        app:layout_constraintTop_toBottomOf="@+id/etSearch"
         app:spanCount="2"
         tools:listitem="@layout/home_card" />
 
@@ -135,11 +137,112 @@
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
-        android:visibility="gone"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft2"
         app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
 
+    <EditText
+        android:id="@+id/etSearch"
+        style="@style/search_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Search..."
+        android:inputType="text"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft2"
+        app:layout_constraintTop_toBottomOf="@id/chipGroup"
+        tools:layout_editor_absoluteY="188dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/todaySpecialCard"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:background="@drawable/today_special_card"
+        android:elevation="10dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft2"
+        app:layout_constraintTop_toBottomOf="@+id/tvTodaySpecial">
+
+        <ImageView
+            android:id="@+id/ivSpecialMealClose"
+            style="@style/back_button_style"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivSpecialMeal"
+            android:layout_width="200dp"
+            android:layout_height="0dp"
+            android:background="@drawable/today_special_card_img"
+            android:scaleType="centerCrop"
+            android:src="@drawable/testimg"
+            android:clipToOutline="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSpecialMealTitle"
+            style="@style/subtitles"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            app:layout_constraintBottom_toTopOf="@+id/tvSpecialMealCategory"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivSpecialMeal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            tools:text="MEAL TITLE" />
+
+        <TextView
+            android:id="@+id/tvSpecialMealCategory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tvSpecialMealArea"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivSpecialMeal"
+            app:layout_constraintTop_toBottomOf="@+id/tvSpecialMealTitle"
+            app:layout_constraintVertical_bias="0.5"
+            tools:text="MEAL TITLE" />
+
+        <TextView
+            android:id="@+id/tvSpecialMealArea"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivSpecialMeal"
+            app:layout_constraintTop_toBottomOf="@+id/tvSpecialMealCategory"
+            app:layout_constraintVertical_bias="0.5"
+            tools:text="MEAL TITLE" />
+
+        <TextView
+            android:id="@+id/tvSeeMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/see_more"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

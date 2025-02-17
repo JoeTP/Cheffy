@@ -21,8 +21,11 @@ public class MealsRemoteSourceImpl implements MealsRemoteSource {
         return mealsClient;
     }
 
+
+
     @Override
-    public void fetchDailyMeal(Callback<MealsResponse> callback) {
+    public Single<MealsResponse> fetchDailyMeal() {
+        return mealsService.getDailyMeal();
     }
 
     @Override
@@ -33,6 +36,11 @@ public class MealsRemoteSourceImpl implements MealsRemoteSource {
     @Override
     public Single<MealsResponse> filterByCategory(String category) {
         return mealsService.filterByCategory(category);
+    }
+
+    @Override
+    public Single<MealsResponse> fetchIngredients() {
+        return mealsService.getIngredients();
     }
 
     @Override
