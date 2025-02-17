@@ -2,6 +2,7 @@ package com.example.cheffy.repository.network.meal;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.cheffy.repository.models.ingredient.IngredientResponse;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 
 import java.util.List;
@@ -15,11 +16,11 @@ public interface MealDataRepository {
     void deleteMeal(MealsResponse.Meal meal);
     void fetchMeals();
     Single<MealsResponse> getAreasRemote();
+    Single<IngredientResponse> getIngredientsRemote();
     Single<MealsResponse> getDailyMealRemote();
-    Single<MealsResponse> getIngredientsRemote();
     Single<MealsResponse> getFilterByCategory(String category);
     Single<MealsResponse> getFilterByArea(String area);
-    Single<MealsResponse> getFilterByIngredient(String ingredient);
+    Single<IngredientResponse> getFilterByIngredient(String ingredient);
     Single<MealsResponse> searchMealById(String meal);
 
 }

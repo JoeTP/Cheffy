@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
+import com.example.cheffy.repository.models.ingredient.IngredientResponse;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 
 import java.util.List;
@@ -56,14 +57,15 @@ public class MealDataRepositoryImpl implements MealDataRepository {
     }
 
     @Override
+    public Single<IngredientResponse> getIngredientsRemote() {
+        return mealsRemoteSource.fetchIngredients();
+    }
+
+    @Override
     public Single<MealsResponse> getDailyMealRemote() {
         return mealsRemoteSource.fetchDailyMeal();
     }
 
-    @Override
-    public Single<MealsResponse> getIngredientsRemote() {
-        return mealsRemoteSource.fetchIngredients();
-    }
 
     @Override
     public Single<MealsResponse> getFilterByCategory(String category) {
@@ -76,7 +78,7 @@ public class MealDataRepositoryImpl implements MealDataRepository {
     }
 
     @Override
-    public Single<MealsResponse> getFilterByIngredient(String ingredient) {
+    public Single<IngredientResponse> getFilterByIngredient(String ingredient) {
         return mealsRemoteSource.filterByIngredient(ingredient);
     }
 

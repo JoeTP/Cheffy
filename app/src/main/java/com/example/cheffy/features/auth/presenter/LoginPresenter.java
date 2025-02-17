@@ -35,6 +35,11 @@ public class LoginPresenter implements LoginContract.Presenter {
         sharedPreferencesHelper = new SharedPreferencesHelper(view.getViewContext());
     }
 
+    public void skipLogin(){
+        sharedPreferencesHelper.saveBoolean(IS_LOGGED_IN_KEY, true).subscribe();
+        sharedPreferencesHelper.saveString(CURRENT_USERID, "null").subscribe();
+        view.navigateToHome();
+    }
     @Override
     public void login(EditText email, EditText password) {
         if (!Validator.validateEmail(email) || !Validator.validatePassword(password)) return;

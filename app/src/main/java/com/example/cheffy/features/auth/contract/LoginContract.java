@@ -16,6 +16,7 @@ public interface LoginContract {
     interface Presenter {
         void attachView(LoginContract.View view);
         void login(EditText etEmail, EditText etPassword);
+        void skipLogin();
         void handleGoogleLogin();
         void navigateToRegister();
     }

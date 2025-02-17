@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -26,6 +25,7 @@ import com.example.cheffy.features.home.contract.HomeContract;
 import com.example.cheffy.features.home.presenter.HomePresenter;
 import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
 import com.example.cheffy.repository.models.category.CategoryResponse;
+import com.example.cheffy.repository.models.ingredient.IngredientResponse;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.network.category.CategoriesRemoteSourceImpl;
 import com.example.cheffy.repository.network.category.CategoryDataRepositoryImpl;
@@ -116,6 +116,9 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         tvSpecialMealCategory = view.findViewById(R.id.tvSpecialMealCategory);
         tvSpecialMealArea = view.findViewById(R.id.tvSpecialMealArea);
         tvSeeMore = view.findViewById(R.id.tvSeeMore);
+        if(user == null){
+            Glide.with(getContext()).load(R.drawable.profile).into(ivUserImage);
+        }
     }
 
     @Override
@@ -136,8 +139,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         presenter.handleGreetingMsg().
                 subscribe(s -> tvGreetingMsg.setText(s),
                         throwable -> {
-                    Log.e(TAG, "Error handling greeting message", throwable);
-                });
+                            Log.e(TAG, "Error handling greeting message", throwable);
+                        });
         presenter.handleCategoryChip();
         setupChipListeners();
         tvTodaySpecial.setOnClickListener(v -> {
@@ -145,8 +148,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
             updateTodaySpecialCard(todayMeal);
         });
         ivUserImage.setOnClickListener(v -> {
-
-            Navigation.findNavController(v).navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment(user));
+                Navigation.findNavController(v).navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment(user));
         });
         ivSpecialMealClose.setOnClickListener(v -> toggleTodayMealCard());
         tvSeeMore.setOnClickListener(v -> {
@@ -302,7 +304,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
     }
 
     @Override
-    public void updateIngredients(List<MealsResponse.Meal> ingredients) {
+    public void updateIngredients(List<IngredientResponse.Meal> ingredients) {
         if (adapter == null) {
             adapter = new HomeRecyclerAdapter(ingredients, getContext(), this);
         } else {

@@ -12,14 +12,17 @@ import com.example.cheffy.utils.AppStrings;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
+
 @Dao
 public interface MealDao {
     @Query("SELECT * FROM " + AppStrings.MEAL_TABLE_NAME)
-    LiveData<List<MealsResponse.Meal>> getFavoriteMeals();
+    Observable<List<MealsResponse.Meal>> getFavoriteMeals();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addMealToFavorite(MealsResponse.Meal meal);
+    Completable addMealToFavorite(MealsResponse.Meal meal);
 
     @Delete
-    void removeMealFromFavorite(MealsResponse.Meal meal);
+    Completable removeMealFromFavorite(MealsResponse.Meal meal);
 }

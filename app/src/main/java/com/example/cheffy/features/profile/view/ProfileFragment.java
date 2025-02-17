@@ -21,6 +21,8 @@ import com.example.cheffy.R;
 import com.example.cheffy.features.auth.model.User;
 import com.example.cheffy.features.auth.view.AuthActivity;
 import com.example.cheffy.utils.SharedPreferencesHelper;
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -54,6 +56,8 @@ public class ProfileFragment extends Fragment {
         });
 
         logoutTile.setOnClickListener(v -> {
+            FirebaseAuth firebase = FirebaseAuth.getInstance();
+            firebase.signOut();
             sharedPreferencesHelper.saveBoolean(IS_LOGGED_IN_KEY, false)
                     .subscribe(() -> {
                         navigateToAuthActivity();
@@ -67,8 +71,13 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setupUi(User user) {
-        tvUserName.setText(user.getName());
-        tvUserEmail.setText(user.getEmail());
+        if (user != null) {
+            tvUserName.setText(user.getName());
+            tvUserEmail.setText(user.getEmail());
+        }else{
+            tvUserName.setText("Guest");
+            tvUserEmail.setText("");
+        }
     }
 
 

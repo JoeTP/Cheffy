@@ -21,7 +21,7 @@ public class MealsLocalSourceImpl implements MealsLocalSource {
         this.context = context;
         appDataBase = appDataBase.getInstance(context);
         mealDao = appDataBase.getMealDao();
-        storedFavoriteMeals = mealDao.getFavoriteMeals();
+//        storedFavoriteMeals = mealDao.getFavoriteMeals();
     }
 
     public static synchronized MealsLocalSourceImpl getInstance(Context context) {

@@ -29,7 +29,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     private TextView tvRegister, tvForgotPassword;
     private EditText etEmail, etPassword;
     private ProgressBar progressIndicator;
-    private Group interactionGroup;
+    private TextView tvSkip;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -55,11 +55,13 @@ public class LoginFragment extends Fragment implements LoginContract.View {
         etEmail = view.findViewById(R.id.etEmail);
         etPassword = view.findViewById(R.id.etPassword);
         progressIndicator = view.findViewById(R.id.progressIndicator);
-        interactionGroup = view.findViewById(R.id.interactionGroup);
+        tvSkip = view.findViewById(R.id.tvSkip);
     }
 
     private void btnsClickListeners() {
         btnLogin.setOnClickListener(v -> presenter.login(etEmail, etPassword));
+
+        tvSkip.setOnClickListener(v -> presenter.skipLogin());
 
         btnLoginGoogle.setOnClickListener(v -> presenter.handleGoogleLogin());
 

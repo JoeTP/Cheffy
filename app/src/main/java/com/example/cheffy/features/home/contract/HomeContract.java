@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.cheffy.features.auth.model.User;
 import com.example.cheffy.repository.models.category.CategoryResponse;
+import com.example.cheffy.repository.models.ingredient.IngredientResponse;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public interface HomeContract {
         void displayUsername(String name);
         void updateCategories(List<CategoryResponse.Category> categories);
         void updateAreas(List<MealsResponse.Meal> areas);
-        void updateIngredients(List<MealsResponse.Meal> ingredients);
+        void updateIngredients(List<IngredientResponse.Meal> ingredients);
         Context getViewContext();
     }
     interface Presenter {
@@ -31,6 +32,7 @@ public interface HomeContract {
         void handleIngredientChip();
         Single<List<MealsResponse.Meal>> filterByCategory(String filter);
         Single<List<MealsResponse.Meal>> filterByArea(String filter);
+        Single<List<IngredientResponse.Meal>> filterByIngredient(String filter);
         Single<List<MealsResponse.Meal>> todayMeal();
         Single<List<MealsResponse.Meal>> searchForMealById(String id);
     }

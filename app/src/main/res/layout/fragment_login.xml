@@ -48,9 +48,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="Login"
-                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+                android:text="@string/login"
+                app:layout_constraintEnd_toStartOf="@+id/tvSkip"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvSkip"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/skip"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -59,7 +69,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Email"
+                android:text="@string/email"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
@@ -70,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:ems="10"
-                android:hint="Enter Email"
+                android:hint="@string/enter_email"
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="@+id/etPassword"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
@@ -82,7 +92,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Password"
+                android:text="@string/password"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"

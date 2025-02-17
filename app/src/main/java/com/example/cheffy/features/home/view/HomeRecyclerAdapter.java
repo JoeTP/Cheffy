@@ -15,7 +15,9 @@ import com.bumptech.glide.Glide;
 import com.example.cheffy.R;
 import com.example.cheffy.repository.models.category.CategoryResponse;
 import com.example.cheffy.repository.models.category.CategoryResponse.Category;
+import com.example.cheffy.repository.models.ingredient.IngredientResponse;
 import com.example.cheffy.repository.models.meal.MealsResponse;
+import com.example.cheffy.utils.Flags;
 
 import java.util.List;
 
@@ -59,7 +61,14 @@ public class HomeRecyclerAdapter<T> extends RecyclerView.Adapter<HomeRecyclerAda
             holder.bind(category.getStrCategoryThumb(), category.getStrCategory());
         } else if (list.get(position) instanceof MealsResponse.Meal) {
             MealsResponse.Meal meal = (MealsResponse.Meal) list.get(position);
-            holder.bind(meal.getStrMealThumb(), meal.getStrArea());
+            String flag = Flags.getFlagURL(meal.getStrArea());
+                holder.bind(flag, meal.getStrArea());
+        }else if(list.get(position) instanceof IngredientResponse.Meal){
+            IngredientResponse.Meal ingredient = (IngredientResponse.Meal) list.get(position);
+            String url = "https://www.themealdb.com/images/ingredients/"+ingredient.getStrIngredient()+
+                    "-Small.png";
+            holder.bind(url, ingredient.getStrIngredient());
+
         }
     }
 

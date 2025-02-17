@@ -1,5 +1,6 @@
 package com.example.cheffy.repository.network.meal;
 
+import com.example.cheffy.repository.models.ingredient.IngredientResponse;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.network.ApiClient;
 
@@ -39,7 +40,7 @@ public class MealsRemoteSourceImpl implements MealsRemoteSource {
     }
 
     @Override
-    public Single<MealsResponse> fetchIngredients() {
+    public Single<IngredientResponse> fetchIngredients() {
         return mealsService.getIngredients();
     }
 
@@ -49,7 +50,7 @@ public class MealsRemoteSourceImpl implements MealsRemoteSource {
     }
 
     @Override
-    public Single<MealsResponse> filterByIngredient(String ingredient) {
+    public Single<IngredientResponse> filterByIngredient(String ingredient) {
         return mealsService.filterByIngredient(ingredient);
     }
 
