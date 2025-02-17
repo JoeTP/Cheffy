@@ -43,7 +43,11 @@
         android:id="@+id/profileFragment"
         android:name="com.example.cheffy.features.profile.view.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <argument
+            android:name="user"
+            app:argType="com.example.cheffy.features.auth.model.User" />
+    </fragment>
     <fragment
         android:id="@+id/favoriteMealsFragment"
         android:name="com.example.cheffy.features.FavoriteMealsFragment"

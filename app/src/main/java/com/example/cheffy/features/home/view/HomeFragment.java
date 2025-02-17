@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.cheffy.R;
+import com.example.cheffy.features.auth.model.User;
 import com.example.cheffy.features.home.contract.HomeContract;
 import com.example.cheffy.features.home.presenter.HomePresenter;
 import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
@@ -49,6 +50,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
     ProgressBar progressBar;
     ConstraintLayout todaySpecialCard;
     ImageView ivSpecialMealClose, ivSpecialMeal, ivUserImage;
+    private static User user;
     HomeRecyclerAdapter adapter;
     private static MealsResponse.Meal todayMeal;
 
@@ -142,7 +144,10 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
             toggleTodayMealCard();
             updateTodaySpecialCard(todayMeal);
         });
-        ivUserImage.setOnClickListener(v -> Navigation.findNavController(v).navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment()));
+        ivUserImage.setOnClickListener(v -> {
+
+            Navigation.findNavController(v).navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment(user));
+        });
         ivSpecialMealClose.setOnClickListener(v -> toggleTodayMealCard());
         tvSeeMore.setOnClickListener(v -> {
             if (todayMeal != null) {
@@ -225,12 +230,12 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
             presenter.filterByArea(f)
                     .subscribe((meals, throwable) -> {
                         if (throwable != null) {
-                            // Handle error
                             Log.e(TAG, "Error filtering by area", throwable);
                             return;
                         }
                         MealsResponse.Meal[] mealsArray = meals.toArray(new MealsResponse.Meal[0]);
-                        Navigation.findNavController(requireView()).navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(f + " Meals", mealsArray));
+                        Navigation.findNavController(requireView())
+                                .navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(f + " Meals", mealsArray));
                     });
         } else {
             f = ((CategoryResponse.Category) filter).getStrCategory();
@@ -242,7 +247,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
                     return;
                 }
                 MealsResponse.Meal[] mealsArray = meals.toArray(new MealsResponse.Meal[0]);
-                Navigation.findNavController(requireView()).navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment("Meals with " + f, mealsArray));
+                Navigation.findNavController(requireView())
+                        .navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment("Meals with " + f, mealsArray));
             });
         }
     }
@@ -250,6 +256,14 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
     @Override
     public void showLoading() {
         progressBar.setVisibility((View.VISIBLE));
+    }
+
+    @Override
+    public void getUserData(User userData) {
+        user = userData;
+        Log.i(TAG, "getUserData: " + user.getId());
+        Log.i(TAG, "getUserData: " + user.getName());
+        Log.i(TAG, "getUserData: " + user.getEmail());
     }
 
     @Override

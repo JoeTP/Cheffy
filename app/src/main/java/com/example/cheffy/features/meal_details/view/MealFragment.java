@@ -21,7 +21,6 @@ import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.network.meal.MealDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
@@ -43,7 +42,7 @@ public class MealFragment extends Fragment implements MealContract.View {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(videoView != null){
+        if (videoView != null) {
             videoView.release();
         }
     }
@@ -66,7 +65,7 @@ public class MealFragment extends Fragment implements MealContract.View {
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
                 super.onReady(youTubePlayer);
-                if(meal.getStrYoutube() != null && !meal.getStrYoutube().isEmpty()) {
+                if (meal.getStrYoutube() != null && !meal.getStrYoutube().isEmpty()) {
                     String videoId = meal.getStrYoutube().split("=")[1];
                     Log.i(TAG, "YOUTUBE ID: " + videoId);
                     youTubePlayer.cueVideo(videoId, 0);
@@ -89,13 +88,14 @@ public class MealFragment extends Fragment implements MealContract.View {
 
         presenter = new MealPresenter(this, getMealRepositoryInstance(getContext()));
 
-        presenter.searchForMealById(mealArg.getIdMeal()).subscribe(meals -> {
-            fullMeal = meals.get(0);
-            Log.i(TAG, "MEAL ID: " + mealArg.getIdMeal());
-            String formatedInstructions = formatText(fullMeal.getStrInstructions());
-            fullMeal.setStrInstructions(formatedInstructions);
-        setUI(fullMeal);
-        });
+        presenter.searchForMealById(mealArg.getIdMeal())
+                .subscribe(meals -> {
+                    fullMeal = meals.get(0);
+                    Log.i(TAG, "MEAL ID: " + mealArg.getIdMeal());
+                    String formatedInstructions = formatText(fullMeal.getStrInstructions());
+                    fullMeal.setStrInstructions(formatedInstructions);
+                    setUI(fullMeal);
+                });
 
         btnBack.setOnClickListener(v -> Navigation.findNavController(v).navigateUp());
 
@@ -117,6 +117,7 @@ public class MealFragment extends Fragment implements MealContract.View {
         }
         return formattedText.toString();
     }
+
     private MealDataRepositoryImpl getMealRepositoryInstance(Context context) {
         return MealDataRepositoryImpl.getInstance(MealsRemoteSourceImpl.getInstance(), MealsLocalSourceImpl.getInstance(context));
     }

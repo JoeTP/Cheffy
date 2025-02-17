@@ -27,17 +27,6 @@
             android:layout_height="wrap_content">
 
 
-<!--                        <androidx.cardview.widget.CardView-->
-<!--                            android:id="@+id/card_image"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            app:cardElevation="8dp"-->
-<!--                            app:layout_constraintEnd_toEndOf="parent"-->
-<!--                            app:layout_constraintStart_toStartOf="parent"-->
-<!--                            app:layout_constraintTop_toTopOf="parent">-->
-
-
-
             <ImageView
                 android:id="@+id/ivMeal"
                 android:layout_width="match_parent"
@@ -51,14 +40,12 @@
             <ImageView
                 android:id="@+id/btnFavorite"
                 style="@style/fav_button_style"
-                android:paddingTop="18dp"
                 android:paddingStart="18dp"
+                android:paddingTop="18dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp"
                 app:layout_constraintBottom_toBottomOf="@id/ivMeal"
                 app:layout_constraintEnd_toEndOf="parent" />
-            <!--            </androidx.cardview.widget.CardView>-->
-
 
             <TextView
                 android:id="@+id/tvMealTitle"
@@ -71,32 +58,44 @@
                 app:layout_constraintTop_toBottomOf="@+id/ivMeal"
                 tools:text="MealTitle" />
 
-
-            <com.google.android.material.chip.Chip
+            <androidx.cardview.widget.CardView
                 android:id="@+id/countryChip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:checkable="false"
-                app:layout_constraintBottom_toBottomOf="@+id/categoryChip"
-                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-                app:layout_constraintStart_toEndOf="@+id/categoryChip"
-                app:layout_constraintTop_toTopOf="@+id/categoryChip"
-                app:layout_constraintVertical_bias="0.0" />
-
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/categoryChip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="8dp"
-                android:checkable="false"
-                app:chipIcon="@drawable/testimg"
-                app:chipIconSize="24dp"
-                app:layout_constraintEnd_toStartOf="@id/countryChip"
-                app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-                app:layout_constraintTop_toBottomOf="@+id/tvMealTitle" />
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/categoryChip"
+                app:layout_constraintTop_toBottomOf="@+id/tvMealTitle">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/testimg" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/categoryChip"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+
+                app:layout_constraintEnd_toStartOf="@+id/countryChip"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvMealTitle">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/testimg" />
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/ingredientTitle"
@@ -203,15 +202,7 @@
                 app:layout_constraintStart_toStartOf="@id/guidelineLeft"
                 app:layout_constraintTop_toBottomOf="@id/watchTitle" />
 
-            <!--            <VideoView-->
-            <!--                android:id="@+id/videoView"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="250dp"-->
-            <!--                android:layout_marginTop="8dp"-->
-            <!--                app:layout_constraintTop_toBottomOf="@id/watchTitle"-->
-            <!--                app:layout_constraintStart_toStartOf="@id/guidelineLeft"-->
-            <!--                app:layout_constraintEnd_toStartOf="@id/guidelineRight"-->
-            <!--                />-->
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineLeft"
                 android:layout_width="wrap_content"

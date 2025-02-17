@@ -2,6 +2,7 @@ package com.example.cheffy.features.home.presenter;
 
 import android.util.Log;
 
+import com.example.cheffy.features.auth.model.User;
 import com.example.cheffy.features.home.contract.HomeContract;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.network.category.CategoryDataRepositoryImpl;
@@ -61,29 +62,31 @@ public class HomePresenter implements HomeContract.Presenter {
     public void loadUserData() {
         sharedPreferences.getString(AppStrings.CURRENT_USERID, "")
                 .flatMap(userId ->
-                        Single.create(emitter ->
-                                {
-                                    Log.i(TAG, "loadUserData ===>: " + userId);
-                                    firestore.collection(AppStrings.USER_COLLECTION)
-                                            .document(userId)
-                                            .get()
-                                            .addOnSuccessListener(userData -> {
-                                                ///TODO: remember to get the backedup data
-                                                if (userData != null && userData.exists()) {
-                                                    String name = userData.getString("name");
-                                                    Log.i(TAG, "loadUserData: " + name);
-                                                    emitter.onSuccess(name);
-                                                }
-                                            });
-                                }
-                        )
+                        Single.create(emitter -> {
+                            Log.i(TAG, "loadUserData ===>: " + userId);
+                            firestore.collection(AppStrings.USER_COLLECTION)
+                                    .document(userId)
+                                    .get()
+                                    .addOnSuccessListener(userData -> {
+                                        if (userData != null && userData.exists()) {
+                                            User user = new User();
+                                            user.setId(userId);
+                                            user.setName(userData.getString("name"));
+                                            user.setEmail(userData.getString("email"));
+                                            Log.i(TAG, "loadUserData: " + user.getId());
+                                            emitter.onSuccess(user);
+                                        }
+                                    });
+                        })
                 )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        userName -> {
-                            Log.i(TAG, "loadUserData: " + userName);
-                            view.displayUsername((String) userName);
+                        user -> {
+                            User userData = (User) user;
+                            Log.i(TAG, "loadUserData>>>>>>>>: " + userData.getId());
+                            view.displayUsername(userData.getName());
+                            view.getUserData(userData);
                         },
                         throwable -> {
                             Log.e(TAG, "Error loading user data", throwable);
