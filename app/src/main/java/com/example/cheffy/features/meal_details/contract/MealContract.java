@@ -17,5 +17,6 @@ public interface MealContract {
         void addToFavorite(MealsResponse.Meal meal);
 
         void unfavorite(String idMeal);
+        boolean isFavorite(String idMeal);
     }
 }

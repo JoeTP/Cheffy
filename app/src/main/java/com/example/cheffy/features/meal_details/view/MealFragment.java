@@ -87,7 +87,14 @@ public class MealFragment extends Fragment implements MealContract.View {
                 presenter.addToFavorite(meal);
                 btnFavorite.setImageResource(R.drawable.favorite_select);
             }
+
         });
+        Log.i(TAG, "IS FAVORITE: " + meal.getIsFavorite());
+        if(presenter.isFavorite(meal.getIdMeal())){
+            btnFavorite.setImageResource(R.drawable.favorite_select);
+        }else{
+            btnFavorite.setImageResource(R.drawable.favorite_unselect);
+        }
     }
 
 

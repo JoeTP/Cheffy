@@ -61,7 +61,7 @@ public class SearchFragment extends Fragment implements OnMealCardClick, SearchC
         etSearch = view.findViewById(R.id.etSearch);
         recyclerView = view.findViewById(R.id.recyclerView);
         meals = List.of(SearchFragmentArgs.fromBundle(getArguments()).getMeals());
-        adapter = new SearchRecyclerAdapter(meals, getContext(), this);
+        adapter = new SearchRecyclerAdapter(meals, getContext(),this);
         recyclerView.setAdapter(adapter);
         btnBack = view.findViewById(R.id.btnBack);
     }
@@ -120,5 +120,10 @@ public class SearchFragment extends Fragment implements OnMealCardClick, SearchC
         Navigation.findNavController(requireView())
                 .navigate(SearchFragmentDirections.actionSearchFragmentToMealFragment(meal));
         etSearch.setText("");
+    }
+
+    @Override
+    public void onFavoriteClick(String idMeal) {
+
     }
 }

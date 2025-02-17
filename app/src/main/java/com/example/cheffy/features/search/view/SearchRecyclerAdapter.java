@@ -54,13 +54,21 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         MealsResponse.Meal meal = list.get(position);
         String flag = Flags.getFlagURL(meal.getStrArea());
         Log.i("TEST", "onBindViewHolder: " + flag);
+
         Glide.with(context)
                 .load(meal.getStrMealThumb())
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(holder.ivMeal);
-        holder.tvTitle.setText(meal.getStrMeal());
         holder.layout.setOnClickListener(v -> listener.onCardClick(meal));
-//        holder.ivFavorite.setOnClickListener(v -> listener.onFavoriteClick(meal));
+        holder.tvTitle.setText(meal.getStrMeal());
+        if (meal.getIsFavorite() == 1) {
+            holder.ivFavorite.setImageResource(R.drawable.favorite_select);
+            holder.ivFavorite.setVisibility(View.VISIBLE);
+            holder.ivFavorite.setOnClickListener(v -> listener.onFavoriteClick(meal.getIdMeal()));
+        } else {
+            holder.ivFavorite.setImageResource(R.drawable.favorite_unselect);
+            holder.ivFavorite.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -80,7 +88,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
             super(itemView);
             ivMeal = itemView.findViewById(R.id.ivMeal);
             tvTitle = itemView.findViewById(R.id.tvTitle);
-//            ivFavorite = itemView.findViewById(R.id.ivFavorite);
+            ivFavorite = itemView.findViewById(R.id.ivFavorite);
 //            ivCountry = itemView.findViewById(R.id.ivCountry);/
             layout = itemView.findViewById(R.id.mealCardLayout);
             view = itemView;

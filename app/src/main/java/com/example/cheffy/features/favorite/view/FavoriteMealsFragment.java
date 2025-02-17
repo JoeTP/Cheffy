@@ -2,6 +2,7 @@ package com.example.cheffy.features.favorite.view;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cheffy.R;
 import com.example.cheffy.features.favorite.contract.FavoriteContract;
 import com.example.cheffy.features.favorite.presenter.FavoritePresenter;
-import com.example.cheffy.features.favorite.view.FavoriteMealsFragmentDirections;
-import com.example.cheffy.features.home.view.OnCardClick;
+import com.example.cheffy.features.search.view.OnMealCardClick;
 import com.example.cheffy.features.search.view.SearchRecyclerAdapter;
 import com.example.cheffy.repository.MealDataRepositoryImpl;
 import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
@@ -25,13 +25,15 @@ import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
 
 import java.util.List;
 
-public class FavoriteMealsFragment extends Fragment implements FavoriteContract.View , OnCardClick {
+public class FavoriteMealsFragment extends Fragment implements FavoriteContract.View, OnMealCardClick {
 
+    private static final String TAG = "TEST";
     FavoritePresenter presenter;
     RecyclerView recyclerView;
     SearchRecyclerAdapter adapter;
 
-    public FavoriteMealsFragment() {}
+    public FavoriteMealsFragment() {
+    }
 
     void initUI(View view) {
         recyclerView = view.findViewById(R.id.recyclerView);
@@ -49,15 +51,14 @@ public class FavoriteMealsFragment extends Fragment implements FavoriteContract.
         View view = inflater.inflate(R.layout.fragment_favorite_meals, container, false);
         initUI(view);
         handleBackPress(view);
-
-
+        presenter.getFavoriteMeals();
 
 
         return view;
     }
 
 
-    void handleBackPress( View view) {
+    void handleBackPress(View view) {
         requireActivity().getOnBackPressedDispatcher().addCallback(
                 getViewLifecycleOwner(), new OnBackPressedCallback(true) {
                     @Override
@@ -74,13 +75,19 @@ public class FavoriteMealsFragment extends Fragment implements FavoriteContract.
 
     @Override
     public void showFavoriteMeals(List<MealsResponse.Meal> meals) {
+        Log.i(TAG, "showFavoriteMeals: " + meals.size());
         adapter = new SearchRecyclerAdapter(meals, getContext(), this);
         recyclerView.setAdapter(adapter);
     }
 
+
     @Override
-    public void onCardClick(Object object) {
-        MealsResponse.Meal meal = (MealsResponse.Meal) object;
+    public void onCardClick(MealsResponse.Meal meal) {
         Navigation.findNavController(getView()).navigate(FavoriteMealsFragmentDirections.actionFavoriteMealsFragmentToMealFragment(meal));
+    }
+
+    @Override
+    public void onFavoriteClick(String idMeal) {
+        presenter.unfavorite(idMeal);
     }
 }

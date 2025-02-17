@@ -3,15 +3,14 @@ package com.example.cheffy.features.meal_details.presenter;
 import android.util.Log;
 
 import com.example.cheffy.features.meal_details.contract.MealContract;
-import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.MealDataRepository;
+import com.example.cheffy.repository.models.meal.MealsResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -41,7 +40,7 @@ public class MealPresenter implements MealContract.Presenter {
 
     @Override
     public void addToFavorite(MealsResponse.Meal meal) {
-         repo.insertMeal(meal)
+        repo.insertMeal(meal)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CompletableObserver() {
@@ -83,6 +82,14 @@ public class MealPresenter implements MealContract.Presenter {
                         Log.i("TEST", "onError: " + e.getMessage());
                     }
                 });
+    }
+
+    @Override
+    public boolean isFavorite(String idMeal) {
+        List<MealsResponse.Meal> favoriteMeals = repo.getMealsFromFavorites()
+                .blockingFirst();
+        return favoriteMeals.stream()
+                .anyMatch(meal -> idMeal.equals(meal.getIdMeal()));
     }
 
 //    @Override
