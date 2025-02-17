@@ -59,25 +59,6 @@
                 tools:text="MealTitle" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/countryChip"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="8dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/categoryChip"
-                app:layout_constraintTop_toBottomOf="@+id/tvMealTitle">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/testimg" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
                 android:id="@+id/categoryChip"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
@@ -85,12 +66,11 @@
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
 
-                app:layout_constraintEnd_toStartOf="@+id/countryChip"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guidelineLeft"
                 app:layout_constraintTop_toBottomOf="@+id/tvMealTitle">
 
                 <ImageView
+                    android:id="@+id/ivFlag"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"

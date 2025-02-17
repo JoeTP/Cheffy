@@ -21,6 +21,7 @@ import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.network.meal.MealDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
+import com.example.cheffy.utils.Flags;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
@@ -32,6 +33,7 @@ public class MealFragment extends Fragment implements MealContract.View {
     MealPresenter presenter;
     ImageView btnBack;
     ImageView ivMeal;
+    ImageView ivFlag;
     TextView tvMealTitle;
     TextView tvInstructions;
     YouTubePlayerView videoView;
@@ -54,10 +56,12 @@ public class MealFragment extends Fragment implements MealContract.View {
         tvInstructions = view.findViewById(R.id.tvInstructions);
         videoView = view.findViewById(R.id.videoView);
         btnFavorite = view.findViewById(R.id.btnFavorite);
+        ivFlag = view.findViewById(R.id.ivFlag);
     }
 
     private void setUI(MealsResponse.Meal meal) {
         Glide.with(getContext()).load(meal.getStrMealThumb()).into(ivMeal);
+        Glide.with(getContext()).load(Flags.getFlagURL(meal.getStrArea())).into(ivFlag);
         tvMealTitle.setText(meal.getStrMeal());
         tvInstructions.setText(meal.getStrInstructions());
         getLifecycle().addObserver(videoView);

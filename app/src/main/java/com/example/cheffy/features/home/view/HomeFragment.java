@@ -32,6 +32,7 @@ import com.example.cheffy.repository.network.category.CategoryDataRepositoryImpl
 import com.example.cheffy.repository.network.meal.MealDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
 import com.example.cheffy.utils.AppStrings;
+import com.example.cheffy.utils.Flags;
 import com.example.cheffy.utils.SharedPreferencesHelper;
 import com.google.android.material.chip.Chip;
 
@@ -45,11 +46,11 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
     HomePresenter presenter;
     SharedPreferencesHelper sharedPreferencesHelper;
     RecyclerView recyclerView;
-    TextView tvGreetingMsg, tvUserName, tvTodaySpecial, tvSpecialMealTitle, tvSpecialMealCategory, tvSpecialMealArea, tvSeeMore;
+    TextView tvGreetingMsg, tvUserName, tvTodaySpecial, tvSpecialMealTitle, tvSpecialMealCategory, tvSeeMore;
     Chip categoryChip, countryChip, ingredientChip;
     ProgressBar progressBar;
     ConstraintLayout todaySpecialCard;
-    ImageView ivSpecialMealClose, ivSpecialMeal, ivUserImage;
+    ImageView ivSpecialMealClose, ivSpecialMeal, ivUserImage, ivFlag;
     private static User user;
     HomeRecyclerAdapter adapter;
     private static MealsResponse.Meal todayMeal;
@@ -114,7 +115,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         ivSpecialMeal = view.findViewById(R.id.ivSpecialMeal);
         tvSpecialMealTitle = view.findViewById(R.id.tvSpecialMealTitle);
         tvSpecialMealCategory = view.findViewById(R.id.tvSpecialMealCategory);
-        tvSpecialMealArea = view.findViewById(R.id.tvSpecialMealArea);
+        ivFlag = view.findViewById(R.id.ivFlag);
         tvSeeMore = view.findViewById(R.id.tvSeeMore);
         if(user == null){
             Glide.with(getContext()).load(R.drawable.profile).into(ivUserImage);
@@ -171,7 +172,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
             Glide.with(getContext()).load(todayMeal.getStrMealThumb()).into(ivSpecialMeal);
             tvSpecialMealTitle.setText(todayMeal.getStrMeal());
             tvSpecialMealCategory.setText(todayMeal.getStrCategory());
-            tvSpecialMealArea.setText(todayMeal.getStrArea());
+            Glide.with(getContext()).load(Flags.getFlagURL(todayMeal.getStrArea())).into(ivFlag);
         } else {
             Log.i(TAG, "updateTodaySpecialCard: STATIC IS NULL");
         }
@@ -291,6 +292,9 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
 
     @Override
     public void displayUsername(String name) {
+        if(name == null){
+        tvUserName.setText("Guest");
+        }
         tvUserName.setText(name);
     }
 

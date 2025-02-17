@@ -64,6 +64,7 @@
         style="@style/description_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="Choose the right meal for you"
         app:layout_constraintStart_toStartOf="@+id/tvTodaySpecial"
         app:layout_constraintTop_toBottomOf="@+id/tvTodaySpecial" />
@@ -207,21 +208,30 @@
             android:id="@+id/tvSpecialMealCategory"
             android:layout_width="170dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/tvSpecialMealTitle"
-            app:layout_constraintTop_toBottomOf="@+id/tvSpecialMealTitle"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@+id/flagChip"
+            app:layout_constraintTop_toBottomOf="@+id/flagChip"
             tools:text="MEAL TITLE" />
 
-        <TextView
-            android:id="@+id/tvSpecialMealArea"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/flagChip"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="1dp"
             android:layout_marginTop="4dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/tvSpecialMealCategory"
-            app:layout_constraintTop_toBottomOf="@+id/tvSpecialMealCategory"
-            tools:text="MEAL TITLE" />
+
+            app:layout_constraintStart_toStartOf="@+id/tvSpecialMealTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvSpecialMealTitle">
+
+            <ImageView
+                android:id="@+id/ivFlag"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/testimg" />
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/tvSeeMore"

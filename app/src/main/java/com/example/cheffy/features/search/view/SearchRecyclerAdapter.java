@@ -1,6 +1,7 @@
 package com.example.cheffy.features.search.view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.cheffy.R;
 import com.example.cheffy.repository.models.meal.MealsResponse;
+import com.example.cheffy.utils.Flags;
 
 import java.util.List;
 
@@ -50,17 +52,15 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     public void onBindViewHolder(@NonNull SearchRecyclerAdapter.ViewHolder holder, int position) {
 
         MealsResponse.Meal meal = list.get(position);
+        String flag = Flags.getFlagURL(meal.getStrArea());
+        Log.i("TEST", "onBindViewHolder: " + flag);
         Glide.with(context)
                 .load(meal.getStrMealThumb())
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(holder.ivMeal);
-        Glide.with(context)
-                .load("THE COUNTRY URL HERE")
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .into(holder.ivCountry);
         holder.tvTitle.setText(meal.getStrMeal());
         holder.layout.setOnClickListener(v -> listener.onCardClick(meal));
-        holder.ivFavorite.setOnClickListener(v -> listener.onFavoriteClick(meal));
+//        holder.ivFavorite.setOnClickListener(v -> listener.onFavoriteClick(meal));
     }
 
     @Override
@@ -80,8 +80,8 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
             super(itemView);
             ivMeal = itemView.findViewById(R.id.ivMeal);
             tvTitle = itemView.findViewById(R.id.tvTitle);
-            ivFavorite = itemView.findViewById(R.id.ivFavorite);
-            ivCountry = itemView.findViewById(R.id.ivCountry);
+//            ivFavorite = itemView.findViewById(R.id.ivFavorite);
+//            ivCountry = itemView.findViewById(R.id.ivCountry);/
             layout = itemView.findViewById(R.id.mealCardLayout);
             view = itemView;
         }

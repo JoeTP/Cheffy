@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mealCardLayout"
     android:layout_width="180dp"
-    android:layout_height="255dp"
+    android:layout_height="240dp"
     android:clipToPadding="false"
     android:padding="10dp">
 
@@ -47,32 +47,14 @@
             android:layout_marginEnd="8dp"
             android:ellipsize="end"
             android:maxLines="2"
+            android:padding="3dp"
+            android:textAlignment="center"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="MealName\nnew line" />
-
-        <ImageView
-            android:id="@+id/ivCountry"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="8dp"
-            android:src="@drawable/testimg"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ivFavorite" />
-
-        <ImageView
-            android:id="@+id/ivFavorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/favorite_unselect" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
