@@ -63,6 +63,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
 
         sharedPreferencesHelper.getInt(AppStrings.CURRENT_DAY, -1)
                 .subscribe(savedDay -> {
+                    Log.i(TAG, "onAttach: SAVED DAY" + savedDay);
                     int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
                     if (savedDay != currentDay) {
                         presenter.todayMeal().subscribe(meals -> {
@@ -104,6 +105,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         countryChip = view.findViewById(R.id.countryChip);
         ingredientChip = view.findViewById(R.id.ingredientChip);
         recyclerView = view.findViewById(R.id.recyclerView);
+        ivUserImage = view.findViewById(R.id.ivUserImage);
         progressBar = view.findViewById(R.id.progressBar);
         todaySpecialCard = view.findViewById(R.id.todaySpecialCard);
         ivSpecialMealClose = view.findViewById(R.id.ivSpecialMealClose);
@@ -113,7 +115,6 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         tvSpecialMealArea = view.findViewById(R.id.tvSpecialMealArea);
         tvSeeMore = view.findViewById(R.id.tvSeeMore);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -128,17 +129,21 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
                 }
         );
         initUI(view);
+        presenter.loadUserData();
+
         presenter.handleGreetingMsg().
-                subscribe(s -> tvGreetingMsg.setText(s), throwable -> {
+                subscribe(s -> tvGreetingMsg.setText(s),
+                        throwable -> {
                     Log.e(TAG, "Error handling greeting message", throwable);
                 });
-        presenter.loadUserData();
         presenter.handleCategoryChip();
         setupChipListeners();
         tvTodaySpecial.setOnClickListener(v -> {
-            handleTodaySpecialCard();
+            toggleTodayMealCard();
             updateTodaySpecialCard(todayMeal);
         });
+        ivUserImage.setOnClickListener(v -> Navigation.findNavController(v).navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment()));
+        ivSpecialMealClose.setOnClickListener(v -> toggleTodayMealCard());
         tvSeeMore.setOnClickListener(v -> {
             if (todayMeal != null) {
                 Log.i(TAG, "tvSeeMore.setOnClickListener: " + todayMeal.getStrMeal());
@@ -293,30 +298,11 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
 
     }
 
-    private void handleTodaySpecialCard() {
+    private void toggleTodayMealCard() {
         if (todaySpecialCard.getVisibility() == View.GONE) {
             todaySpecialCard.setVisibility(View.VISIBLE);
         } else {
             todaySpecialCard.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (todayMeal != null) {
-            outState.putParcelable(AppStrings.TODAYS_MEAL_ID, todayMeal);
-        }
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
-            todayMeal = savedInstanceState.getParcelable(AppStrings.TODAYS_MEAL);
-            if (todayMeal != null) {
-                updateTodaySpecialCard(todayMeal);
-            }
         }
     }
 

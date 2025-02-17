@@ -43,7 +43,7 @@ public class HomePresenter implements HomeContract.Presenter {
         return Observable.interval(1, TimeUnit.HOURS)
                 .startWithItem(0L)
                 .map(tick -> {
-                    int hour  = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                    int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
                     if (hour >= 0 && hour < 12) {
                         return "Good Morning";
                     } else if (hour >= 12 && hour < 17) {
@@ -59,27 +59,30 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void loadUserData() {
-        sharedPreferences.getString(AppStrings.CURRENT_USERID, "Guest")
+        sharedPreferences.getString(AppStrings.CURRENT_USERID, "")
                 .flatMap(userId ->
                         Single.create(emitter ->
-                                firestore.collection(AppStrings.USER_COLLECTION)
-                                        .document(userId)
-                                        .get()
-                                        .addOnSuccessListener(userData -> {
-                                            ///TODO: remember to get the backedup data
-                                            if (userData != null && userData.exists()) {
-                                                String name = userData.getString("name");
-                                                emitter.onSuccess(name != null ? name : "Guest");
-                                            } else {
-                                                emitter.onSuccess("Guest");
-                                            }
-                                        })
+                                {
+                                    Log.i(TAG, "loadUserData ===>: " + userId);
+                                    firestore.collection(AppStrings.USER_COLLECTION)
+                                            .document(userId)
+                                            .get()
+                                            .addOnSuccessListener(userData -> {
+                                                ///TODO: remember to get the backedup data
+                                                if (userData != null && userData.exists()) {
+                                                    String name = userData.getString("name");
+                                                    Log.i(TAG, "loadUserData: " + name);
+                                                    emitter.onSuccess(name);
+                                                }
+                                            });
+                                }
                         )
                 )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         userName -> {
+                            Log.i(TAG, "loadUserData: " + userName);
                             view.displayUsername((String) userName);
                         },
                         throwable -> {

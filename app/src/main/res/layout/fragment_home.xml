@@ -52,11 +52,10 @@
     <TextView
         android:id="@+id/tvTodaySpecial"
         style="@style/subtitles"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/today_s_special"
         android:textColor="@color/dark_green_color"
-        app:layout_constraintEnd_toEndOf="@+id/tvUserName"
         app:layout_constraintStart_toStartOf="@+id/tvUserName"
         app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
 

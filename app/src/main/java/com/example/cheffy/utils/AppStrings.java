@@ -21,7 +21,7 @@ public interface AppStrings {
 
     //?Firebase
     String USER_COLLECTION = "users";
-    String CURRENT_USERID = "";
+    String CURRENT_USERID = "current_user_id";
 
 
     //?DataBase
@@ -35,7 +35,7 @@ public interface AppStrings {
     String IS_LOGGED_IN_KEY = "IsLoggedIn";
     String IS_LOG_OUT_KEY = "FROM_LOGOUT";
     String CURRENT_DAY = "currentDay";
-    String TODAYS_MEAL_ID = "";
+    String TODAYS_MEAL_ID = "todays_meal_id";
     String TODAYS_MEAL = "";
 
 
