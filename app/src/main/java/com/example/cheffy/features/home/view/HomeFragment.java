@@ -86,14 +86,14 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
                             updateTodaySpecialCard(todayMeal);
                             sharedPreferencesHelper.saveInt(AppStrings.CURRENT_DAY, currentDay)
                                     .subscribe();
-                            sharedPreferencesHelper.saveString(AppStrings.TODAYS_MEAL_ID,
-                                    todayMeal.getIdMeal()).subscribe();
+                            sharedPreferencesHelper.saveString(AppStrings.TODAYS_MEAL_ID, todayMeal.getIdMeal()).subscribe();
                         }, throwable -> {
                             Log.e(TAG, "Error fetching today's meal", throwable);
                         });
                     } else {
                         sharedPreferencesHelper.getString(AppStrings.TODAYS_MEAL_ID, "")
                                 .subscribe(savedMealId -> {
+                                    Log.i(TAG, "MEAL ID TO SEARCH: " + savedMealId);
                                     presenter.searchForMealById(savedMealId).subscribe(meal -> {
                                         Log.i(TAG, "onAttach: " + meal.size());
                                         updateTodaySpecialCard(meal.get(0));
@@ -150,6 +150,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         presenter.handleCategoryChip();
         setupChipListeners();
         tvTodaySpecial.setOnClickListener(v -> handleTodaySpecialCard());
+//        tvSeeMore.setOnClickListener(v -> handleTodaySpecialCard());
 
 
         return view;
