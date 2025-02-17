@@ -6,8 +6,10 @@ import com.example.cheffy.repository.models.meal.MealsResponse;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Observable;
+
 public interface MealsLocalSource {
-    LiveData<List<MealsResponse.Meal>> getFavoriteMeals();
+    Observable<List<MealsResponse.Meal>> getFavoriteMeals();
     void addMealToFavorite(MealsResponse.Meal meal);
     void removeMealFromFavorite(MealsResponse.Meal meal);
 }

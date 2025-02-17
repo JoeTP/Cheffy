@@ -22,16 +22,10 @@ public class MealsResponse {
         this.meals = meals;
     }
 
-    @Override
-    public String toString() {
-        return "MealsResponse{" +
-                "meals=" + meals +
-                '}';
-    }
+
 
     @Entity(tableName = AppStrings.MEAL_TABLE_NAME)
     public static class Meal implements Parcelable {
-
 
         protected Meal(Parcel in) {
             idMeal = in.readString();
@@ -181,8 +175,11 @@ public class MealsResponse {
             this.strMeasure20 = strMeasure20;
             this.strSource = strSource;
         }
+
+        //delete if there is error
         @PrimaryKey
         @NonNull
+        private int id;
         private String idMeal;
         private String strMeal;
         private String strCategory;
