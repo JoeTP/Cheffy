@@ -33,13 +33,9 @@ import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
 import com.example.cheffy.utils.AppStrings;
 import com.example.cheffy.utils.SharedPreferencesHelper;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 
 import java.util.Calendar;
 import java.util.List;
-
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 public class HomeFragment extends Fragment implements HomeContract.View, OnCardClick {
@@ -48,22 +44,11 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
     HomePresenter presenter;
     SharedPreferencesHelper sharedPreferencesHelper;
     RecyclerView recyclerView;
-    TextView tvGreetingMsg;
-    TextView tvUserName;
-    TextView tvTodaySpecial;
-    ChipGroup chipGroup;
-    Chip categoryChip;
-    Chip countryChip;
-    Chip ingredientChip;
+    TextView tvGreetingMsg, tvUserName, tvTodaySpecial, tvSpecialMealTitle, tvSpecialMealCategory, tvSpecialMealArea, tvSeeMore;
+    Chip categoryChip, countryChip, ingredientChip;
     ProgressBar progressBar;
-
     ConstraintLayout todaySpecialCard;
-    ImageView ivSpecialMealClose;
-    ImageView ivSpecialMeal;
-    TextView tvSpecialMealTitle;
-    TextView tvSpecialMealCategory;
-    TextView tvSpecialMealArea;
-    TextView tvSeeMore;
+    ImageView ivSpecialMealClose, ivSpecialMeal, ivUserImage;
     HomeRecyclerAdapter adapter;
     private static MealsResponse.Meal todayMeal;
 
@@ -81,8 +66,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
                     int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
                     if (savedDay != currentDay) {
                         presenter.todayMeal().subscribe(meals -> {
-                            MealsResponse.Meal todayMeal = meals.get(0);
-                            Log.i(TAG, "onAttach: " + meals);
+                            todayMeal = meals.get(0);
+                            Log.i(TAG, "onAttach: " + todayMeal.getIdMeal());
                             updateTodaySpecialCard(todayMeal);
                             sharedPreferencesHelper.saveInt(AppStrings.CURRENT_DAY, currentDay)
                                     .subscribe();
@@ -95,8 +80,10 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
                                 .subscribe(savedMealId -> {
                                     Log.i(TAG, "MEAL ID TO SEARCH: " + savedMealId);
                                     presenter.searchForMealById(savedMealId).subscribe(meal -> {
-                                        Log.i(TAG, "onAttach: " + meal.size());
-                                        updateTodaySpecialCard(meal.get(0));
+//                                        Log.i(TAG, "onAttach: " + meal.size());
+                                        todayMeal = meal.get(0);
+                                        Log.i(TAG, "onAttach: ==>" + todayMeal.getIdMeal());
+                                        updateTodaySpecialCard(todayMeal);
                                     }, throwable -> {
                                         Log.e(TAG, "Error searching for meal by ID", throwable);
                                     });
@@ -113,7 +100,6 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         tvGreetingMsg = view.findViewById(R.id.tvGreetingMsg);
         tvUserName = view.findViewById(R.id.tvUserName);
         tvTodaySpecial = view.findViewById(R.id.tvTodaySpecial);
-        chipGroup = view.findViewById(R.id.chipGroup);
         categoryChip = view.findViewById(R.id.categoryChip);
         countryChip = view.findViewById(R.id.countryChip);
         ingredientChip = view.findViewById(R.id.ingredientChip);
@@ -144,24 +130,39 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         initUI(view);
         presenter.handleGreetingMsg().
                 subscribe(s -> tvGreetingMsg.setText(s), throwable -> {
-            Log.e(TAG, "Error handling greeting message", throwable);
-        });
+                    Log.e(TAG, "Error handling greeting message", throwable);
+                });
         presenter.loadUserData();
         presenter.handleCategoryChip();
         setupChipListeners();
-        tvTodaySpecial.setOnClickListener(v -> handleTodaySpecialCard());
-//        tvSeeMore.setOnClickListener(v -> handleTodaySpecialCard());
+        tvTodaySpecial.setOnClickListener(v -> {
+            handleTodaySpecialCard();
+            updateTodaySpecialCard(todayMeal);
+        });
+        tvSeeMore.setOnClickListener(v -> {
+            if (todayMeal != null) {
+                Log.i(TAG, "tvSeeMore.setOnClickListener: " + todayMeal.getStrMeal());
+                Navigation.findNavController(v).navigate(HomeFragmentDirections.actionHomeFragmentToMealFragment(todayMeal));
+            } else {
+                Log.i(TAG, "CANT GO STATIC NULL ");
+            }
+        });
 
 
         return view;
     }
 
     private void updateTodaySpecialCard(MealsResponse.Meal meal) {
-        Log.i(TAG, "updateTodaySpecialCard: " + meal.getIdMeal());
-        Glide.with(getContext()).load(meal.getStrMealThumb()).into(ivSpecialMeal);
-        tvSpecialMealTitle.setText(meal.getStrMeal());
-        tvSpecialMealCategory.setText(meal.getStrCategory());
-        tvSpecialMealArea.setText(meal.getStrArea());
+        if (todayMeal != null) {
+            todayMeal = meal;
+            Log.i(TAG, "updateTodaySpecialCard: " + todayMeal.getIdMeal());
+            Glide.with(getContext()).load(todayMeal.getStrMealThumb()).into(ivSpecialMeal);
+            tvSpecialMealTitle.setText(todayMeal.getStrMeal());
+            tvSpecialMealCategory.setText(todayMeal.getStrCategory());
+            tvSpecialMealArea.setText(todayMeal.getStrArea());
+        } else {
+            Log.i(TAG, "updateTodaySpecialCard: STATIC IS NULL");
+        }
     }
 
     private void setupChipListeners() {
@@ -318,6 +319,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
             }
         }
     }
+
     @Override
     public Context getViewContext() {
         return requireContext();
