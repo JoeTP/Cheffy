@@ -71,6 +71,7 @@
             app:argType="string" />
         <argument
             android:name="meals"
-            app:argType="com.example.cheffy.repository.models.meal.MealsResponse$Meal[]" />
+            app:argType="com.example.cheffy.repository.models.meal.MealsResponse$Meal[]"
+            app:nullable="true" />
     </fragment>
 </navigation>

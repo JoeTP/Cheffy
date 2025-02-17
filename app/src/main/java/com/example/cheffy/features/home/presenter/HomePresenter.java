@@ -80,8 +80,7 @@ public class HomePresenter implements HomeContract.Presenter {
                 }))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        user -> {
+                .subscribe(user -> {
                             User userData = (User) user;
                             Log.i(TAG, "loadUserData>>>>>>>>: " + userData.getId());
                             view.displayUsername(userData.getName());
@@ -170,7 +169,7 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public Single<List<IngredientResponse.Meal>> filterByIngredient(String filter) {
+    public Single<List<MealsResponse.Meal>> filterByIngredient(String filter) {
         return mealRepo.getFilterByIngredient(filter)
                 .map(mealsResponse -> mealsResponse.getMeals())
                 .subscribeOn(Schedulers.io())

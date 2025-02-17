@@ -12,6 +12,6 @@ public interface MealsRemoteSource {
     Single<IngredientResponse> fetchIngredients();
     Single<MealsResponse> filterByCategory(String category);
     Single<MealsResponse> filterByArea(String area);
-    Single<IngredientResponse> filterByIngredient(String ingredient);
+    Single<MealsResponse> filterByIngredient(String ingredient);
     Single<MealsResponse> searchMealById(String meal);
 }

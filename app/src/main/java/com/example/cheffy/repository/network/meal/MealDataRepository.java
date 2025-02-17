@@ -20,7 +20,7 @@ public interface MealDataRepository {
     Single<MealsResponse> getDailyMealRemote();
     Single<MealsResponse> getFilterByCategory(String category);
     Single<MealsResponse> getFilterByArea(String area);
-    Single<IngredientResponse> getFilterByIngredient(String ingredient);
+    Single<MealsResponse> getFilterByIngredient(String ingredient);
     Single<MealsResponse> searchMealById(String meal);
 
 }

@@ -26,7 +26,7 @@ public interface MealsService {
     public Single<MealsResponse> filterByArea(@Query(AppStrings.AREA_QUERY) String area);
 
     @GET(AppStrings.FILTER_END_POINT)
-    public Single<IngredientResponse> filterByIngredient(@Query(AppStrings.INGREDIENT_QUERY) String ingredient);
+    public Single<MealsResponse> filterByIngredient(@Query(AppStrings.INGREDIENT_QUERY) String ingredient);
 
     @GET(AppStrings.AREA_LIST)
     public Single<MealsResponse> getAreas();

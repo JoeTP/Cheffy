@@ -50,7 +50,7 @@ public class MealsRemoteSourceImpl implements MealsRemoteSource {
     }
 
     @Override
-    public Single<IngredientResponse> filterByIngredient(String ingredient) {
+    public Single<MealsResponse> filterByIngredient(String ingredient) {
         return mealsService.filterByIngredient(ingredient);
     }
 

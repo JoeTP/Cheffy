@@ -32,7 +32,7 @@ public interface HomeContract {
         void handleIngredientChip();
         Single<List<MealsResponse.Meal>> filterByCategory(String filter);
         Single<List<MealsResponse.Meal>> filterByArea(String filter);
-        Single<List<IngredientResponse.Meal>> filterByIngredient(String filter);
+        Single<List<MealsResponse.Meal>> filterByIngredient(String filter);
         Single<List<MealsResponse.Meal>> todayMeal();
         Single<List<MealsResponse.Meal>> searchForMealById(String id);
     }

@@ -239,13 +239,24 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
                         Navigation.findNavController(requireView())
                                 .navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(f + " Meals", mealsArray));
                     });
-        } else {
+        } else if (filter instanceof CategoryResponse.Category) {
             f = ((CategoryResponse.Category) filter).getStrCategory();
             Log.i(TAG, "CATEGORY NAME: " + f);
             presenter.filterByCategory(f).subscribe((meals, throwable) -> {
                 if (throwable != null) {
-                    // Handle error
                     Log.e(TAG, "Error filtering by category", throwable);
+                    return;
+                }
+                MealsResponse.Meal[] mealsArray = meals.toArray(new MealsResponse.Meal[0]);
+                Navigation.findNavController(requireView())
+                        .navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment("Meals with " + f, mealsArray));
+            });
+        } else if ( filter instanceof IngredientResponse.Meal) {
+            f = ((IngredientResponse.Meal) filter).getStrIngredient();
+            Log.i(TAG, "INGREDIENT NAME: " + f);
+            presenter.filterByIngredient(f).subscribe((meals, throwable) -> {
+                if (throwable != null) {
+                    Log.e(TAG, "Error filtering by ingredient", throwable);
                     return;
                 }
                 MealsResponse.Meal[] mealsArray = meals.toArray(new MealsResponse.Meal[0]);
