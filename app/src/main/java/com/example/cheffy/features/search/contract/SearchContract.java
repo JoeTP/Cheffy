@@ -8,9 +8,7 @@ import io.reactivex.rxjava3.core.Single;
 
 public interface SearchContract {
     interface View {
-        void showLoading();
-        void hideLoading();
-        void showError(String message);
+
     }
     interface Presenter {
 //        Single<List<MealsResponse.Meal>> searchForMeal(String query);

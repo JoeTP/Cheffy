@@ -121,4 +121,25 @@ public class SearchFragment extends Fragment implements OnMealCardClick, SearchC
                 .navigate(SearchFragmentDirections.actionSearchFragmentToMealFragment(meal));
         etSearch.setText("");
     }
+
+    @Override
+    public void onFavoriteClick(MealsResponse.Meal meal) {
+        Log.i(TAG, "onFavoriteClick: ");
+    }
+
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showError(String message) {
+
+    }
 }
