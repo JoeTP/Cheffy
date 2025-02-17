@@ -51,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteMealsFragment"
-        android:name="com.example.cheffy.features.FavoriteMealsFragment"
+        android:name="com.example.cheffy.features.favorite.view.FavoriteMealsFragment"
         android:label="fragment_favorite_meals"
         tools:layout="@layout/fragment_favorite_meals" >
         <action

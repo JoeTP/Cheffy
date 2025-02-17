@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -20,7 +21,7 @@ import com.example.cheffy.features.search.contract.SearchContract;
 import com.example.cheffy.features.search.presenter.SearchPresenter;
 import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
 import com.example.cheffy.repository.models.meal.MealsResponse;
-import com.example.cheffy.repository.network.meal.MealDataRepositoryImpl;
+import com.example.cheffy.repository.MealDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
 
 import java.util.List;
@@ -28,9 +29,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
@@ -42,6 +41,7 @@ public class SearchFragment extends Fragment implements OnMealCardClick, SearchC
     EditText etSearch;
     RecyclerView recyclerView;
     SearchRecyclerAdapter adapter;
+    ImageView btnBack;
     List<MealsResponse.Meal> meals;
     private Disposable disposable;
 
@@ -63,6 +63,7 @@ public class SearchFragment extends Fragment implements OnMealCardClick, SearchC
         meals = List.of(SearchFragmentArgs.fromBundle(getArguments()).getMeals());
         adapter = new SearchRecyclerAdapter(meals, getContext(), this);
         recyclerView.setAdapter(adapter);
+        btnBack = view.findViewById(R.id.btnBack);
     }
 
     String ss;
@@ -73,6 +74,8 @@ public class SearchFragment extends Fragment implements OnMealCardClick, SearchC
         initUI(view);
         tvTitle.setText(SearchFragmentArgs.fromBundle(getArguments()).getFilter());
         presenter = new SearchPresenter(this, getMealRepositoryInstance(getContext()));
+
+        btnBack.setOnClickListener(v -> Navigation.findNavController(v).popBackStack());
 
         Observable<String> observable = Observable.create(emitter -> {
             etSearch.addTextChangedListener(new TextWatcher() {

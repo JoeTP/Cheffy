@@ -1,14 +1,7 @@
 package com.example.cheffy.features.search.presenter;
 
 import com.example.cheffy.features.search.contract.SearchContract;
-import com.example.cheffy.repository.models.meal.MealsResponse;
-import com.example.cheffy.repository.network.meal.MealDataRepository;
-
-import java.util.List;
-
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.schedulers.Schedulers;
+import com.example.cheffy.repository.MealDataRepository;
 
 public class SearchPresenter implements SearchContract.Presenter {
     MealDataRepository repo;

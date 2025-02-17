@@ -19,7 +19,7 @@ import com.example.cheffy.features.meal_details.contract.MealContract;
 import com.example.cheffy.features.meal_details.presenter.MealPresenter;
 import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
 import com.example.cheffy.repository.models.meal.MealsResponse;
-import com.example.cheffy.repository.network.meal.MealDataRepositoryImpl;
+import com.example.cheffy.repository.MealDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
 import com.example.cheffy.utils.Flags;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
@@ -76,11 +76,22 @@ public class MealFragment extends Fragment implements MealContract.View {
                 }
             }
         });
+
+        btnFavorite.setOnClickListener(v -> {
+            if(meal.getIsFavorite() == 1){
+                meal.setIsFavorite(0);
+                presenter.unfavorite(meal.getIdMeal());
+                btnFavorite.setImageResource(R.drawable.favorite_unselect);
+            }else{
+                meal.setIsFavorite(1);
+                presenter.addToFavorite(meal);
+                btnFavorite.setImageResource(R.drawable.favorite_select);
+            }
+        });
     }
 
 
-    public MealFragment() {
-    }
+    public MealFragment() {}
 
 
     @Override

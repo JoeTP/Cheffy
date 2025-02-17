@@ -12,8 +12,8 @@ import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.utils.AppStrings;
 
 
-@Database(entities = {MealsResponse.Meal.class}, version = 1)
-@TypeConverters({Converters.class})
+@Database(entities = {MealsResponse.Meal.class}, version = 1, exportSchema = false)
+//@TypeConverters({Converters.class})
 public abstract class AppDataBase extends RoomDatabase {
     private static AppDataBase instance = null;
 
@@ -21,7 +21,7 @@ public abstract class AppDataBase extends RoomDatabase {
 
     public static synchronized AppDataBase getInstance(Context context) {
         if (instance == null) {
-            instance = Room.databaseBuilder(context, AppDataBase.class,
+            instance = Room.databaseBuilder(context.getApplicationContext(), AppDataBase.class,
                     AppStrings.DB_NAME).build();
         }
         return instance;

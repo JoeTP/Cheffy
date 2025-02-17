@@ -1,6 +1,5 @@
 package com.example.cheffy.repository.database.meal;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -17,12 +16,16 @@ import io.reactivex.rxjava3.core.Observable;
 
 @Dao
 public interface MealDao {
-    @Query("SELECT * FROM " + AppStrings.MEAL_TABLE_NAME)
+    @Query("SELECT * FROM " + AppStrings.MEAL_TABLE_NAME + " WHERE isFavorite = 1")
     Observable<List<MealsResponse.Meal>> getFavoriteMeals();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable addMealToFavorite(MealsResponse.Meal meal);
+    Completable addMeal(MealsResponse.Meal meal);
 
-    @Delete
-    Completable removeMealFromFavorite(MealsResponse.Meal meal);
+    @Query("DELETE FROM " + AppStrings.MEAL_TABLE_NAME + " WHERE isFavorite = 1 AND idMeal = :idMeal")
+    Completable removeMealFromFavorite(String idMeal);
+
+    @Query("SELECT * FROM " + AppStrings.MEAL_TABLE_NAME + " WHERE isFavorite = 0")
+    Observable<List<MealsResponse.Meal>> getPlanMeals();
+
 }

@@ -10,7 +10,12 @@ public interface MealContract {
     interface View {
 //        void setUI(MealsResponse.Meal meal);
     }
+
     interface Presenter {
-        public Single<List<MealsResponse.Meal>> searchForMealById(String query);
+        Single<List<MealsResponse.Meal>> searchForMealById(String query);
+
+        void addToFavorite(MealsResponse.Meal meal);
+
+        void unfavorite(String idMeal);
     }
 }

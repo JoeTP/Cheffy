@@ -1,20 +1,23 @@
-package com.example.cheffy.repository.network.meal;
-
-import androidx.lifecycle.LiveData;
+package com.example.cheffy.repository;
 
 import com.example.cheffy.repository.models.ingredient.IngredientResponse;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 
 public interface MealDataRepository {
 
-    void insertMeal(MealsResponse.Meal meal);
+    //!Local
+    Observable<List<MealsResponse.Meal>> getMealsFromFavorites();
+    Observable<List<MealsResponse.Meal>> getMealsFromPlan();
+    Completable insertMeal(MealsResponse.Meal meal);
+    Completable removeMealFromFavorites(String idMeal);
 
-    void deleteMeal(MealsResponse.Meal meal);
-    void fetchMeals();
+    //!Remote
     Single<MealsResponse> getAreasRemote();
     Single<IngredientResponse> getIngredientsRemote();
     Single<MealsResponse> getDailyMealRemote();

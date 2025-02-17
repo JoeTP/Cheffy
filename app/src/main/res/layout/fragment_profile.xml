@@ -76,7 +76,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/tvSetting"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvSetting"
-            app:srcCompat="@drawable/profile" />
+            app:srcCompat="@drawable/setting" />
 
         <TextView
             android:id="@+id/tvSetting"
@@ -95,7 +95,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/back_button"
+            android:src="@drawable/arrow_forward"
             app:layout_constraintBottom_toBottomOf="@+id/tvSetting"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvSetting" />
@@ -130,7 +130,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/tvLogout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvLogout"
-            app:srcCompat="@drawable/profile" />
+            app:srcCompat="@drawable/logout" />
 
         <TextView
             android:id="@+id/tvLogout"
@@ -139,6 +139,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
+            android:textColor="@color/red"
             android:text="Logout"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -150,7 +151,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/back_button"
+            android:src="@drawable/arrow_forward"
             app:layout_constraintBottom_toBottomOf="@+id/tvLogout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvLogout" />

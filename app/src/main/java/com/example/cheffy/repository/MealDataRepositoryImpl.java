@@ -1,14 +1,16 @@
-package com.example.cheffy.repository.network.meal;
+package com.example.cheffy.repository;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
 import com.example.cheffy.repository.models.ingredient.IngredientResponse;
 import com.example.cheffy.repository.models.meal.MealsResponse;
+import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 
 public class MealDataRepositoryImpl implements MealDataRepository {
@@ -33,24 +35,27 @@ public class MealDataRepositoryImpl implements MealDataRepository {
     }
 
     //!Local
-
-
     @Override
-    public void insertMeal(MealsResponse.Meal meal) {
-        new Thread(() -> mealsLocalSource.addMealToFavorite(meal)).start();
+    public Observable<List<MealsResponse.Meal>> getMealsFromFavorites() {
+        return mealsLocalSource.getFavoriteMeals();
     }
 
     @Override
-    public void deleteMeal(MealsResponse.Meal meal) {
-        new Thread(() -> mealsLocalSource.removeMealFromFavorite(meal)).start();
+    public Observable<List<MealsResponse.Meal>> getMealsFromPlan() {
+        return mealsLocalSource.getPlanMeals();
+    }
+
+    @Override
+    public Completable insertMeal(MealsResponse.Meal meal) {
+        return mealsLocalSource.addMeal(meal);
+    }
+
+    @Override
+    public Completable removeMealFromFavorites(String idMeal) {
+        return mealsLocalSource.removeMealFromFavorite(idMeal);
     }
 
     //!Network
-    @Override
-    public void fetchMeals() {
-
-    }
-
     @Override
     public Single<MealsResponse> getAreasRemote() {
         return mealsRemoteSource.fetchAreas();

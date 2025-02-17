@@ -9,6 +9,9 @@ import com.example.cheffy.repository.models.meal.MealsResponse;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
+
 public class MealsLocalSourceImpl implements MealsLocalSource {
 
     private static MealsLocalSourceImpl instance = null;
@@ -33,17 +36,22 @@ public class MealsLocalSourceImpl implements MealsLocalSource {
 
 
     @Override
-    public LiveData<List<MealsResponse.Meal>> getFavoriteMeals() {
-        return storedFavoriteMeals;
+    public Observable<List<MealsResponse.Meal>> getFavoriteMeals() {
+        return mealDao.getFavoriteMeals();
     }
 
     @Override
-    public void addMealToFavorite(MealsResponse.Meal meal) {
-        new Thread(() -> mealDao.addMealToFavorite(meal)).start();
+    public Completable addMeal(MealsResponse.Meal meal) {
+        return mealDao.addMeal(meal);
     }
 
     @Override
-    public void removeMealFromFavorite(MealsResponse.Meal meal) {
-        new Thread(() -> mealDao.removeMealFromFavorite(meal)).start();
+    public Completable removeMealFromFavorite(String idMeal) {
+        return mealDao.removeMealFromFavorite(idMeal);
+    }
+
+    @Override
+    public Observable<List<MealsResponse.Meal>> getPlanMeals() {
+        return mealDao.getPlanMeals();
     }
 }

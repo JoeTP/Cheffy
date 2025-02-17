@@ -4,10 +4,9 @@ import android.util.Log;
 
 import com.example.cheffy.features.auth.model.User;
 import com.example.cheffy.features.home.contract.HomeContract;
-import com.example.cheffy.repository.models.ingredient.IngredientResponse;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.network.category.CategoryDataRepositoryImpl;
-import com.example.cheffy.repository.network.meal.MealDataRepositoryImpl;
+import com.example.cheffy.repository.MealDataRepositoryImpl;
 import com.example.cheffy.utils.AppStrings;
 import com.example.cheffy.utils.SharedPreferencesHelper;
 import com.google.firebase.firestore.FirebaseFirestore;

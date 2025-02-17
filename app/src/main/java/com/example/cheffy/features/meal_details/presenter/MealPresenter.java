@@ -1,14 +1,20 @@
 package com.example.cheffy.features.meal_details.presenter;
 
+import android.util.Log;
+
 import com.example.cheffy.features.meal_details.contract.MealContract;
 import com.example.cheffy.repository.models.meal.MealsResponse;
-import com.example.cheffy.repository.network.meal.MealDataRepository;
+import com.example.cheffy.repository.MealDataRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MealPresenter implements MealContract.Presenter {
@@ -31,6 +37,52 @@ public class MealPresenter implements MealContract.Presenter {
                                 .filter(meal -> meal.getIdMeal().equals(id))
                                 .collect(Collectors.toList())
                 );
+    }
+
+    @Override
+    public void addToFavorite(MealsResponse.Meal meal) {
+         repo.insertMeal(meal)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.i("TEST", "onError: " + e.getMessage());
+                    }
+                });
+    }
+
+    @Override
+    public void unfavorite(String idMeal) {
+        repo.removeMealFromFavorites(idMeal)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.i("TEST", "onError: " + e.getMessage());
+                    }
+                });
     }
 
 //    @Override

@@ -6,24 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".features.search.view.SearchFragment">
 
+    <ImageView
+        android:id="@+id/btnBack"
+        style="@style/back_button_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTop" />
+
     <TextView
         android:id="@+id/tvTitle"
         style="@style/titles"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toTopOf="@+id/guidelineTop"
+        app:layout_constraintStart_toEndOf="@+id/btnBack"
+        app:layout_constraintTop_toTopOf="@+id/btnBack"
         tools:text="SELECTED TITLE" />
 
     <EditText
         android:id="@+id/etSearch"
-        android:layout_marginTop="8dp"
+        style="@style/search_style"
+        android:layout_marginTop="16dp"
         android:hint="Search for meal"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-        style="@style/search_style" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
 
     <androidx.recyclerview.widget.RecyclerView

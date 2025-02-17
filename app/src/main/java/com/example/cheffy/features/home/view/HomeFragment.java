@@ -29,7 +29,7 @@ import com.example.cheffy.repository.models.ingredient.IngredientResponse;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.network.category.CategoriesRemoteSourceImpl;
 import com.example.cheffy.repository.network.category.CategoryDataRepositoryImpl;
-import com.example.cheffy.repository.network.meal.MealDataRepositoryImpl;
+import com.example.cheffy.repository.MealDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
 import com.example.cheffy.utils.AppStrings;
 import com.example.cheffy.utils.Flags;

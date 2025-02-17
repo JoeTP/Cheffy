@@ -7,5 +7,6 @@
     <color name="dark_green_color">#7BB466</color>
     <color name="light_green_color">#e5f5e0</color>
     <color name="semi_vis_color">#5F8C8B8B</color>
+    <color name="red">#EA3323</color>
 
 </resources>

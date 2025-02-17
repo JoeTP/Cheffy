@@ -177,7 +177,7 @@ public class MealsResponse {
         }
 
         //delete if there is error
-        @PrimaryKey
+        @PrimaryKey(autoGenerate = true)
         @NonNull
         private int id;
         private String idMeal;
@@ -228,6 +228,28 @@ public class MealsResponse {
         private String strMeasure19;
         private String strMeasure20;
         private String strSource;
+        private int isFavorite;
+        private Long timestamp;
+
+        public int getId() {
+            return id;
+        }
+        public void setId(int id) {
+            this.id = id;
+        }
+        public int getIsFavorite() {
+            return isFavorite;
+        }
+        public void setIsFavorite(int isFavorite) {
+            this.isFavorite = isFavorite;
+        }
+
+        public Long getTimestamp() {
+            return timestamp;
+        }
+        public void setTimestamp(Long timestamp) {
+            this.timestamp = timestamp;
+        }
 
         public String getIdMeal() {
             return idMeal;
