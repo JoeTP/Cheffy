@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -75,43 +76,36 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         sharedPreferencesHelper = new SharedPreferencesHelper(context);
         presenter = new HomePresenter(this, getMealRepositoryInstance(context), getCategoryRepositoryInstance());
 
-        // Get the saved day from SharedPreferences
         sharedPreferencesHelper.getInt(AppStrings.CURRENT_DAY, -1)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(savedDay -> {
                     int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-
                     if (savedDay != currentDay) {
-                        // Day has changed, fetch the new daily meal
                         presenter.todayMeal().subscribe(meals -> {
                             MealsResponse.Meal todayMeal = meals.get(0);
+                            Log.i(TAG, "onAttach: " + meals);
                             updateTodaySpecialCard(todayMeal);
-
-                            // Save the new day and meal ID
                             sharedPreferencesHelper.saveInt(AppStrings.CURRENT_DAY, currentDay)
-                                    .andThen(sharedPreferencesHelper.saveString(AppStrings.TODAYS_MEAL_ID,
-                                            todayMeal.getIdMeal()))
-                                    .subscribe(() -> {
-                                        // Data saved successfully
-                                    }, throwable -> {
-                                        // Handle error
-                                    });
+                                    .subscribe();
+                            sharedPreferencesHelper.saveString(AppStrings.TODAYS_MEAL_ID,
+                                    todayMeal.getIdMeal()).subscribe();
+                        }, throwable -> {
+                            Log.e(TAG, "Error fetching today's meal", throwable);
                         });
                     } else {
-                        // Day hasn't changed, use the saved meal
                         sharedPreferencesHelper.getString(AppStrings.TODAYS_MEAL_ID, "")
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(savedMealId -> {
-                                    if (!savedMealId.isEmpty()) {
-                                        // Fetch the saved meal details and update the UI
-                                        presenter.searchForMealById(savedMealId).subscribe(meal -> {
-                                            updateTodaySpecialCard(meal.get(0));
-                                        });
-                                    }
+                                    presenter.searchForMealById(savedMealId).subscribe(meal -> {
+                                        Log.i(TAG, "onAttach: " + meal.size());
+                                        updateTodaySpecialCard(meal.get(0));
+                                    }, throwable -> {
+                                        Log.e(TAG, "Error searching for meal by ID", throwable);
+                                    });
+                                }, throwable -> {
+                                    Log.e(TAG, "Error getting saved meal ID", throwable);
                                 });
                     }
+                }, throwable -> {
+                    Log.e(TAG, "Error getting current day", throwable);
                 });
     }
 
@@ -148,62 +142,21 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
                 }
         );
         initUI(view);
-
-
-        tvTodaySpecial.setOnClickListener(v -> {
-            // Get the saved day from SharedPreferences
-            sharedPreferencesHelper.getInt(AppStrings.CURRENT_DAY, -1)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(savedDay -> {
-                        int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-
-                        if (savedDay != currentDay) {
-                            // Day has changed, fetch the new daily meal
-                            presenter.todayMeal().subscribe(meals -> {
-                                MealsResponse.Meal todayMeal = meals.get(0);
-                                updateTodaySpecialCard(todayMeal);
-
-                                // Save the new day and meal ID
-                                sharedPreferencesHelper.saveInt(AppStrings.CURRENT_DAY, currentDay)
-                                        .andThen(sharedPreferencesHelper.saveString(AppStrings.TODAYS_MEAL_ID,
-                                                todayMeal.getIdMeal()))
-                                        .subscribe(() -> {
-                                            // Data saved successfully
-                                        }, throwable -> {
-                                            // Handle error
-                                        });
-                            });
-                        } else {
-                            // Day hasn't changed, use the saved meal
-                            sharedPreferencesHelper.getString(AppStrings.TODAYS_MEAL_ID, "")
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(savedMealId -> {
-                                        if (!savedMealId.isEmpty()) {
-                                            // Fetch the saved meal details and update the UI
-                                            presenter.searchForMealById(savedMealId).subscribe(meal -> {
-                                                updateTodaySpecialCard(meal.get(0));
-                                            });
-                                        }
-                                    });
-                        }
-                    });
+        presenter.handleGreetingMsg().
+                subscribe(s -> tvGreetingMsg.setText(s), throwable -> {
+            Log.e(TAG, "Error handling greeting message", throwable);
         });
-
-        ivSpecialMealClose.setOnClickListener(v -> handleTodaySpecialCard());
-        tvTodaySpecial.setOnClickListener(v -> handleTodaySpecialCard());
-
-        presenter.handleGreetingMsg().subscribe(s -> tvGreetingMsg.setText(s));
         presenter.loadUserData();
         presenter.handleCategoryChip();
         setupChipListeners();
+        tvTodaySpecial.setOnClickListener(v -> handleTodaySpecialCard());
 
 
         return view;
     }
 
     private void updateTodaySpecialCard(MealsResponse.Meal meal) {
+        Log.i(TAG, "updateTodaySpecialCard: " + meal.getIdMeal());
         Glide.with(getContext()).load(meal.getStrMealThumb()).into(ivSpecialMeal);
         tvSpecialMealTitle.setText(meal.getStrMeal());
         tvSpecialMealCategory.setText(meal.getStrCategory());
@@ -264,23 +217,27 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
             Log.i(TAG, "AREA NAME: " + f);
             presenter.filterByArea(f)
                     .subscribe((meals, throwable) -> {
+                        if (throwable != null) {
+                            // Handle error
+                            Log.e(TAG, "Error filtering by area", throwable);
+                            return;
+                        }
                         MealsResponse.Meal[] mealsArray = meals.toArray(new MealsResponse.Meal[0]);
-//                        Log.i(TAG, "onCardClick: " + f);
-//                        Log.i(TAG, "onCardClick: " + f + " " + meals.size());
                         Navigation.findNavController(requireView()).navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(f + " Meals", mealsArray));
                     });
         } else {
             f = ((CategoryResponse.Category) filter).getStrCategory();
             Log.i(TAG, "CATEGORY NAME: " + f);
             presenter.filterByCategory(f).subscribe((meals, throwable) -> {
+                if (throwable != null) {
+                    // Handle error
+                    Log.e(TAG, "Error filtering by category", throwable);
+                    return;
+                }
                 MealsResponse.Meal[] mealsArray = meals.toArray(new MealsResponse.Meal[0]);
-//                Log.i(TAG, "onCardClick: " + f);
-//                Log.i(TAG, "onCardClick: " + f + " " + meals.size());
                 Navigation.findNavController(requireView()).navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment("Meals with " + f, mealsArray));
             });
         }
-
-
     }
 
     @Override
@@ -342,6 +299,24 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         }
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (todayMeal != null) {
+            outState.putParcelable(AppStrings.TODAYS_MEAL_ID, todayMeal);
+        }
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            todayMeal = savedInstanceState.getParcelable(AppStrings.TODAYS_MEAL);
+            if (todayMeal != null) {
+                updateTodaySpecialCard(todayMeal);
+            }
+        }
+    }
     @Override
     public Context getViewContext() {
         return requireContext();

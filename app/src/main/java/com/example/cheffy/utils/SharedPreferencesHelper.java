@@ -39,7 +39,8 @@ public class SharedPreferencesHelper {
 
     public static Single<Integer> getInt(String key, int defaultValue) {
         return Single.fromCallable(() -> sharedPreferences.getInt(key, defaultValue))
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public static Completable saveBoolean(String key, boolean value) {
