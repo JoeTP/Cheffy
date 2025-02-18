@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -36,15 +37,26 @@ import com.example.cheffy.repository.network.category.CategoryDataRepositoryImpl
 import com.example.cheffy.repository.MealDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
 import com.example.cheffy.utils.AppStrings;
+import com.example.cheffy.utils.Caching;
 import com.example.cheffy.utils.Flags;
 import com.example.cheffy.utils.SharedPreferencesHelper;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 
 public class HomeFragment extends Fragment implements HomeContract.View, OnCardClick {
+
+    FirebaseDatabase firebaseDatabase;
 
     private static final String TAG = "TEST";
     HomePresenter presenter;
@@ -52,7 +64,6 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
     RecyclerView recyclerView;
     TextView tvGreetingMsg, tvUserName, tvTodaySpecial, tvSpecialMealTitle, tvSpecialMealCategory, tvSeeMore;
     Chip categoryChip, countryChip, ingredientChip;
-//    ProgressBar progressBar;
     LottieAnimationView progressBar;
     ConstraintLayout todaySpecialCard;
     ImageView ivSpecialMealClose, ivSpecialMeal, ivUserImage, ivFlag;
@@ -62,6 +73,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
 
     public HomeFragment() {
     }
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -141,6 +153,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         );
         initUI(view);
         presenter.loadUserData();
+
 
         presenter.handleGreetingMsg().
                 subscribe(s -> tvGreetingMsg.setText(s),
@@ -283,6 +296,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         Log.i(TAG, "getUserData: " + user.getId());
         Log.i(TAG, "getUserData: " + user.getName());
         Log.i(TAG, "getUserData: " + user.getEmail());
+        Caching.setUser(userData);
+        presenter.getRecoveredFavoriteMeals();
     }
 
     @Override
@@ -346,4 +361,48 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
     public Context getViewContext() {
         return requireContext();
     }
+
+
+
+
+
+
+
+
+
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

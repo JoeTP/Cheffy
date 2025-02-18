@@ -23,6 +23,7 @@ import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.MealDataRepositoryImpl;
 import com.example.cheffy.repository.models.plan.PlanModel;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
+import com.example.cheffy.utils.Caching;
 import com.example.cheffy.utils.Flags;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
@@ -44,6 +45,7 @@ public class MealFragment extends Fragment implements MealContract.View {
     MealsResponse.Meal mealArg;
     MealsResponse.Meal fullMeal;
     FloatingActionButton fabAddToPlan;
+    boolean isFav = false;
 
     @Override
     public void onDestroy() {
@@ -65,6 +67,9 @@ public class MealFragment extends Fragment implements MealContract.View {
     }
 
     private void setUI(MealsResponse.Meal meal) {
+        meal.setId(Caching.getUser().getId());
+        presenter.isFavorite(Caching.getUser().getId(),meal.getIdMeal());
+
         Glide.with(getContext()).load(meal.getStrMealThumb()).into(ivMeal);
         Glide.with(getContext()).load(Flags.getFlagURL(meal.getStrArea())).into(ivFlag);
         tvMealTitle.setText(meal.getStrMeal());
@@ -83,23 +88,19 @@ public class MealFragment extends Fragment implements MealContract.View {
         });
 
         btnFavorite.setOnClickListener(v -> {
-            if(meal.getIsFavorite() == 1){
-                meal.setIsFavorite(0);
-                presenter.unfavorite(meal.getIdMeal());
+            if(isFav){
+                presenter.removeFromFavorite(meal);
                 btnFavorite.setImageResource(R.drawable.favorite_unselect);
             }else{
-                meal.setIsFavorite(1);
                 presenter.addToFavorite(meal);
                 btnFavorite.setImageResource(R.drawable.favorite_select);
             }
+            isFav = !isFav;
 
         });
         Log.i(TAG, "IS FAVORITE: " + meal.getIsFavorite());
-        if(presenter.isFavorite(meal.getIdMeal())){
-            btnFavorite.setImageResource(R.drawable.favorite_select);
-        }else{
-            btnFavorite.setImageResource(R.drawable.favorite_unselect);
-        }
+
+
     }
 
 
@@ -130,6 +131,9 @@ public class MealFragment extends Fragment implements MealContract.View {
             presenter.insertToPlan(new PlanModel("123", "123", mealArg));
         });
 
+        ivFlag.setOnClickListener(v -> presenter.removePlanMeal(new PlanModel("NpLhBkIcxDZzaydQop1rF0Ud6z03", "123", mealArg)));
+
+
         return view;
     }
 
@@ -154,5 +158,13 @@ public class MealFragment extends Fragment implements MealContract.View {
     }
 
 
-
+    @Override
+    public void ivFavorite(Boolean isFavorite) {
+        isFav = isFavorite;
+        if(isFav){
+            btnFavorite.setImageResource(R.drawable.favorite_select);
+        }else{
+            btnFavorite.setImageResource(R.drawable.favorite_unselect);
+        }
+    }
 }

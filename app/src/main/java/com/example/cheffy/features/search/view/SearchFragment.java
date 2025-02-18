@@ -123,7 +123,7 @@ public class SearchFragment extends Fragment implements OnMealCardClick, SearchC
     }
 
     @Override
-    public void onFavoriteClick(String idMeal) {
+    public void onFavoriteClick(MealsResponse.Meal meal) {
 
     }
 }

@@ -4,5 +4,5 @@ import com.example.cheffy.repository.models.meal.MealsResponse;
 
 public interface OnMealCardClick {
     void onCardClick(MealsResponse.Meal meal);
-    void onFavoriteClick(String idMeal);
+    void onFavoriteClick(MealsResponse.Meal meal);
 }

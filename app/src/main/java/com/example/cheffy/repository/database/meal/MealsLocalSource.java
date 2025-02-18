@@ -17,4 +17,7 @@ public interface MealsLocalSource {
     Completable insetPlan(PlanModel plan);
     Completable deletePlan(PlanModel plan);
     Single<List<PlanModel>> getPlanMeals(String userId);
+    Completable removeFavoriteMeal(MealsResponse.Meal meal);
+    Single<Boolean> isInFavourite(String id , String idMeal);
+    Completable recoverFavoriteMeals(List<MealsResponse.Meal> favouriteMeals);
 }

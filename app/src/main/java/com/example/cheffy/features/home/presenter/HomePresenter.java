@@ -2,15 +2,24 @@ package com.example.cheffy.features.home.presenter;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.cheffy.features.auth.model.User;
 import com.example.cheffy.features.home.contract.HomeContract;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.network.category.CategoryDataRepositoryImpl;
 import com.example.cheffy.repository.MealDataRepositoryImpl;
 import com.example.cheffy.utils.AppStrings;
+import com.example.cheffy.utils.Caching;
 import com.example.cheffy.utils.SharedPreferencesHelper;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -29,13 +38,17 @@ public class HomePresenter implements HomeContract.Presenter {
     private final MealDataRepositoryImpl mealRepo;
     private final SharedPreferencesHelper sharedPreferences;
     private final FirebaseFirestore firestore;
-
+    DatabaseReference dbRef;
     public HomePresenter(HomeContract.View view, MealDataRepositoryImpl mealRepo, CategoryDataRepositoryImpl categoryRepo) {
         this.view = view;
         this.mealRepo = mealRepo;
         this.categoryRepo = categoryRepo;
         sharedPreferences = new SharedPreferencesHelper(view.getViewContext());
         firestore = FirebaseFirestore.getInstance();
+
+        dbRef = FirebaseDatabase.getInstance().getReference()
+                .child("root")
+                .child("users");
     }
 
 
@@ -194,4 +207,35 @@ public class HomePresenter implements HomeContract.Presenter {
                                 .collect(Collectors.toList())
                 );
     }
+
+    @Override
+    public void getRecoveredFavoriteMeals() {
+        dbRef.child(Caching.getUser().getId())
+                .child("favorite")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        List<MealsResponse.Meal> recoveredMeals = new ArrayList<>();
+                        Log.i(TAG, "onDataChange: " + snapshot.getValue());
+                        for(DataSnapshot ds : snapshot.getChildren()){
+                            MealsResponse.Meal meal = ds.getValue(MealsResponse.Meal.class);
+                            recoveredMeals.add(meal);
+                        }
+                        setFavoriteToDataBase(recoveredMeals);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
+    void setFavoriteToDataBase(List<MealsResponse.Meal> meals){
+        mealRepo.recoverFavoriteMeals(meals)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {},throwable -> Log.i(TAG, "setFavoriteToDataBase: " + throwable));
+    }
+
 }

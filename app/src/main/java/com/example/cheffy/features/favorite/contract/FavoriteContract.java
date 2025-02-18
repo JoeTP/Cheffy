@@ -17,7 +17,7 @@ public interface FavoriteContract {
     }
     interface Presenter {
         void getFavoriteMeals();
-        void unfavorite(String idMeal);
+        void removeFromFavorite(MealsResponse.Meal meal);
     }
 
 }

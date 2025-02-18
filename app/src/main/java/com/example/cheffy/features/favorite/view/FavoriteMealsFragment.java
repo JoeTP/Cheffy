@@ -103,7 +103,8 @@ public class FavoriteMealsFragment extends Fragment implements FavoriteContract.
     }
 
     @Override
-    public void onFavoriteClick(String idMeal) {
-        presenter.unfavorite(idMeal);
+    public void onFavoriteClick(MealsResponse.Meal meal) {
+//        presenter.unfavorite(idMeal);
+        presenter.removeFromFavorite(meal);
     }
 }

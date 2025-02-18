@@ -70,6 +70,21 @@ public class MealDataRepositoryImpl implements MealDataRepository {
         return mealsLocalSource.getPlanMeals(userId);
     }
 
+    @Override
+    public Completable removeFavoriteMeal(MealsResponse.Meal meal) {
+        return mealsLocalSource.removeFavoriteMeal(meal);
+    }
+
+    @Override
+    public Single<Boolean> isInFavourite(String id, String idMeal) {
+        return mealsLocalSource.isInFavourite(id,idMeal);
+    }
+
+    @Override
+    public Completable recoverFavoriteMeals(List<MealsResponse.Meal> favouriteMeals) {
+        return mealsLocalSource.recoverFavoriteMeals(favouriteMeals);
+    }
+
     //!Network
     @Override
     public Single<MealsResponse> getAreasRemote() {

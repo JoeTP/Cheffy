@@ -68,4 +68,19 @@ public class MealsLocalSourceImpl implements MealsLocalSource {
     public Single<List<PlanModel>> getPlanMeals(String userId) {
         return mealDao.getPlanMeals(userId);
     }
+
+    @Override
+    public Completable removeFavoriteMeal(MealsResponse.Meal meal) {
+        return mealDao.removeFavoriteMeal(meal);
+    }
+
+    @Override
+    public Single<Boolean> isInFavourite(String id, String idMeal) {
+        return mealDao.isInFavourite(id,idMeal);
+    }
+
+    @Override
+    public Completable recoverFavoriteMeals(List<MealsResponse.Meal> favouriteMeals) {
+        return mealDao.recoverFavoriteMeals(favouriteMeals);
+    }
 }

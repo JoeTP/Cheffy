@@ -11,6 +11,7 @@ import io.reactivex.rxjava3.core.Single;
 
 public interface MealContract {
     interface View {
+        void ivFavorite(Boolean isFavorite);
     }
 
      interface Presenter {
@@ -18,9 +19,11 @@ public interface MealContract {
 
         void addToFavorite(MealsResponse.Meal meal);
 
-        void unfavorite(String idMeal);
-        boolean isFavorite(String idMeal);
+        void removeFromFavorite(MealsResponse.Meal meal);
+        void isFavorite(String id, String idMeal);
 
         void insertToPlan(PlanModel plan);
+
+        void removePlanMeal(PlanModel meal);
     }
 }

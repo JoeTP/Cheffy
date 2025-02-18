@@ -26,6 +26,13 @@ public interface MealDao {
 
     @Query("DELETE FROM " + AppStrings.MEAL_TABLE_NAME + " WHERE isFavorite = 1 AND idMeal = :idMeal")
     Completable removeMealFromFavorite(String idMeal);
+    @Query("SELECT EXISTS(SELECT * FROM " + AppStrings.MEAL_TABLE_NAME + " WHERE id = :id and idMeal = :idMeal)")
+    Single<Boolean> isInFavourite(String id , String idMeal);
+    @Delete
+    Completable removeFavoriteMeal(MealsResponse.Meal meal);
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    Completable recoverFavoriteMeals(List<MealsResponse.Meal> favouriteMeals);
+
 
     @Query("SELECT * FROM " + AppStrings.PLAN_TABLE_NAME + " WHERE id = :userId")
     Single<List<PlanModel>> getPlanMeals(String userId);

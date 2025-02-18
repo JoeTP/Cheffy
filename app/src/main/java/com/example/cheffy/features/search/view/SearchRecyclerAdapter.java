@@ -33,7 +33,6 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     }
 
     public void updateList(List<MealsResponse.Meal> list) {
-//        this.list.clear();
         this.list = list;
         notifyDataSetChanged();
     }
@@ -61,10 +60,10 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                 .into(holder.ivMeal);
         holder.layout.setOnClickListener(v -> listener.onCardClick(meal));
         holder.tvTitle.setText(meal.getStrMeal());
-        if (meal.getIsFavorite() == 1) {
+        if (meal.getId() != null && !meal.getId().isEmpty()) {
             holder.ivFavorite.setImageResource(R.drawable.favorite_select);
             holder.ivFavorite.setVisibility(View.VISIBLE);
-            holder.ivFavorite.setOnClickListener(v -> listener.onFavoriteClick(meal.getIdMeal()));
+            holder.ivFavorite.setOnClickListener(v -> listener.onFavoriteClick(meal));
         } else {
             holder.ivFavorite.setImageResource(R.drawable.favorite_unselect);
             holder.ivFavorite.setVisibility(View.GONE);
