@@ -1,5 +1,6 @@
 package com.example.cheffy.features.meal_details.presenter;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.util.Log;
 
@@ -7,14 +8,13 @@ import com.example.cheffy.features.meal_details.contract.MealContract;
 import com.example.cheffy.repository.MealDataRepository;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.models.plan.PlanModel;
-import com.example.cheffy.utils.AppStrings;
 import com.example.cheffy.utils.Caching;
-import com.example.cheffy.utils.SharedPreferencesHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,10 +79,7 @@ public class MealPresenter implements MealContract.Presenter {
     }
 
 
-
-
-
-    void addFavoriteMealToFireBase(MealsResponse.Meal meal){
+    void addFavoriteMealToFireBase(MealsResponse.Meal meal) {
         dbRef.child(meal.getId())
                 .child("favorite")
                 .child(meal.getIdMeal())
@@ -90,9 +87,9 @@ public class MealPresenter implements MealContract.Presenter {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@androidx.annotation.NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             //TOAST
-                        }else{
+                        } else {
                             //TOAST
                         }
                     }
@@ -102,7 +99,7 @@ public class MealPresenter implements MealContract.Presenter {
 
     @Override
     public void isFavorite(String id, String idMeal) {
-        repo.isInFavourite(id,idMeal)
+        repo.isInFavourite(id, idMeal)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<Boolean>() {
@@ -122,26 +119,44 @@ public class MealPresenter implements MealContract.Presenter {
                 });
     }
 
-    @Override
     public void insertToPlan(PlanModel plan) {
         plan.setId(Caching.getUser().getId());
-        repo.insetPlan(plan)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        () -> {
-                            addPlanMealToFireBase(plan);
-                        }, throwable ->
-                                Log.e(TAG, "insertToPlan: ", throwable)
-                );
+        showDatePicker(plan);
     }
+    private void showDatePicker(PlanModel plan) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(view.returnContext(),
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    String selectedDate = selectedYear + "/" + (selectedMonth + 1) + "/" + selectedDay;
+                    Log.d(TAG, "Selected Date: " + selectedDate);
+                    plan.setDate(selectedDate);
+                    repo.insertPlan(plan)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                    () -> {
+                                        addPlanMealToFireBase(plan);
+                                    },
+                                    throwable ->
+                                            Log.e(TAG, "insertToPlan: ", throwable)
+                            );;
+                },
+                year, month, day);
+        datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+        datePickerDialog.show();
+    }
+
 
     @Override
     public void removePlanMeal(PlanModel meal) {
         removePlanMealToFireBase(meal);
     }
 
-    void addPlanMealToFireBase(PlanModel meal){
+    void addPlanMealToFireBase(PlanModel meal) {
         dbRef.child(meal.getId())
                 .child("plan")
                 .child(meal.getIdMeal())
@@ -149,16 +164,16 @@ public class MealPresenter implements MealContract.Presenter {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@androidx.annotation.NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             //TOAST
-                        }else{
+                        } else {
                             //TOAST
                         }
                     }
                 });
     }
 
-    void removePlanMealToFireBase(PlanModel meal){
+    void removePlanMealToFireBase(PlanModel meal) {
         Log.i(TAG, "removePlanMealToFireBase: " + meal.getId());
         dbRef.child(meal.getId())
                 .child("plan")
@@ -167,10 +182,10 @@ public class MealPresenter implements MealContract.Presenter {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@androidx.annotation.NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             Log.i(TAG, "REMOVEDDDDD: ");
                             //TOAST
-                        }else{
+                        } else {
                             Log.i(TAG, "FAILED TO REMOVEEE: ");
                             //TOAST
                         }

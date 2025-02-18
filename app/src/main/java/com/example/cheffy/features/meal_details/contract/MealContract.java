@@ -12,6 +12,8 @@ import io.reactivex.rxjava3.core.Single;
 public interface MealContract {
     interface View {
         void ivFavorite(Boolean isFavorite);
+        void showDatePicker();
+        Context returnContext();
     }
 
      interface Presenter {

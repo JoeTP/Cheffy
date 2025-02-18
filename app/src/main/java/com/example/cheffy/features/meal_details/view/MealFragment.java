@@ -1,5 +1,6 @@
 package com.example.cheffy.features.meal_details.view;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -127,11 +128,9 @@ public class MealFragment extends Fragment implements MealContract.View {
 
         btnBack.setOnClickListener(v -> Navigation.findNavController(v).navigateUp());
 
-        fabAddToPlan.setOnClickListener(v -> {
-            presenter.insertToPlan(new PlanModel("123", "123", mealArg));
-        });
+        fabAddToPlan.setOnClickListener(v -> presenter.insertToPlan(new PlanModel("null", "null", mealArg)));
 
-        ivFlag.setOnClickListener(v -> presenter.removePlanMeal(new PlanModel("NpLhBkIcxDZzaydQop1rF0Ud6z03", "123", mealArg)));
+        ivFlag.setOnClickListener(v -> presenter.removePlanMeal(new PlanModel(Caching.getUser().getId(), "null", mealArg)));
 
 
         return view;
@@ -166,5 +165,16 @@ public class MealFragment extends Fragment implements MealContract.View {
         }else{
             btnFavorite.setImageResource(R.drawable.favorite_unselect);
         }
+    }
+
+    @Override
+    public void showDatePicker() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext());
+        datePickerDialog.show();
+    }
+
+    @Override
+    public Context returnContext() {
+        return getContext();
     }
 }

@@ -56,7 +56,7 @@ public class MealDataRepositoryImpl implements MealDataRepository {
     }
 
     @Override
-    public Completable insetPlan(PlanModel plan) {
+    public Completable insertPlan(PlanModel plan) {
         return mealsLocalSource.insetPlan(plan);
     }
 

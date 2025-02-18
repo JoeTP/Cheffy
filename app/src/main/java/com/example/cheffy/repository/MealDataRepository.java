@@ -7,7 +7,6 @@ import com.example.cheffy.repository.models.plan.PlanModel;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 
 public interface MealDataRepository {
@@ -16,7 +15,7 @@ public interface MealDataRepository {
     Single<List<MealsResponse.Meal>> getMealsFromFavorites(String id);
     Completable insertMeal(MealsResponse.Meal meal);
     Completable removeMealFromFavorites(String idMeal);
-    Completable insetPlan(PlanModel plan);
+    Completable insertPlan(PlanModel plan);
     Completable deletePlan(PlanModel plan);
     Single<List<PlanModel>> getPlanMeals(String userId);
     Completable removeFavoriteMeal(MealsResponse.Meal meal);
