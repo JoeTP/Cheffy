@@ -37,7 +37,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     public void skipLogin(){
         sharedPreferencesHelper.saveBoolean(IS_LOGGED_IN_KEY, true).subscribe();
-        sharedPreferencesHelper.saveString(CURRENT_USERID, "null").subscribe();
+//        sharedPreferencesHelper.saveString(CURRENT_USERID, "null").subscribe();
         view.navigateToHome();
     }
     @Override

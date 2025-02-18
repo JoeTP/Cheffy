@@ -1,11 +1,14 @@
 package com.example.cheffy.features.home.view;
 
 import android.content.Context;
+import android.graphics.Outline;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;

@@ -4,8 +4,8 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:fontFamily">@font/glory</item>
+        <item name="android:windowBackground">@color/white</item>
 
     </style>
 
-    <style name="Theme.Cheffy" parent="Base.Theme.Cheffy" />
 </resources>

@@ -163,7 +163,7 @@
         android:layout_height="180dp"
         android:background="@drawable/today_special_card"
         android:elevation="10dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft2"
