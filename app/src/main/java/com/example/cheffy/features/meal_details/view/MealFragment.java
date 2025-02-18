@@ -21,8 +21,10 @@ import com.example.cheffy.features.meal_details.presenter.MealPresenter;
 import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.MealDataRepositoryImpl;
+import com.example.cheffy.repository.models.plan.PlanModel;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
 import com.example.cheffy.utils.Flags;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
@@ -41,6 +43,7 @@ public class MealFragment extends Fragment implements MealContract.View {
     ImageView btnFavorite;
     MealsResponse.Meal mealArg;
     MealsResponse.Meal fullMeal;
+    FloatingActionButton fabAddToPlan;
 
     @Override
     public void onDestroy() {
@@ -58,6 +61,7 @@ public class MealFragment extends Fragment implements MealContract.View {
         videoView = view.findViewById(R.id.videoView);
         btnFavorite = view.findViewById(R.id.btnFavorite);
         ivFlag = view.findViewById(R.id.ivFlag);
+        fabAddToPlan = view.findViewById(R.id.fabAddToPlan);
     }
 
     private void setUI(MealsResponse.Meal meal) {
@@ -109,7 +113,7 @@ public class MealFragment extends Fragment implements MealContract.View {
         initUI(view);
         mealArg = MealFragmentArgs.fromBundle(getArguments()).getMeal();
 
-        presenter = new MealPresenter(this, getMealRepositoryInstance(getContext()));
+        presenter = new MealPresenter(this, getMealRepositoryInstance(getContext()), getContext());
 
         presenter.searchForMealById(mealArg.getIdMeal())
                 .subscribe(meals -> {
@@ -121,6 +125,10 @@ public class MealFragment extends Fragment implements MealContract.View {
                 });
 
         btnBack.setOnClickListener(v -> Navigation.findNavController(v).navigateUp());
+
+        fabAddToPlan.setOnClickListener(v -> {
+            presenter.insertToPlan(new PlanModel("123", "123", mealArg));
+        });
 
         return view;
     }
@@ -144,4 +152,7 @@ public class MealFragment extends Fragment implements MealContract.View {
     private MealDataRepositoryImpl getMealRepositoryInstance(Context context) {
         return MealDataRepositoryImpl.getInstance(MealsRemoteSourceImpl.getInstance(), MealsLocalSourceImpl.getInstance(context));
     }
+
+
+
 }

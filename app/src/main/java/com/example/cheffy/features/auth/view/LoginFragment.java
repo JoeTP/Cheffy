@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 
+import com.airbnb.lottie.Lottie;
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.cheffy.MainActivity;
 import com.example.cheffy.R;
 import com.example.cheffy.features.auth.contract.LoginContract;
@@ -28,14 +30,13 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     private MaterialButton btnLogin, btnLoginGoogle;
     private TextView tvRegister, tvForgotPassword;
     private EditText etEmail, etPassword;
-    private ProgressBar progressIndicator;
+//    private ProgressBar progressIndicator;
+    LottieAnimationView progressIndicator;
     private TextView tvSkip;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        presenter = new LoginPresenter();
-        presenter.attachView(this);
     }
 
 
@@ -43,6 +44,8 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         initViews(view);
+        presenter = new LoginPresenter();
+        presenter.attachView(this);
         btnsClickListeners();
         return view;
     }

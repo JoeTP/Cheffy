@@ -57,7 +57,7 @@ public class ProfileFragment extends Fragment {
 
         logoutTile.setOnClickListener(v -> {
             FirebaseAuth firebase = FirebaseAuth.getInstance();
-            firebase.signOut();
+//            firebase.signOut();
             sharedPreferencesHelper.saveBoolean(IS_LOGGED_IN_KEY, false)
                     .subscribe(() -> {
                         navigateToAuthActivity();
@@ -93,7 +93,7 @@ public class ProfileFragment extends Fragment {
     private void navigateToAuthActivity() {
         Intent intent = new Intent(requireActivity(), AuthActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra(IS_LOG_OUT_KEY, true);// Add this flag
+        intent.putExtra(IS_LOG_OUT_KEY, true);
         startActivity(intent);
         requireActivity().finish();
     }

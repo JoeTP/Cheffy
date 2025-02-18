@@ -41,8 +41,6 @@ public class RegisterPresenter implements RegisterContract.Presenter {
                 !Validator.validatePassword(etPassword) || !Validator.validateMismatch(etPassword,
                 etConfirmPassword)) return;
         view.showLoading();
-
-
         Completable.create(emitter -> {
                     firebaseAuth.createUserWithEmailAndPassword(etEmail.getText().toString(),
                             etPassword.getText().toString()).addOnCompleteListener(task -> {

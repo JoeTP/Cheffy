@@ -24,14 +24,13 @@ public class MealsResponse {
 
 
 
-    @Entity(tableName = AppStrings.MEAL_TABLE_NAME)
+    @Entity(tableName = AppStrings.MEAL_TABLE_NAME, primaryKeys = {"id", "idMeal"})
     public static class Meal implements Parcelable {
 
 
-        //delete if there is error
-        @PrimaryKey(autoGenerate = true)
         @NonNull
-        private int id;
+        private String id;
+        @NonNull
         private String idMeal;
         private String strMeal;
         private String strCategory;
@@ -134,7 +133,12 @@ public class MealsResponse {
             strSource = in.readString();
         }
 
-        public Meal(@NonNull String idMeal,
+        public Meal() {
+        }
+
+        public Meal(
+                @NonNull String id,
+                @NonNull String idMeal,
                     String strMeal,
                     String strCategory,
                     String strArea,
@@ -182,6 +186,7 @@ public class MealsResponse {
                     String strMeasure19,
                     String strMeasure20,
                     String strSource) {
+            this.id = id;
             this.idMeal = idMeal;
             this.strMeal = strMeal;
             this.strCategory = strCategory;
@@ -232,13 +237,15 @@ public class MealsResponse {
             this.strSource = strSource;
         }
 
-
-        public int getId() {
+        @NonNull
+        public String getId() {
             return id;
         }
-        public void setId(int id) {
+
+        public void setId(@NonNull String id) {
             this.id = id;
         }
+
         public int getIsFavorite() {
             return isFavorite;
         }

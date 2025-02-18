@@ -26,6 +26,7 @@ public interface AppStrings {
 
     //?DataBase
     String MEAL_TABLE_NAME = "meal_table";
+    String PLAN_TABLE_NAME = "plan_table";
     String CATEGORY_TABLE_NAME = "category_table";
     String DB_NAME = "appdb";
 

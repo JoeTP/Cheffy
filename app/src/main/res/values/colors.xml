@@ -8,5 +8,7 @@
     <color name="light_green_color">#e5f5e0</color>
     <color name="semi_vis_color">#5F8C8B8B</color>
     <color name="red">#EA3323</color>
+    <color name="et_icon_color">#4E4E4E</color>
+
 
 </resources>

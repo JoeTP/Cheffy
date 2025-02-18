@@ -22,6 +22,8 @@ import com.example.cheffy.repository.MealDataRepositoryImpl;
 import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
+import com.example.cheffy.utils.AppStrings;
+import com.example.cheffy.utils.SharedPreferencesHelper;
 
 import java.util.List;
 
@@ -31,6 +33,8 @@ public class FavoriteMealsFragment extends Fragment implements FavoriteContract.
     FavoritePresenter presenter;
     RecyclerView recyclerView;
     SearchRecyclerAdapter adapter;
+    SharedPreferencesHelper sharedPreferencesHelper;
+
 
     public FavoriteMealsFragment() {
     }
@@ -42,16 +46,23 @@ public class FavoriteMealsFragment extends Fragment implements FavoriteContract.
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        presenter = new FavoritePresenter(this, getMealRepositoryInstance(context));
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorite_meals, container, false);
+        sharedPreferencesHelper = new SharedPreferencesHelper(getContext());
+        sharedPreferencesHelper.getString(AppStrings.CURRENT_USERID, "")
+                .subscribe(s -> {
+                    presenter = new FavoritePresenter(this, getMealRepositoryInstance(getContext()), s);
+                    presenter.getFavoriteMeals();
+                }, throwable -> {
+                    Log.e(TAG, "FavoritePresenter: ", throwable);
+                });
         initUI(view);
         handleBackPress(view);
-        presenter.getFavoriteMeals();
 
 
         return view;
@@ -78,6 +89,11 @@ public class FavoriteMealsFragment extends Fragment implements FavoriteContract.
         Log.i(TAG, "showFavoriteMeals: " + meals.size());
         adapter = new SearchRecyclerAdapter(meals, getContext(), this);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public Context returnContext() {
+        return getContext();
     }
 
 

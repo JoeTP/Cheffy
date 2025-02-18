@@ -133,22 +133,36 @@
         app:spanCount="2"
         tools:listitem="@layout/home_card" />
 
-    <ProgressBar
+
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:visibility="gone"
+        app:lottie_autoPlay="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft2"
-        app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/chipGroup"
+        app:lottie_rawRes="@raw/loading" />
+
+<!--    <ProgressBar-->
+<!--        android:id="@+id/progressBar"-->
+<!--        style="?android:attr/progressBarStyle"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/guidelineLeft2"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/chipGroup" />-->
 
     <EditText
         android:id="@+id/etSearch"
-        style="@style/search_style"
+        style="@style/et_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:drawableStart="@drawable/search"
         android:ems="10"
         android:hint="Search..."
         android:inputType="text"
@@ -163,7 +177,7 @@
         android:layout_height="180dp"
         android:background="@drawable/today_special_card"
         android:elevation="10dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft2"
@@ -171,22 +185,21 @@
 
         <ImageView
             android:id="@+id/ivSpecialMealClose"
-            style="@style/back_button_style"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/close"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivSpecialMeal"
             android:layout_width="200dp"
             android:layout_height="0dp"
-            android:background="@drawable/today_special_card_img"
-            android:clipToOutline="true"
-            android:scaleType="centerCrop"
             android:src="@drawable/testimg"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/today_special_card_img"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

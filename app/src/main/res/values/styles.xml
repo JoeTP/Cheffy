@@ -52,6 +52,14 @@
         <item name="android:src">@drawable/favorite_unselect</item>
     </style>
 
+    <style name="today_special_card_img">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomLeft">20dp</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
     <style name="fab_circle">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>

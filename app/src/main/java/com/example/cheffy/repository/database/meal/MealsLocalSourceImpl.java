@@ -1,23 +1,25 @@
 package com.example.cheffy.repository.database.meal;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import com.example.cheffy.repository.database.AppDataBase;
 import com.example.cheffy.repository.models.meal.MealsResponse;
+import com.example.cheffy.repository.models.plan.PlanModel;
 
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
 
 public class MealsLocalSourceImpl implements MealsLocalSource {
 
     private static MealsLocalSourceImpl instance = null;
     MealDao mealDao;
     AppDataBase appDataBase;
-    LiveData<List<MealsResponse.Meal>> storedFavoriteMeals;
     Context context;
 
     private MealsLocalSourceImpl(Context context) {
@@ -36,8 +38,9 @@ public class MealsLocalSourceImpl implements MealsLocalSource {
 
 
     @Override
-    public Observable<List<MealsResponse.Meal>> getFavoriteMeals() {
-        return mealDao.getFavoriteMeals();
+    public Single<List<MealsResponse.Meal>> getFavoriteMeals(String id) {
+        Log.i("TEST", "getFavoriteMeals LOCAL SOURCE: " + id);
+        return mealDao.getFavoriteMeals(id);
     }
 
     @Override
@@ -50,8 +53,19 @@ public class MealsLocalSourceImpl implements MealsLocalSource {
         return mealDao.removeMealFromFavorite(idMeal);
     }
 
+
     @Override
-    public Observable<List<MealsResponse.Meal>> getPlanMeals() {
-        return mealDao.getPlanMeals();
+    public Completable insetPlan(PlanModel plan) {
+        return mealDao.insetPlan(plan);
+    }
+
+    @Override
+    public Completable deletePlan(PlanModel plan) {
+        return mealDao.deletePlan(plan);
+    }
+
+    @Override
+    public Single<List<PlanModel>> getPlanMeals(String userId) {
+        return mealDao.getPlanMeals(userId);
     }
 }

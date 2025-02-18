@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.example.cheffy.R;
 import com.example.cheffy.features.auth.model.User;
@@ -51,7 +52,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
     RecyclerView recyclerView;
     TextView tvGreetingMsg, tvUserName, tvTodaySpecial, tvSpecialMealTitle, tvSpecialMealCategory, tvSeeMore;
     Chip categoryChip, countryChip, ingredientChip;
-    ProgressBar progressBar;
+//    ProgressBar progressBar;
+    LottieAnimationView progressBar;
     ConstraintLayout todaySpecialCard;
     ImageView ivSpecialMealClose, ivSpecialMeal, ivUserImage, ivFlag;
     private static User user;

@@ -12,11 +12,11 @@
         android:id="@+id/imageView3"
         android:layout_width="0dp"
         android:layout_height="250dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/signinimage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/signinimage" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -79,14 +79,14 @@
 
             <EditText
                 android:id="@+id/etEmail"
+                style="@style/et_style"
                 android:drawableStart="@drawable/email"
                 android:hint="@string/enter_email"
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="@+id/etPassword"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-                app:layout_constraintTop_toBottomOf="@+id/tvEmail"
-                style="@style/et_style" />
+                app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
 
             <TextView
                 android:id="@+id/tvPassword"
@@ -104,12 +104,12 @@
 
             <EditText
                 android:id="@+id/etPassword"
+                style="@style/et_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:ems="10"
                 android:drawableStart="@drawable/password"
-                style="@style/et_style"
+                android:ems="10"
                 android:hint="@string/enter_password"
                 android:inputType="textPassword"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -124,8 +124,8 @@
                 android:layout_marginTop="4dp"
                 android:ems="10"
                 android:text="@string/forgot_password"
-                android:textStyle="bold"
                 android:textAlignment="textEnd"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintTop_toBottomOf="@+id/etPassword" />
@@ -201,11 +201,11 @@
 
             <TextView
                 android:id="@+id/tvRegister"
+                style="@style/hyperlinkSmall"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/register_now"
                 android:textAlignment="textStart"
-                style="@style/hyperlinkSmall"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintStart_toEndOf="@+id/textView7"
@@ -213,16 +213,27 @@
 
                 />
 
-            <ProgressBar
+            <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/progressIndicator"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:visibility="gone"
+                app:lottie_autoPlay="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-                app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+                app:layout_constraintTop_toBottomOf="@+id/etPassword"
+                app:lottie_rawRes="@raw/loading" />
+            <!--            <ProgressBar-->
+            <!--                android:id="@+id/progressIndicator"-->
+            <!--                style="?android:attr/progressBarStyle"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:visibility="gone"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"-->
+            <!--                app:layout_constraintStart_toStartOf="@+id/guidelineLeft"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/etPassword" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -71,6 +71,8 @@ dependencies {
 
     //*Firestore
     implementation("com.google.firebase:firebase-firestore")
+    //*Realtime
+    implementation("com.google.firebase:firebase-database")
 
 
     //?Glide
@@ -82,6 +84,9 @@ dependencies {
 
     //?Youtube Player
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0'
+
+    //?Lottie
+    implementation ("com.airbnb.android:lottie:6.6.2")
 
 
 }
