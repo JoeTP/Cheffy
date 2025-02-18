@@ -159,7 +159,7 @@ public class MealPresenter implements MealContract.Presenter {
     void addPlanMealToFireBase(PlanModel meal) {
         dbRef.child(meal.getId())
                 .child("plan")
-                .child(meal.getDate())
+                .child(meal.getDate()+"_" + meal.getMeal().getIdMeal())
                 .setValue(meal)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -177,7 +177,7 @@ public class MealPresenter implements MealContract.Presenter {
         Log.i(TAG, "removePlanMealToFireBase: " + meal.getId());
         dbRef.child(meal.getId())
                 .child("plan")
-                .child(meal.getDate())
+                .child(meal.getDate()  +"_"+ meal.getMeal().getIdMeal())
                 .removeValue()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
