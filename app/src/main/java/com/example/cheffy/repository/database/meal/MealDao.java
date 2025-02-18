@@ -32,6 +32,8 @@ public interface MealDao {
     Completable removeFavoriteMeal(MealsResponse.Meal meal);
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     Completable recoverFavoriteMeals(List<MealsResponse.Meal> favouriteMeals);
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    Completable recoverPlanMeals(List<PlanModel> planMeals);
 
 
     @Query("SELECT * FROM " + AppStrings.PLAN_TABLE_NAME + " WHERE id = :userId")

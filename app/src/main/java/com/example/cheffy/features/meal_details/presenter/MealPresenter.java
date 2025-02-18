@@ -131,7 +131,7 @@ public class MealPresenter implements MealContract.Presenter {
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(view.returnContext(),
                 (view, selectedYear, selectedMonth, selectedDay) -> {
-                    String selectedDate = selectedYear + "/" + (selectedMonth + 1) + "/" + selectedDay;
+                    String selectedDate = selectedYear + "-" + (selectedMonth + 1) + "-" + selectedDay;
                     Log.d(TAG, "Selected Date: " + selectedDate);
                     plan.setDate(selectedDate);
                     repo.insertPlan(plan)
@@ -143,7 +143,7 @@ public class MealPresenter implements MealContract.Presenter {
                                     },
                                     throwable ->
                                             Log.e(TAG, "insertToPlan: ", throwable)
-                            );;
+                            );
                 },
                 year, month, day);
         datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
@@ -159,7 +159,7 @@ public class MealPresenter implements MealContract.Presenter {
     void addPlanMealToFireBase(PlanModel meal) {
         dbRef.child(meal.getId())
                 .child("plan")
-                .child(meal.getIdMeal())
+                .child(meal.getDate())
                 .setValue(meal)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -177,7 +177,7 @@ public class MealPresenter implements MealContract.Presenter {
         Log.i(TAG, "removePlanMealToFireBase: " + meal.getId());
         dbRef.child(meal.getId())
                 .child("plan")
-                .child(meal.getIdMeal())
+                .child(meal.getDate())
                 .removeValue()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

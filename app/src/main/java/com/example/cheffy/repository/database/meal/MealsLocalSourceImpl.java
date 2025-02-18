@@ -83,4 +83,9 @@ public class MealsLocalSourceImpl implements MealsLocalSource {
     public Completable recoverFavoriteMeals(List<MealsResponse.Meal> favouriteMeals) {
         return mealDao.recoverFavoriteMeals(favouriteMeals);
     }
+
+    @Override
+    public Completable recoverPlanMeals(List<PlanModel> planMeals) {
+        return mealDao.recoverPlanMeals(planMeals);
+    }
 }

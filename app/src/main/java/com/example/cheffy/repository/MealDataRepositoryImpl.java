@@ -85,6 +85,11 @@ public class MealDataRepositoryImpl implements MealDataRepository {
         return mealsLocalSource.recoverFavoriteMeals(favouriteMeals);
     }
 
+    @Override
+    public Completable recoverPlanMeals(List<PlanModel> planMeals) {
+        return mealsLocalSource.recoverPlanMeals(planMeals);
+    }
+
     //!Network
     @Override
     public Single<MealsResponse> getAreasRemote() {

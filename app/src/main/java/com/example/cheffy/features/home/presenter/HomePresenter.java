@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.example.cheffy.features.auth.model.User;
 import com.example.cheffy.features.home.contract.HomeContract;
 import com.example.cheffy.repository.models.meal.MealsResponse;
+import com.example.cheffy.repository.models.plan.PlanModel;
 import com.example.cheffy.repository.network.category.CategoryDataRepositoryImpl;
 import com.example.cheffy.repository.MealDataRepositoryImpl;
 import com.example.cheffy.utils.AppStrings;
@@ -231,11 +232,46 @@ public class HomePresenter implements HomeContract.Presenter {
                 });
     }
 
+    @Override
+    public void getRecoveredPlanMeals() {
+        dbRef.child(Caching.getUser().getId())
+                .child("plan")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        List<PlanModel> recoveredMeals = new ArrayList<>();
+                        Log.i(TAG, "onDataChange: " + snapshot.getValue());
+                        for(DataSnapshot ds : snapshot.getChildren()){
+                            PlanModel meal = ds.getValue(PlanModel.class);
+                            recoveredMeals.add(meal);
+                        }
+                        for ( PlanModel meal : recoveredMeals){
+                            Log.i(TAG, "getRecoveredPlanMeals++++++++++: " + meal.getDate());
+                        }
+                        setPlanToDataBase(recoveredMeals);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+    }
+
+
+
+
     void setFavoriteToDataBase(List<MealsResponse.Meal> meals){
         mealRepo.recoverFavoriteMeals(meals)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {},throwable -> Log.i(TAG, "setFavoriteToDataBase: " + throwable));
+    }
+
+    void setPlanToDataBase(List<PlanModel> meals){
+        mealRepo.recoverPlanMeals(meals)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {},throwable -> Log.i(TAG, "setPlanoDataBase: " + throwable));
     }
 
 }

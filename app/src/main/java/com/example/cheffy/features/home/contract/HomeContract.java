@@ -36,5 +36,6 @@ public interface HomeContract {
         Single<List<MealsResponse.Meal>> todayMeal();
         Single<List<MealsResponse.Meal>> searchForMealById(String id);
         void getRecoveredFavoriteMeals();
+        void getRecoveredPlanMeals();
     }
 }

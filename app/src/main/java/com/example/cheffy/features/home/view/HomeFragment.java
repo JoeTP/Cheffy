@@ -298,6 +298,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         Log.i(TAG, "getUserData: " + user.getEmail());
         Caching.setUser(userData);
         presenter.getRecoveredFavoriteMeals();
+        presenter.getRecoveredPlanMeals();
     }
 
     @Override
