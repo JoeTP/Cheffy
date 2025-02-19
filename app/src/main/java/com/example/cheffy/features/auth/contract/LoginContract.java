@@ -1,7 +1,10 @@
 package com.example.cheffy.features.auth.contract;
 
 import android.content.Context;
+import android.content.Intent;
 import android.widget.EditText;
+
+import androidx.activity.result.ActivityResultLauncher;
 
 public interface LoginContract {
     interface View {
@@ -10,6 +13,8 @@ public interface LoginContract {
         void showError(String message);
         void navigateToHome();
         void navigateToRegister();
+        ActivityResultLauncher<Intent> getGoogleSignInLauncher();
+
         Context getViewContext();
     }
 
@@ -17,7 +22,8 @@ public interface LoginContract {
         void attachView(LoginContract.View view);
         void login(EditText etEmail, EditText etPassword);
         void skipLogin();
-        void handleGoogleLogin();
+        void handleGoogleSignInResult(Intent data);
+        void signInWithGoogle();
         void navigateToRegister();
     }
 }

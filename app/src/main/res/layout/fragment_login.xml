@@ -117,18 +117,18 @@
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
                 app:layout_constraintTop_toBottomOf="@+id/tvPassword" />
 
-            <TextView
-                android:id="@+id/tvForgotPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:ems="10"
-                android:text="@string/forgot_password"
-                android:textAlignment="textEnd"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-                app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+<!--            <TextView-->
+<!--                android:id="@+id/tvForgotPassword"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:ems="10"-->
+<!--                android:text="@string/forgot_password"-->
+<!--                android:textAlignment="textEnd"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/etPassword" />-->
 
 
             <androidx.constraintlayout.widget.Guideline
@@ -177,7 +177,6 @@
                 android:id="@+id/btnLoginGoogle"
                 style="@style/def_btn"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/google"
                 app:cornerRadius="8dp"

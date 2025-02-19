@@ -6,6 +6,8 @@
         <item name="android:fontFamily">@font/glory</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:colorPrimary">@color/main_green_color</item>
+<!--        <item name="colorAccent">@color/dark_green_color</item>-->
+        <item name="colorControlNormal">@color/dark_green_color</item>
 
     </style>
 

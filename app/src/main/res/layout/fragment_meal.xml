@@ -115,19 +115,19 @@
                 app:layout_constraintTop_toBottomOf="@id/tvInstructions" />
 
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:nestedScrollingEnabled="false"
                 android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@+id/instructionTitle"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="8dp"
-                tools:listitem="@layout/ingredient_card"
-                />
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/instructionTitle"
+                app:spanCount="2"
+                tools:listitem="@layout/ingredient_card" />
+
             <TextView
                 android:id="@+id/watchTitle"
                 style="@style/subtitles"
