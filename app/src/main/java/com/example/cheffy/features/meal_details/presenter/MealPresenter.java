@@ -8,6 +8,7 @@ import com.example.cheffy.features.meal_details.contract.MealContract;
 import com.example.cheffy.repository.MealDataRepository;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.models.plan.PlanModel;
+import com.example.cheffy.utils.AppFunctions;
 import com.example.cheffy.utils.Caching;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -120,8 +121,12 @@ public class MealPresenter implements MealContract.Presenter {
     }
 
     public void insertToPlan(PlanModel plan) {
-        plan.setId(Caching.getUser().getId());
-        showDatePicker(plan);
+        if(Caching.getUser() == null){
+            AppFunctions.myAlertDialog(view.returnContext());
+        }else {
+            plan.setId(Caching.getUser().getId());
+            showDatePicker(plan);
+        }
     }
     private void showDatePicker(PlanModel plan) {
         Calendar calendar = Calendar.getInstance();
@@ -153,7 +158,6 @@ public class MealPresenter implements MealContract.Presenter {
 
     @Override
     public void removePlanMeal(PlanModel meal) {
-        removePlanMealToFireBase(meal);
     }
 
     void addPlanMealToFireBase(PlanModel meal) {
@@ -173,25 +177,7 @@ public class MealPresenter implements MealContract.Presenter {
                 });
     }
 
-    void removePlanMealToFireBase(PlanModel meal) {
-        Log.i(TAG, "removePlanMealToFireBase: " + meal.getId());
-        dbRef.child(meal.getId())
-                .child("plan")
-                .child(meal.getDate()  +"_"+ meal.getMeal().getIdMeal())
-                .removeValue()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@androidx.annotation.NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.i(TAG, "REMOVEDDDDD: ");
-                            //TOAST
-                        } else {
-                            Log.i(TAG, "FAILED TO REMOVEEE: ");
-                            //TOAST
-                        }
-                    }
-                });
-    }
+
 
 
     @Override

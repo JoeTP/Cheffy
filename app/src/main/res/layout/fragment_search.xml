@@ -19,7 +19,7 @@
         style="@style/titles"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/btnBack"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintStart_toEndOf="@+id/btnBack"
@@ -28,9 +28,9 @@
 
     <EditText
         android:id="@+id/etSearch"
-        style="@style/search_style"
+        style="@style/et_style"
         android:layout_marginTop="16dp"
-        android:hint="Search for meal"
+        android:hint="@string/search_for_meal"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />

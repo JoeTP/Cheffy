@@ -19,12 +19,14 @@ import com.bumptech.glide.Glide;
 import com.example.cheffy.R;
 import com.example.cheffy.features.meal_details.contract.MealContract;
 import com.example.cheffy.features.meal_details.presenter.MealPresenter;
+import com.example.cheffy.repository.MealDataRepositoryImpl;
 import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
 import com.example.cheffy.repository.models.meal.MealsResponse;
-import com.example.cheffy.repository.MealDataRepositoryImpl;
 import com.example.cheffy.repository.models.plan.PlanModel;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
+import com.example.cheffy.utils.AppFunctions;
 import com.example.cheffy.utils.Caching;
+import com.example.cheffy.utils.ConnectionChecker;
 import com.example.cheffy.utils.Flags;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
@@ -46,6 +48,8 @@ public class MealFragment extends Fragment implements MealContract.View {
     MealsResponse.Meal mealArg;
     MealsResponse.Meal fullMeal;
     FloatingActionButton fabAddToPlan;
+    IngredientRecyclerAdapter adapter;
+    RecyclerView recyclerView;
     boolean isFav = false;
 
     @Override
@@ -65,11 +69,15 @@ public class MealFragment extends Fragment implements MealContract.View {
         btnFavorite = view.findViewById(R.id.btnFavorite);
         ivFlag = view.findViewById(R.id.ivFlag);
         fabAddToPlan = view.findViewById(R.id.fabAddToPlan);
+        recyclerView = view.findViewById(R.id.recyclerView);
     }
 
     private void setUI(MealsResponse.Meal meal) {
-        meal.setId(Caching.getUser().getId());
-        presenter.isFavorite(Caching.getUser().getId(),meal.getIdMeal());
+//        Log.i(TAG, "setUI: " + Caching.getUser().getId());
+        if (Caching.getUser() != null) {
+            meal.setId(Caching.getUser().getId());
+        presenter.isFavorite(Caching.getUser().getId(), meal.getIdMeal());
+        }
 
         Glide.with(getContext()).load(meal.getStrMealThumb()).into(ivMeal);
         Glide.with(getContext()).load(Flags.getFlagURL(meal.getStrArea())).into(ivFlag);
@@ -88,24 +96,32 @@ public class MealFragment extends Fragment implements MealContract.View {
             }
         });
 
-        btnFavorite.setOnClickListener(v -> {
-            if(isFav){
-                presenter.removeFromFavorite(meal);
-                btnFavorite.setImageResource(R.drawable.favorite_unselect);
-            }else{
-                presenter.addToFavorite(meal);
-                btnFavorite.setImageResource(R.drawable.favorite_select);
-            }
-            isFav = !isFav;
+        adapter = new IngredientRecyclerAdapter(meal.listingIngredient(), requireContext());
+        recyclerView.setAdapter(adapter);
 
+        btnFavorite.setOnClickListener(v -> {
+            if(ConnectionChecker.isConnected(requireContext())) {
+                if (Caching.getUser() == null) {
+                    AppFunctions.myAlertDialog(getContext());
+                } else {
+                    if (isFav) {
+                        presenter.removeFromFavorite(meal);
+                        btnFavorite.setImageResource(R.drawable.favorite_unselect);
+                    } else {
+                        presenter.addToFavorite(meal);
+                        btnFavorite.setImageResource(R.drawable.favorite_select);
+                    }
+                    isFav = !isFav;
+                }
+            }
         });
         Log.i(TAG, "IS FAVORITE: " + meal.getIsFavorite());
-
 
     }
 
 
-    public MealFragment() {}
+    public MealFragment() {
+    }
 
 
     @Override
@@ -130,7 +146,6 @@ public class MealFragment extends Fragment implements MealContract.View {
 
         fabAddToPlan.setOnClickListener(v -> presenter.insertToPlan(new PlanModel("null", "null", mealArg)));
 
-        ivFlag.setOnClickListener(v -> presenter.removePlanMeal(new PlanModel(Caching.getUser().getId(), "null", mealArg)));
 
 
         return view;
@@ -160,9 +175,9 @@ public class MealFragment extends Fragment implements MealContract.View {
     @Override
     public void ivFavorite(Boolean isFavorite) {
         isFav = isFavorite;
-        if(isFav){
+        if (isFav) {
             btnFavorite.setImageResource(R.drawable.favorite_select);
-        }else{
+        } else {
             btnFavorite.setImageResource(R.drawable.favorite_unselect);
         }
     }

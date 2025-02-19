@@ -34,9 +34,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         this.listener = listener;
     }
 
-    void updateList(List<PlanModel> list){
+    void updateList(List<PlanModel> newList){
         this.list.clear();
-        this.list = list;
+        this.list.addAll(newList);
         notifyDataSetChanged();
     }
 
@@ -57,11 +57,15 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
 
         Glide.with(context)
                 .load(meal.getStrMealThumb())
-                .placeholder(R.drawable.ic_launcher_foreground)
+                .placeholder(R.drawable.testimg)
                 .into(holder.ivMeal);
         holder.layout.setOnClickListener(v -> listener.onCardClick(meal));
         holder.tvTitle.setText(meal.getStrMeal());
         holder.ivFavorite.setVisibility(View.GONE);
+        if (list.get(position).getDate() != null || !list.get(position).getDate().isEmpty()){
+            holder.btnRemovePlan.setVisibility(View.VISIBLE);
+            holder.btnRemovePlan.setOnClickListener(v -> listener.onRemovePlanClick(list.get(position)));
+        }
 //        if (meal.getId() != null && !meal.getId().isEmpty()) {
 //            holder.ivFavorite.setImageResource(R.drawable.favorite_select);
 //            holder.ivFavorite.setVisibility(View.VISIBLE);
@@ -81,6 +85,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         CircleImageView ivMeal;
         TextView tvTitle;
         ImageView ivFavorite;
+        ImageView btnRemovePlan;
         ConstraintLayout layout;
         View view;
 
@@ -89,6 +94,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
             ivMeal = itemView.findViewById(R.id.ivMeal);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             ivFavorite = itemView.findViewById(R.id.ivFavorite);
+            btnRemovePlan = itemView.findViewById(R.id.btnRemovePlan);
             layout = itemView.findViewById(R.id.mealCardLayout);
             view = itemView;
         }

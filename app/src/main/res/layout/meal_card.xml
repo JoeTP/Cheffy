@@ -33,6 +33,19 @@
         app:layout_constraintEnd_toEndOf="@+id/ivMeal"
         app:srcCompat="@drawable/favorite_select" />
 
+    <ImageView
+        android:id="@+id/btnRemovePlan"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:visibility="gone"
+        android:src="@drawable/close"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="-18dp"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivMeal"
+        app:layout_constraintEnd_toEndOf="@+id/ivMeal"
+        />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="150dp"
@@ -66,14 +79,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="MealName\nnew line" />
-
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <!--</androidx.cardview.widget.CardView>-->

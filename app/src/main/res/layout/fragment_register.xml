@@ -15,10 +15,10 @@
         android:layout_height="250dp"
         android:clipToOutline="true"
         android:scaleType="centerCrop"
+        android:src="@drawable/registerimage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/registerimage" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -48,10 +48,11 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnRegisterGoogle"
+                style="@style/def_btn"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="@string/google"
+                app:cornerRadius="8dp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
                 app:layout_constraintStart_toStartOf="@+id/guideline4"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
@@ -87,7 +88,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:drawableStart="@drawable/profile"
-
                 android:ems="10"
                 android:hint="@string/enter_your_name"
                 android:inputType="text"
@@ -101,7 +101,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-
                 android:text="@string/email"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
@@ -114,9 +113,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:ems="10"
                 android:drawableStart="@drawable/email"
-
+                android:ems="10"
                 android:hint="@string/enter_email"
                 android:inputType="textEmailAddress"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
@@ -181,10 +179,11 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnRegister"
+                style="@style/def_btn"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/register"
+                app:cornerRadius="8dp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
                 app:layout_constraintStart_toStartOf="@+id/guideline4"
                 app:layout_constraintTop_toBottomOf="@+id/etConfirmPassword" />
@@ -205,10 +204,10 @@
 
             <TextView
                 android:id="@+id/tvSignIn"
+                style="@style/hyperlinkSmall"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="-24dp"
-                style="@style/hyperlinkSmall"
                 android:text="@string/login_now"
                 android:textAlignment="textStart"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
@@ -230,16 +229,17 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="20dp" />
 
-            <ProgressBar
+            <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/progressIndicator"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
                 app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                app:layout_constraintTop_toBottomOf="@+id/textView8"
+                app:lottie_autoPlay="true"
+                app:lottie_rawRes="@raw/loading" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

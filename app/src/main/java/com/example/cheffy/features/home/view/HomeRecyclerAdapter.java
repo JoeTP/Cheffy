@@ -86,7 +86,7 @@ public class HomeRecyclerAdapter<T> extends RecyclerView.Adapter<HomeRecyclerAda
         public void bind(String url, String title) {
             Glide.with(context)
                     .load(url)
-                    .placeholder(R.drawable.ic_launcher_background)
+                    .placeholder(R.drawable.testimg)
                     .into(imageView);
             tvTitle.setText(title);
         }

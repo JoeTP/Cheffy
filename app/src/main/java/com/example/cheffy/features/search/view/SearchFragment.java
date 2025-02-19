@@ -22,6 +22,7 @@ import com.example.cheffy.features.search.presenter.SearchPresenter;
 import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.MealDataRepositoryImpl;
+import com.example.cheffy.repository.models.plan.PlanModel;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
 
 import java.util.List;
@@ -124,6 +125,11 @@ public class SearchFragment extends Fragment implements OnMealCardClick, SearchC
 
     @Override
     public void onFavoriteClick(MealsResponse.Meal meal) {
+
+    }
+
+    @Override
+    public void onRemovePlanClick(PlanModel meal) {
 
     }
 }

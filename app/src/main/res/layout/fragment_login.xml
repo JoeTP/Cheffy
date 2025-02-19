@@ -149,10 +149,9 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLogin"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="64dp"
+                style="@style/def_btn"
                 android:text="@string/login"
+                app:cornerRadius="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
@@ -165,7 +164,7 @@
                 android:layout_marginTop="18dp"
                 android:layout_marginBottom="18dp"
                 android:ems="10"
-                android:text="Or, login with"
+                android:text="@string/or_login_with"
                 android:textAlignment="center"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/btnLoginGoogle"
@@ -176,10 +175,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLoginGoogle"
+                style="@style/def_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/google"
+                app:cornerRadius="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
@@ -218,23 +219,12 @@
                 android:layout_width="250dp"
                 android:layout_height="250dp"
                 android:visibility="gone"
-                app:lottie_autoPlay="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
                 app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
                 app:layout_constraintTop_toBottomOf="@+id/etPassword"
+                app:lottie_autoPlay="true"
                 app:lottie_rawRes="@raw/loading" />
-            <!--            <ProgressBar-->
-            <!--                android:id="@+id/progressIndicator"-->
-            <!--                style="?android:attr/progressBarStyle"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:visibility="gone"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toStartOf="@+id/guidelineRight"-->
-            <!--                app:layout_constraintStart_toStartOf="@+id/guidelineLeft"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/etPassword" />-->
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

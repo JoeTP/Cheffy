@@ -26,16 +26,12 @@ import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
 import com.example.cheffy.utils.Caching;
 import com.example.cheffy.utils.SharedPreferencesHelper;
 
-import java.util.Calendar;
 import java.util.List;
 //import com.example.cheffy.features.FavoriteMealsFragmentDirections;
 
 public class CalendarFragment extends Fragment implements CalendarContract.View, OnMealCardClick {
     private static final String TAG = "TEST";
-    SharedPreferencesHelper sharedPreferencesHelper;
-
     CalendarContract.Presenter presenter;
-
     CalendarView calendarView;
     RecyclerView recyclerView;
     CalendarAdapter adapter;
@@ -43,7 +39,6 @@ public class CalendarFragment extends Fragment implements CalendarContract.View,
     private void initUI(View view) {
         calendarView = view.findViewById(R.id.calendarView);
         recyclerView = view.findViewById(R.id.recyclerView);
-
     }
 
     public CalendarFragment() {
@@ -56,7 +51,9 @@ public class CalendarFragment extends Fragment implements CalendarContract.View,
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         initUI(view);
         presenter = new CalendarPresenter(this, getMealRepositoryInstance(getContext()));
-        presenter.getPlanMeals(Caching.getUser().getId());
+        if (Caching.getUser().getId() != null || !Caching.getUser().getId().isEmpty()) {
+            presenter.getPlanMeals(Caching.getUser().getId());
+        }
 
 
         calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
@@ -69,7 +66,6 @@ public class CalendarFragment extends Fragment implements CalendarContract.View,
 
         return view;
     }
-
 
 
     private void navigateToHome(View view) {
@@ -86,9 +82,12 @@ public class CalendarFragment extends Fragment implements CalendarContract.View,
     @Override
     public void showMeals(List<PlanModel> meals) {
         Log.i(TAG, "showMeals: " + meals.size());
-        adapter = new CalendarAdapter(meals, getContext(), this);
-        recyclerView.setAdapter(adapter);
-
+        if (adapter == null) {
+            adapter = new CalendarAdapter(meals, getContext(), this);
+            recyclerView.setAdapter(adapter);
+        } else {
+            adapter.updateList(meals);
+        }
     }
 
     @Override
@@ -118,6 +117,12 @@ public class CalendarFragment extends Fragment implements CalendarContract.View,
 
     @Override
     public void onFavoriteClick(MealsResponse.Meal meal) {
+
+    }
+
+    @Override
+    public void onRemovePlanClick(PlanModel meal) {
+        presenter.deletePlan(meal);
 
     }
 }

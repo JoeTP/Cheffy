@@ -5,6 +5,7 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:fontFamily">@font/glory</item>
         <item name="android:windowBackground">@color/white</item>
+        <item name="android:colorPrimary">@color/main_green_color</item>
 
     </style>
 

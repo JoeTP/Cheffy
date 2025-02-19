@@ -5,10 +5,10 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 import com.example.cheffy.utils.AppStrings;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MealsResponse {
@@ -643,6 +643,23 @@ public class MealsResponse {
         public void setStrSource(String strSource) {
             this.strSource = strSource;
         }
+        public List<Measurement> listingIngredient() {
+            List<Measurement> ingredients = new ArrayList<>();
+
+            for (int i = 1; i <= 20; i++) {
+                try {
+                    String ingredient = (String) Meal.class.getDeclaredField("strIngredient" + i).get(this);
+                    String measure = (String) Meal.class.getDeclaredField("strMeasure" + i).get(this);
+
+                    if (ingredient != null && measure != null && !ingredient.isEmpty() && !measure.isEmpty()) {
+                        ingredients.add(new Measurement(ingredient, measure));
+                    }
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+            return ingredients;
+        }
 
 
 
@@ -713,6 +730,26 @@ public class MealsResponse {
             dest.writeString(this.strMeasure19);
             dest.writeString(this.strMeasure20);
             dest.writeString(this.strSource);
+        }
+    }
+
+
+
+    public static class Measurement {
+        String ingredient;
+        String measure;
+
+        public Measurement(String ingredient, String measure) {
+            this.ingredient = ingredient;
+            this.measure = measure;
+        }
+
+        public String getMeasure() {
+            return measure;
+        }
+
+        public String getIngredient() {
+            return ingredient;
         }
     }
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.cheffy.R;
 import com.example.cheffy.repository.models.meal.MealsResponse;
+import com.example.cheffy.utils.ConnectionChecker;
 import com.example.cheffy.utils.Flags;
 
 import java.util.List;
@@ -56,9 +58,15 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
         Glide.with(context)
                 .load(meal.getStrMealThumb())
-                .placeholder(R.drawable.ic_launcher_foreground)
+                .placeholder(R.drawable.testimg)
                 .into(holder.ivMeal);
-        holder.layout.setOnClickListener(v -> listener.onCardClick(meal));
+        holder.layout.setOnClickListener(v -> {
+            if(ConnectionChecker.isConnected(context)){
+                listener.onCardClick(meal);
+            }else {
+                Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
+            }
+        });
         holder.tvTitle.setText(meal.getStrMeal());
         if (meal.getId() != null && !meal.getId().isEmpty()) {
             holder.ivFavorite.setImageResource(R.drawable.favorite_select);

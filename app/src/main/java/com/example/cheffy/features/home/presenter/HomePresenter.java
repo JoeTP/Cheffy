@@ -77,19 +77,22 @@ public class HomePresenter implements HomeContract.Presenter {
         sharedPreferences.getString(AppStrings.CURRENT_USERID, "")
                 .flatMap(userId -> Single.create(emitter -> {
                     Log.i(TAG, "loadUserData ===>: " + userId);
-                    firestore.collection(AppStrings.USER_COLLECTION)
-                            .document(userId)
-                            .get()
-                            .addOnSuccessListener(userData -> {
-                                if (userData != null && userData.exists()) {
-                                    User user = new User();
-                                    user.setId(userId);
-                                    user.setName(userData.getString("name"));
-                                    user.setEmail(userData.getString("email"));
-                                    Log.i(TAG, "loadUserData: " + user.getId());
-                                    emitter.onSuccess(user);
-                                }
-                            });
+                    if(!userId.isEmpty()){
+                        firestore.collection(AppStrings.USER_COLLECTION)
+                                .document(userId)
+                                .get()
+                                .addOnSuccessListener(userData -> {
+                                    if (userData != null && userData.exists()) {
+                                        User user = new User();
+                                        user.setId(userId);
+                                        user.setName(userData.getString("name"));
+                                        user.setEmail(userData.getString("email"));
+                                        Log.i(TAG, "loadUserData: " + user.getId());
+                                        emitter.onSuccess(user);
+                                    }
+                                });
+                    }
+
                 }))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

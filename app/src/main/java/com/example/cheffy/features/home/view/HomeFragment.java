@@ -18,6 +18,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +39,7 @@ import com.example.cheffy.repository.MealDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
 import com.example.cheffy.utils.AppStrings;
 import com.example.cheffy.utils.Caching;
+import com.example.cheffy.utils.ConnectionChecker;
 import com.example.cheffy.utils.Flags;
 import com.example.cheffy.utils.SharedPreferencesHelper;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -70,6 +72,10 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
     private static User user;
     HomeRecyclerAdapter adapter;
     private static MealsResponse.Meal todayMeal;
+
+    LottieAnimationView noInternet;
+    Group visGroup;
+    ConnectionChecker connectionChecker;
 
     public HomeFragment() {
     }
@@ -134,26 +140,62 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         tvSpecialMealCategory = view.findViewById(R.id.tvSpecialMealCategory);
         ivFlag = view.findViewById(R.id.ivFlag);
         tvSeeMore = view.findViewById(R.id.tvSeeMore);
+        noInternet = view.findViewById(R.id.noInternet);
+        visGroup = view.findViewById(R.id.visGroup);
         if(user == null){
             Glide.with(getContext()).load(R.drawable.profile).into(ivUserImage);
         }
+        checkConnection();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        connectionChecker.registerNetworkCallback();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        connectionChecker.unregisterNetworkCallback();
+    }
+
+    private void checkConnection() {
+
+        if(ConnectionChecker.isConnected(requireContext())){
+            noInternet.setVisibility(View.GONE);
+            visGroup.setVisibility(View.VISIBLE);
+        }else{
+            noInternet.setVisibility(View.VISIBLE);
+            visGroup.setVisibility(View.GONE);
+        }
+        connectionChecker = new ConnectionChecker(getContext(), new ConnectionChecker.NetworkListener(){
+            @Override
+            public void onNetworkAvailable() {
+                requireActivity().runOnUiThread(() -> {
+                noInternet.setVisibility(View.GONE);
+                visGroup.setVisibility(View.VISIBLE);
+                presenter.handleCategoryChip();
+                });
+            }
+
+            @Override
+            public void onNetworkLost() {
+                requireActivity().runOnUiThread(() -> {
+                noInternet.setVisibility(View.VISIBLE);
+                visGroup.setVisibility(View.GONE);
+                        });
+            }
+        });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        requireActivity().getOnBackPressedDispatcher().addCallback(
-                getViewLifecycleOwner(), new OnBackPressedCallback(true) {
-                    @Override
-                    public void handleOnBackPressed() {
-                        requireActivity().finish();
-                    }
-                }
-        );
+        navigateToHome();
         initUI(view);
         presenter.loadUserData();
-
 
         presenter.handleGreetingMsg().
                 subscribe(s -> tvGreetingMsg.setText(s),
@@ -181,6 +223,17 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
 
 
         return view;
+    }
+
+    private void navigateToHome() {
+        requireActivity().getOnBackPressedDispatcher().addCallback(
+                getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        requireActivity().finish();
+                    }
+                }
+        );
     }
 
     private void updateTodaySpecialCard(MealsResponse.Meal meal) {
@@ -317,6 +370,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
         tvUserName.setText("Guest");
         }
         tvUserName.setText(name);
+        if(Caching.getUser() == null)
+        tvUserName.setText("Guest");
     }
 
     @Override

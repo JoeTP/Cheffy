@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -21,8 +22,10 @@ import com.example.cheffy.features.search.view.SearchRecyclerAdapter;
 import com.example.cheffy.repository.MealDataRepositoryImpl;
 import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
 import com.example.cheffy.repository.models.meal.MealsResponse;
+import com.example.cheffy.repository.models.plan.PlanModel;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
 import com.example.cheffy.utils.AppStrings;
+import com.example.cheffy.utils.ConnectionChecker;
 import com.example.cheffy.utils.SharedPreferencesHelper;
 
 import java.util.List;
@@ -104,7 +107,15 @@ public class FavoriteMealsFragment extends Fragment implements FavoriteContract.
 
     @Override
     public void onFavoriteClick(MealsResponse.Meal meal) {
-//        presenter.unfavorite(idMeal);
+        if(ConnectionChecker.isConnected(getContext())){
         presenter.removeFromFavorite(meal);
+        }else {
+            Toast.makeText(getContext(), "No internet connection", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onRemovePlanClick(PlanModel meal) {
+
     }
 }

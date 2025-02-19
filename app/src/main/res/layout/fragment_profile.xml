@@ -15,24 +15,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/ivUserImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="16dp"
-            android:src="@drawable/testimg"
-            android:textAlignment="center"
+            android:src="@drawable/profile"
+            android:paddingStart="4dp"
+            app:civ_border_color="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvUserEmail"
-            android:layout_width="263dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textAlignment="center"
             android:textStyle="bold"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@+id/ivUserImage"
             app:layout_constraintStart_toStartOf="@+id/ivUserImage"
             app:layout_constraintTop_toBottomOf="@+id/tvUserName"
@@ -41,10 +43,11 @@
         <TextView
             android:id="@+id/tvUserName"
             style="@style/subtitles"
-            android:layout_width="263dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:textSize="28sp"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="@+id/ivUserImage"
             app:layout_constraintStart_toStartOf="@+id/ivUserImage"
@@ -52,12 +55,6 @@
             tools:text="UserName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <!--    <LinearLayout-->
-    <!--        android:id="@+id/linearLayout"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:orientation="vertical">-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settingTile"
@@ -84,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
-            android:text="Settings"
+            android:text="@string/settings"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/goBtn"
             app:layout_constraintStart_toEndOf="@+id/ivSetting"
@@ -140,7 +137,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:textColor="@color/red"
-            android:text="Logout"
+            android:text="@string/logout"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivLogout"

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.example.cheffy.R;
 import com.example.cheffy.features.auth.model.User;
 import com.example.cheffy.features.auth.view.AuthActivity;
+import com.example.cheffy.utils.Caching;
 import com.example.cheffy.utils.SharedPreferencesHelper;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +34,7 @@ public class ProfileFragment extends Fragment {
     ConstraintLayout logoutTile;
     SharedPreferencesHelper sharedPreferencesHelper;
     TextView tvUserName, tvUserEmail;
-    CircleImageView ivUserImage;
+    ImageView ivUserImage;
     User user;
 
     @Override
@@ -56,8 +58,6 @@ public class ProfileFragment extends Fragment {
         });
 
         logoutTile.setOnClickListener(v -> {
-            FirebaseAuth firebase = FirebaseAuth.getInstance();
-//            firebase.signOut();
             sharedPreferencesHelper.saveBoolean(IS_LOGGED_IN_KEY, false)
                     .subscribe(() -> {
                         navigateToAuthActivity();
@@ -71,7 +71,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setupUi(User user) {
-        if (user != null) {
+        if (Caching.getUser() != null) {
             tvUserName.setText(user.getName());
             tvUserEmail.setText(user.getEmail());
         }else{
