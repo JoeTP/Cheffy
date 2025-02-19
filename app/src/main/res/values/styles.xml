@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="CircularImageView">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">20%</item>
@@ -11,14 +12,21 @@
         <item name="android:textSize">28sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
     <style name="subtitles">
         <item name="android:fontFamily">@font/glory_bold</item>
         <item name="android:textSize">22sp</item>
         <item name="android:textStyle">normal</item>
     </style>
-    <style name="hyperlink">
+
+    <style name="hyperlinkLarge">
         <item name="android:fontFamily">@font/glory_bold</item>
         <item name="android:textSize">22sp</item>
+    </style>
+    <style name="hyperlinkSmall">
+        <item name="android:fontFamily">@font/glory_bold</item>
+        <item name="android:textColor">@color/dark_green_color</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="description_style">
@@ -32,13 +40,62 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">16dp</item>
         <item name="android:background">@drawable/back_button</item>
-        <item name="android:padding">10dp</item>
-        <item name="android:src">@drawable/baseline_arrow_back_24</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:src">@drawable/arrow_back</item>
+    </style>
+
+    <style name="fav_button_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:background">@drawable/fav_background</item>
+        <item name="android:src">@drawable/favorite_unselect</item>
+    </style>
+
+    <style name="today_special_card_img">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomLeft">20dp</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
     </style>
 
     <style name="fab_circle">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
         <item name="color">@color/main_green_color</item>
+    </style>
+
+    <style name="search_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:drawableEnd">@drawable/profile</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawableStart">@drawable/profile</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:drawablePadding">8dp</item>
+    </style>
+
+    <style name="et_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:ems">10</item>
+        <item name="android:background">@drawable/et_bg</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">15dp</item>
+    </style>
+
+    <style name="def_btn">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginTop">64dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:backgroundTint">@color/main_green_color</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

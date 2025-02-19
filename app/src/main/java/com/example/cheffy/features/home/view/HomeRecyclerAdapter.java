@@ -1,6 +1,7 @@
 package com.example.cheffy.features.home.view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +15,16 @@ import com.bumptech.glide.Glide;
 import com.example.cheffy.R;
 import com.example.cheffy.repository.models.category.CategoryResponse;
 import com.example.cheffy.repository.models.category.CategoryResponse.Category;
+import com.example.cheffy.repository.models.ingredient.IngredientResponse;
 import com.example.cheffy.repository.models.meal.MealsResponse;
+import com.example.cheffy.utils.Flags;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeRecyclerAdapter<T> extends RecyclerView.Adapter<HomeRecyclerAdapter.ViewHolder> {
+    private static final String TAG = "TEST";
     List<T> list;
     Context context;
     OnCardClick onCardClickListener;
@@ -32,6 +36,7 @@ public class HomeRecyclerAdapter<T> extends RecyclerView.Adapter<HomeRecyclerAda
     }
 
     public void updateList(List<T> list) {
+//        this.list.clear();
         this.list = list;
         notifyDataSetChanged();
     }
@@ -49,16 +54,21 @@ public class HomeRecyclerAdapter<T> extends RecyclerView.Adapter<HomeRecyclerAda
     @Override
     public void onBindViewHolder(@NonNull HomeRecyclerAdapter.ViewHolder holder, int position) {
 
-        holder.layout.setOnClickListener(v -> {
-                onCardClickListener.onCardClick(list.get(position));
-        });
+        holder.layout.setOnClickListener(v -> onCardClickListener.onCardClick(list.get(position)));
 
         if (list.get(position) instanceof CategoryResponse.Category) {
             Category category = (CategoryResponse.Category) list.get(position);
             holder.bind(category.getStrCategoryThumb(), category.getStrCategory());
         } else if (list.get(position) instanceof MealsResponse.Meal) {
             MealsResponse.Meal meal = (MealsResponse.Meal) list.get(position);
-            holder.bind(meal.getStrMealThumb(), meal.getStrArea());
+            String flag = Flags.getFlagURL(meal.getStrArea());
+                holder.bind(flag, meal.getStrArea());
+        }else if(list.get(position) instanceof IngredientResponse.Meal){
+            IngredientResponse.Meal ingredient = (IngredientResponse.Meal) list.get(position);
+            String url = "https://www.themealdb.com/images/ingredients/"+ingredient.getStrIngredient()+
+                    "-Small.png";
+            holder.bind(url, ingredient.getStrIngredient());
+
         }
     }
 
@@ -76,7 +86,7 @@ public class HomeRecyclerAdapter<T> extends RecyclerView.Adapter<HomeRecyclerAda
         public void bind(String url, String title) {
             Glide.with(context)
                     .load(url)
-                    .placeholder(R.drawable.ic_launcher_background)
+                    .placeholder(R.drawable.testimg)
                     .into(imageView);
             tvTitle.setText(title);
         }

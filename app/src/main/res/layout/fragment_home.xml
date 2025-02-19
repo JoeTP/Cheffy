@@ -6,6 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".features.home.view.HomeFragment">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/noInternet"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_rawRes="@raw/nointernet" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/visGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="tvGreetingMsg,tvUserName,tvTodaySpecial,textView5,ivUserImage,chipGroup,recyclerView" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineRight2"
         android:layout_width="wrap_content"
@@ -26,6 +44,108 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="16dp" />
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/progressBar"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft2"
+        app:layout_constraintTop_toBottomOf="@+id/chipGroup"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/loading" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/todaySpecialCard"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:background="@drawable/today_special_card"
+        android:elevation="10dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft2"
+        app:layout_constraintTop_toBottomOf="@+id/tvTodaySpecial">
+
+        <ImageView
+            android:id="@+id/ivSpecialMealClose"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivSpecialMeal"
+            android:layout_width="200dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/today_special_card_img" />
+
+        <TextView
+            android:id="@+id/tvSpecialMealTitle"
+            style="@style/subtitles"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="40dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            app:layout_constraintStart_toEndOf="@+id/ivSpecialMeal"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="MEAL TITLE\nLINE" />
+
+        <TextView
+            android:id="@+id/tvSpecialMealCategory"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/flagChip"
+            app:layout_constraintTop_toBottomOf="@+id/flagChip"
+            tools:text="MEAL TITLE" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/flagChip"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="4dp"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="1dp"
+
+            app:layout_constraintStart_toStartOf="@+id/tvSpecialMealTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvSpecialMealTitle">
+
+            <ImageView
+                android:id="@+id/ivFlag"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/testimg" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvSeeMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+
+            android:layout_marginBottom="12dp"
+            android:text="@string/see_more"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tvGreetingMsg"
@@ -51,11 +171,10 @@
     <TextView
         android:id="@+id/tvTodaySpecial"
         style="@style/subtitles"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/today_s_special"
         android:textColor="@color/dark_green_color"
-        app:layout_constraintEnd_toEndOf="@+id/tvUserName"
         app:layout_constraintStart_toStartOf="@+id/tvUserName"
         app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
 
@@ -64,18 +183,19 @@
         style="@style/description_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose the right meal for you"
+        android:layout_marginTop="4dp"
+        android:text="@string/choose_the_right_meal_for_you"
         app:layout_constraintStart_toStartOf="@+id/tvTodaySpecial"
         app:layout_constraintTop_toBottomOf="@+id/tvTodaySpecial" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/ivUserImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/testimg"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:padding="6dp"
+        android:src="@drawable/profile"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"
         app:layout_constraintTop_toTopOf="@+id/guidelineTop2" />
-
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipGroup"
@@ -94,8 +214,7 @@
             android:checkable="true"
             android:checked="true"
             android:text="@string/category"
-            app:checkedIconVisible="false"
-            app:chipIcon="@drawable/profile" />
+            app:checkedIconVisible="false" />
 
 
         <com.google.android.material.chip.Chip
@@ -103,32 +222,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
-            android:text="@string/country"
-            app:chipIcon="@drawable/profile" />
+            android:text="@string/country" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/ingredientChip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
-            android:text="@string/ingredient"
-            app:chipIcon="@drawable/profile" />
+            android:text="@string/ingredient" />
     </com.google.android.material.chip.ChipGroup>
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="4dp"
         android:clipToPadding="false"
         android:paddingStart="8dp"
         android:paddingBottom="120dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineRight2"
-        app:layout_constraintStart_toStartOf="@+id/guidelineLeft2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chipGroup"
         app:spanCount="2"
         tools:listitem="@layout/home_card" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

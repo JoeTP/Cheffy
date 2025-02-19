@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.cheffy.MainActivity;
 import com.example.cheffy.R;
 import com.example.cheffy.features.auth.contract.RegisterContract;
@@ -25,7 +26,7 @@ public class RegisterFragment extends Fragment implements RegisterContract.View 
     EditText etName, etEmail, etPassword, etConfirmPassword;
     MaterialButton btnRegister, btnRegisterGoogle;
     TextView tvSignIn;
-    ProgressBar progressIndicator;
+    LottieAnimationView progressIndicator;
     RegisterContract.Presenter presenter;
 
     @Override

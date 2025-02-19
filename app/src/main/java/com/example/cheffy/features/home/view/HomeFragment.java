@@ -1,208 +1,291 @@
 package com.example.cheffy.features.home.view;
 
 import android.content.Context;
+import android.graphics.Outline;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.Glide;
 import com.example.cheffy.R;
+import com.example.cheffy.features.auth.model.User;
 import com.example.cheffy.features.home.contract.HomeContract;
 import com.example.cheffy.features.home.presenter.HomePresenter;
 import com.example.cheffy.repository.database.meal.MealsLocalSourceImpl;
 import com.example.cheffy.repository.models.category.CategoryResponse;
+import com.example.cheffy.repository.models.ingredient.IngredientResponse;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.network.category.CategoriesRemoteSourceImpl;
 import com.example.cheffy.repository.network.category.CategoryDataRepositoryImpl;
-import com.example.cheffy.repository.network.meal.MealDataRepositoryImpl;
+import com.example.cheffy.repository.MealDataRepositoryImpl;
 import com.example.cheffy.repository.network.meal.MealsRemoteSourceImpl;
 import com.example.cheffy.utils.AppStrings;
+import com.example.cheffy.utils.Caching;
+import com.example.cheffy.utils.ConnectionChecker;
+import com.example.cheffy.utils.Flags;
 import com.example.cheffy.utils.SharedPreferencesHelper;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
+import java.util.Calendar;
+import java.util.List;
 
 
 public class HomeFragment extends Fragment implements HomeContract.View, OnCardClick {
 
+    FirebaseDatabase firebaseDatabase;
+
     private static final String TAG = "TEST";
     HomePresenter presenter;
+    SharedPreferencesHelper sharedPreferencesHelper;
     RecyclerView recyclerView;
-    TextView tvGreetingMsg;
-    TextView tvUserName;
-    TextView tvTodaySpecial;
-    ChipGroup chipGroup;
-    Chip categoryChip;
-    Chip countryChip;
-    Chip ingredientChip;
+    TextView tvGreetingMsg, tvUserName, tvTodaySpecial, tvSpecialMealTitle, tvSpecialMealCategory, tvSeeMore;
+    Chip categoryChip, countryChip, ingredientChip;
+    LottieAnimationView progressBar;
+    ConstraintLayout todaySpecialCard;
+    ImageView ivSpecialMealClose, ivSpecialMeal, ivUserImage, ivFlag;
+    private static User user;
     HomeRecyclerAdapter adapter;
+    private static MealsResponse.Meal todayMeal;
+
+    LottieAnimationView noInternet;
+    Group visGroup;
+    ConnectionChecker connectionChecker;
 
     public HomeFragment() {
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        initUI(view);
-        presenter = new HomePresenter(this, getMealRepositoryInstance(getContext()), getCategoryRepositoryInstance());
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        sharedPreferencesHelper = new SharedPreferencesHelper(context);
+        presenter = new HomePresenter(this, getMealRepositoryInstance(context), getCategoryRepositoryInstance());
 
-        getUser();
-        ///TODO: first thing u do is to make the chips cant uncheck if the others are unchecked
-
-        chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
-            Log.i(TAG, "GROUP LISTEN ");
-            checkChipGroupChecks();
-        });
-
-        return view;
-    }
-
-    private ListenerRegistration userListener;
-    private Disposable userSubscription;
-
-    private void getUser() {
-        Log.i("TAG", "getUser() called");
-        if (getContext() == null) return;
-
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        SharedPreferencesHelper sharedPreferences = new SharedPreferencesHelper(getContext());
-        userSubscription =
-                sharedPreferences.getString(AppStrings.CURRENT_USERID, "null")
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe((s, throwable) -> {
-                    if (throwable != null) {
-                        Log.e("SharedPreferencesError", "Error getting user ID", throwable);
-                        return;
+        sharedPreferencesHelper.getInt(AppStrings.CURRENT_DAY, -1)
+                .subscribe(savedDay -> {
+                    Log.i(TAG, "onAttach: SAVED DAY" + savedDay);
+                    int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+                    if (savedDay != currentDay) {
+                        presenter.todayMeal().subscribe(meals -> {
+                            todayMeal = meals.get(0);
+                            Log.i(TAG, "onAttach: " + todayMeal.getIdMeal());
+                            updateTodaySpecialCard(todayMeal);
+                            sharedPreferencesHelper.saveInt(AppStrings.CURRENT_DAY, currentDay)
+                                    .subscribe();
+                            sharedPreferencesHelper.saveString(AppStrings.TODAYS_MEAL_ID, todayMeal.getIdMeal()).subscribe();
+                        }, throwable -> {
+                            Log.e(TAG, "Error fetching today's meal", throwable);
+                        });
+                    } else {
+                        sharedPreferencesHelper.getString(AppStrings.TODAYS_MEAL_ID, "")
+                                .subscribe(savedMealId -> {
+                                    Log.i(TAG, "MEAL ID TO SEARCH: " + savedMealId);
+                                    presenter.searchForMealById(savedMealId).subscribe(meal -> {
+//                                        Log.i(TAG, "onAttach: " + meal.size());
+                                        todayMeal = meal.get(0);
+                                        Log.i(TAG, "onAttach: ==>" + todayMeal.getIdMeal());
+                                        updateTodaySpecialCard(todayMeal);
+                                    }, throwable -> {
+                                        Log.e(TAG, "Error searching for meal by ID", throwable);
+                                    });
+                                }, throwable -> {
+                                    Log.e(TAG, "Error getting saved meal ID", throwable);
+                                });
                     }
-                    Log.i("TAG", "User ID retrieved: " + s);
-
-                    userListener = firestore.collection(AppStrings.USER_COLLECTION).document(s).addSnapshotListener((value, error) -> {
-                        if (error != null) {
-                            Log.e("FirestoreError", "Error fetching user data", error);
-                            return;
-                        }
-                        if (value != null && value.exists()) {
-                            Log.i("TAG", "User document exists");
-                            if (tvUserName != null) {
-                                tvUserName.post(() -> tvUserName.setText(value.getString("name")));
-                            } else {
-                                Log.e("TAG", "tvUserName is null");
-                            }
-                        } else {
-                            Log.e("TAG", "User document does not exist or is null");
-                        }
-                    });
+                }, throwable -> {
+                    Log.e(TAG, "Error getting current day", throwable);
                 });
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (userListener != null) {
-            userListener.remove();
-        }
-        if (userSubscription != null) {
-            userSubscription.dispose();
-        }
-    }
-
-    private void checkChipGroupChecks() {
-        if (chipGroup.getCheckedChipIds().isEmpty()) {
-            // No chip is selected, clear the RecyclerView
-            if (adapter != null) {
-                adapter.updateList(new ArrayList<>());
-            }
-            return;
-        }
-        chipGroup.getCheckedChipIds().forEach(id -> {
-            if (id == R.id.categoryChip) {
-                subscribeCategory();
-                Log.i(TAG, "subscribeCategory: ");
-            } else if (id == R.id.countryChip) {
-                subscribeCountry();
-                Log.i(TAG, "subscribeCountry: ");
-            } else if (id == R.id.ingredientChip) {
-                subscribeIngredient();
-                Log.i(TAG, "subscribeIngredient: ");
-            }
-        });
     }
 
     private void initUI(View view) {
         tvGreetingMsg = view.findViewById(R.id.tvGreetingMsg);
         tvUserName = view.findViewById(R.id.tvUserName);
         tvTodaySpecial = view.findViewById(R.id.tvTodaySpecial);
-        chipGroup = view.findViewById(R.id.chipGroup);
         categoryChip = view.findViewById(R.id.categoryChip);
         countryChip = view.findViewById(R.id.countryChip);
         ingredientChip = view.findViewById(R.id.ingredientChip);
         recyclerView = view.findViewById(R.id.recyclerView);
+        ivUserImage = view.findViewById(R.id.ivUserImage);
+        progressBar = view.findViewById(R.id.progressBar);
+        todaySpecialCard = view.findViewById(R.id.todaySpecialCard);
+        ivSpecialMealClose = view.findViewById(R.id.ivSpecialMealClose);
+        ivSpecialMeal = view.findViewById(R.id.ivSpecialMeal);
+        tvSpecialMealTitle = view.findViewById(R.id.tvSpecialMealTitle);
+        tvSpecialMealCategory = view.findViewById(R.id.tvSpecialMealCategory);
+        ivFlag = view.findViewById(R.id.ivFlag);
+        tvSeeMore = view.findViewById(R.id.tvSeeMore);
+        noInternet = view.findViewById(R.id.noInternet);
+        visGroup = view.findViewById(R.id.visGroup);
+        if(user == null){
+            Glide.with(getContext()).load(R.drawable.profile).into(ivUserImage);
+        }
+        checkConnection();
     }
 
-    private void subscribeCategory() {
-        presenter.getCategories().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(categoryResponse -> {
-                    if (adapter == null) {
-                        adapter = new HomeRecyclerAdapter(categoryResponse.getCategories(),
-                                getContext(), this);
-                        recyclerView.setAdapter(adapter);
-                    } else {
-                        adapter.updateList(categoryResponse.getCategories());
-                    }
-                }, throwable -> {
-                    Log.e(TAG, "Error fetching categories: ", throwable);
+    @Override
+    public void onResume() {
+        super.onResume();
+        connectionChecker.registerNetworkCallback();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        connectionChecker.unregisterNetworkCallback();
+    }
+
+    private void checkConnection() {
+
+        if(ConnectionChecker.isConnected(requireContext())){
+            noInternet.setVisibility(View.GONE);
+            visGroup.setVisibility(View.VISIBLE);
+        }else{
+            noInternet.setVisibility(View.VISIBLE);
+            visGroup.setVisibility(View.GONE);
+        }
+        connectionChecker = new ConnectionChecker(getContext(), new ConnectionChecker.NetworkListener(){
+            @Override
+            public void onNetworkAvailable() {
+                requireActivity().runOnUiThread(() -> {
+                noInternet.setVisibility(View.GONE);
+                visGroup.setVisibility(View.VISIBLE);
+                presenter.handleCategoryChip();
                 });
+            }
+
+            @Override
+            public void onNetworkLost() {
+                requireActivity().runOnUiThread(() -> {
+                noInternet.setVisibility(View.VISIBLE);
+                visGroup.setVisibility(View.GONE);
+                        });
+            }
+        });
     }
 
-    private void subscribeCountry() {
-        presenter.getAreas()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mealResponse -> {
-                    Log.i(TAG, "subscribeCountry: " + mealResponse.getMeals().size());
-                    if (adapter == null) {
-                        adapter = new HomeRecyclerAdapter(mealResponse.getMeals(),
-                                getContext(), this);
-                        recyclerView.setAdapter(adapter);
-                    } else {
-                        adapter.updateList(mealResponse.getMeals());
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        navigateToHome();
+        initUI(view);
+        presenter.loadUserData();
+
+        presenter.handleGreetingMsg().
+                subscribe(s -> tvGreetingMsg.setText(s),
+                        throwable -> {
+                            Log.e(TAG, "Error handling greeting message", throwable);
+                        });
+        presenter.handleCategoryChip();
+        setupChipListeners();
+        tvTodaySpecial.setOnClickListener(v -> {
+            toggleTodayMealCard();
+            updateTodaySpecialCard(todayMeal);
+        });
+        ivUserImage.setOnClickListener(v -> {
+                Navigation.findNavController(v).navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment(user));
+        });
+        ivSpecialMealClose.setOnClickListener(v -> toggleTodayMealCard());
+        tvSeeMore.setOnClickListener(v -> {
+            if (todayMeal != null) {
+                Log.i(TAG, "tvSeeMore.setOnClickListener: " + todayMeal.getStrMeal());
+                Navigation.findNavController(v).navigate(HomeFragmentDirections.actionHomeFragmentToMealFragment(todayMeal));
+            } else {
+                Log.i(TAG, "CANT GO STATIC NULL ");
+            }
+        });
+
+
+        return view;
+    }
+
+    private void navigateToHome() {
+        requireActivity().getOnBackPressedDispatcher().addCallback(
+                getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        requireActivity().finish();
                     }
-                }, throwable -> {
-                    Log.e(TAG, "Error fetching countries: ", throwable);
-                });
+                }
+        );
     }
 
-
-    private void subscribeIngredient() {
-//        adapter = new HomeRecyclerAdapter(new ArrayList<>(),
-//                getContext(), this);
-        adapter.updateList(new ArrayList<>());
-//        presenter.getIngredients().subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//
-//                .subscribe(ingredientResponse -> {
-//                    adapter = new HomeRecyclerAdapter(new ArrayList<IngredientResponse.Ingredient>(),
-//                            getContext(), this);
-//                    adapter.updateList(ingredientResponse.getIngredients());
-//                    recyclerView.setAdapter(adapter);
-//                });
+    private void updateTodaySpecialCard(MealsResponse.Meal meal) {
+        if (todayMeal != null) {
+            todayMeal = meal;
+            Log.i(TAG, "updateTodaySpecialCard: " + todayMeal.getIdMeal());
+            Glide.with(getContext()).load(todayMeal.getStrMealThumb()).into(ivSpecialMeal);
+            tvSpecialMealTitle.setText(todayMeal.getStrMeal());
+            tvSpecialMealCategory.setText(todayMeal.getStrCategory());
+            Glide.with(getContext()).load(Flags.getFlagURL(todayMeal.getStrArea())).into(ivFlag);
+        } else {
+            Log.i(TAG, "updateTodaySpecialCard: STATIC IS NULL");
+        }
     }
 
+    private void setupChipListeners() {
+        categoryChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!isChecked) {
+                if (!countryChip.isChecked() && !ingredientChip.isChecked()) {
+                    buttonView.setChecked(true);
+                }
+            } else {
+                countryChip.setChecked(false);
+                ingredientChip.setChecked(false);
+                presenter.handleCategoryChip();
+            }
+        });
+
+        countryChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!isChecked) {
+                if (!categoryChip.isChecked() && !ingredientChip.isChecked()) {
+                    buttonView.setChecked(true);
+                }
+            } else {
+                categoryChip.setChecked(false);
+                ingredientChip.setChecked(false);
+                presenter.handleCountryChip();
+            }
+        });
+
+        ingredientChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!isChecked) {
+                if (!categoryChip.isChecked() && !countryChip.isChecked()) {
+                    buttonView.setChecked(true);
+                }
+            } else {
+                categoryChip.setChecked(false);
+                countryChip.setChecked(false);
+                presenter.handleIngredientChip();
+            }
+        });
+    }
 
     private MealDataRepositoryImpl getMealRepositoryInstance(Context context) {
         return MealDataRepositoryImpl.getInstance(MealsRemoteSourceImpl.getInstance(), MealsLocalSourceImpl.getInstance(context));
@@ -213,13 +296,169 @@ public class HomeFragment extends Fragment implements HomeContract.View, OnCardC
     }
 
     @Override
-    public void onCardClick(Object type) {
-        if (type instanceof CategoryResponse.Category) {
-            CategoryResponse.Category category = (CategoryResponse.Category) type;
-            ///TODO send the type to the navigate
-        } else if (type instanceof MealsResponse.Meal) {
-            MealsResponse.Meal meal = (MealsResponse.Meal) type;
-            ///TODO send the type to the navigate
+    public void onCardClick(Object filter) {
+        String f;
+        if (filter instanceof MealsResponse.Meal) {
+            f = ((MealsResponse.Meal) filter).getStrArea();
+            Log.i(TAG, "AREA NAME: " + f);
+            presenter.filterByArea(f)
+                    .subscribe((meals, throwable) -> {
+                        if (throwable != null) {
+                            Log.e(TAG, "Error filtering by area", throwable);
+                            return;
+                        }
+                        MealsResponse.Meal[] mealsArray = meals.toArray(new MealsResponse.Meal[0]);
+                        Navigation.findNavController(requireView())
+                                .navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(f + " Meals", mealsArray));
+                    });
+        } else if (filter instanceof CategoryResponse.Category) {
+            f = ((CategoryResponse.Category) filter).getStrCategory();
+            Log.i(TAG, "CATEGORY NAME: " + f);
+            presenter.filterByCategory(f).subscribe((meals, throwable) -> {
+                if (throwable != null) {
+                    Log.e(TAG, "Error filtering by category", throwable);
+                    return;
+                }
+                MealsResponse.Meal[] mealsArray = meals.toArray(new MealsResponse.Meal[0]);
+                Navigation.findNavController(requireView())
+                        .navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment("Meals with " + f, mealsArray));
+            });
+        } else if ( filter instanceof IngredientResponse.Meal) {
+            f = ((IngredientResponse.Meal) filter).getStrIngredient();
+            Log.i(TAG, "INGREDIENT NAME: " + f);
+            presenter.filterByIngredient(f).subscribe((meals, throwable) -> {
+                if (throwable != null) {
+                    Log.e(TAG, "Error filtering by ingredient", throwable);
+                    return;
+                }
+                MealsResponse.Meal[] mealsArray = meals.toArray(new MealsResponse.Meal[0]);
+                Navigation.findNavController(requireView())
+                        .navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment("Meals with " + f, mealsArray));
+            });
         }
     }
+
+    @Override
+    public void showLoading() {
+        progressBar.setVisibility((View.VISIBLE));
+    }
+
+    @Override
+    public void getUserData(User userData) {
+        user = userData;
+        Log.i(TAG, "getUserData: " + user.getId());
+        Log.i(TAG, "getUserData: " + user.getName());
+        Log.i(TAG, "getUserData: " + user.getEmail());
+        Caching.setUser(userData);
+        presenter.getRecoveredFavoriteMeals();
+        presenter.getRecoveredPlanMeals();
+    }
+
+    @Override
+    public void hideLoading() {
+        progressBar.setVisibility((View.GONE));
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void displayUsername(String name) {
+        if(name == null){
+        tvUserName.setText("Guest");
+        }
+        tvUserName.setText(name);
+        if(Caching.getUser() == null)
+        tvUserName.setText("Guest");
+    }
+
+    @Override
+    public void updateCategories(List<CategoryResponse.Category> categories) {
+        if (adapter == null) {
+            adapter = new HomeRecyclerAdapter(categories, getContext(), this);
+        } else {
+            adapter.updateList(categories);
+        }
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void updateAreas(List<MealsResponse.Meal> areas) {
+        if (adapter == null) {
+            adapter = new HomeRecyclerAdapter(areas, getContext(), this);
+        } else {
+            adapter.updateList(areas);
+        }
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void updateIngredients(List<IngredientResponse.Meal> ingredients) {
+        if (adapter == null) {
+            adapter = new HomeRecyclerAdapter(ingredients, getContext(), this);
+        } else {
+            adapter.updateList(ingredients);
+        }
+        recyclerView.setAdapter(adapter);
+
+    }
+
+    private void toggleTodayMealCard() {
+        if (todaySpecialCard.getVisibility() == View.GONE) {
+            todaySpecialCard.setVisibility(View.VISIBLE);
+        } else {
+            todaySpecialCard.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public Context getViewContext() {
+        return requireContext();
+    }
+
+
+
+
+
+
+
+
+
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

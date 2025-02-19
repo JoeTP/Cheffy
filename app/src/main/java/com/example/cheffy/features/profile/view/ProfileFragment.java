@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,15 +19,23 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.cheffy.R;
+import com.example.cheffy.features.auth.model.User;
 import com.example.cheffy.features.auth.view.AuthActivity;
-import com.example.cheffy.utils.AppStrings;
+import com.example.cheffy.utils.Caching;
 import com.example.cheffy.utils.SharedPreferencesHelper;
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
 
-    private ConstraintLayout tileAccountSetting;
-    private ConstraintLayout tileLogout;
-    private SharedPreferencesHelper sharedPreferencesHelper;
+    ConstraintLayout settingTile;
+    ConstraintLayout logoutTile;
+    SharedPreferencesHelper sharedPreferencesHelper;
+    TextView tvUserName, tvUserEmail;
+    ImageView ivUserImage;
+    User user;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -40,14 +50,14 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-
         initViews(view);
-
-        tileAccountSetting.setOnClickListener(v -> {
+        user = ProfileFragmentArgs.fromBundle(getArguments()).getUser();
+        setupUi(user);
+        settingTile.setOnClickListener(v -> {
             Toast.makeText(getContext(), "NOT WORKING YET", Toast.LENGTH_SHORT).show();
         });
 
-        tileLogout.setOnClickListener(v -> {
+        logoutTile.setOnClickListener(v -> {
             sharedPreferencesHelper.saveBoolean(IS_LOGGED_IN_KEY, false)
                     .subscribe(() -> {
                         navigateToAuthActivity();
@@ -60,15 +70,30 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    private void setupUi(User user) {
+        if (Caching.getUser() != null) {
+            tvUserName.setText(user.getName());
+            tvUserEmail.setText(user.getEmail());
+        }else{
+            tvUserName.setText("Guest");
+            tvUserEmail.setText("");
+        }
+    }
+
+
     private void initViews(View view) {
-        tileLogout = view.findViewById(R.id.tileLogout);
-        tileAccountSetting = view.findViewById(R.id.tileAccountSetting);
+        logoutTile = view.findViewById(R.id.logoutTile);
+        settingTile = view.findViewById(R.id.settingTile);
+        tvUserName = view.findViewById(R.id.tvUserName);
+        tvUserEmail = view.findViewById(R.id.tvUserEmail);
+        ivUserImage = view.findViewById(R.id.ivUserImage);
+
     }
 
     private void navigateToAuthActivity() {
         Intent intent = new Intent(requireActivity(), AuthActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra(IS_LOG_OUT_KEY, true);// Add this flag
+        intent.putExtra(IS_LOG_OUT_KEY, true);
         startActivity(intent);
         requireActivity().finish();
     }

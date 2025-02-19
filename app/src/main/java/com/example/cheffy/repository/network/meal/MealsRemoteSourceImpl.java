@@ -1,5 +1,6 @@
 package com.example.cheffy.repository.network.meal;
 
+import com.example.cheffy.repository.models.ingredient.IngredientResponse;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.repository.network.ApiClient;
 
@@ -21,13 +22,41 @@ public class MealsRemoteSourceImpl implements MealsRemoteSource {
         return mealsClient;
     }
 
+
+
     @Override
-    public void fetchDailyMeal(Callback<MealsResponse> callback) {
+    public Single<MealsResponse> fetchDailyMeal() {
+        return mealsService.getDailyMeal();
     }
 
     @Override
     public Single<MealsResponse> fetchAreas() {
         return mealsService.getAreas();
+    }
+
+    @Override
+    public Single<MealsResponse> filterByCategory(String category) {
+        return mealsService.filterByCategory(category);
+    }
+
+    @Override
+    public Single<IngredientResponse> fetchIngredients() {
+        return mealsService.getIngredients();
+    }
+
+    @Override
+    public Single<MealsResponse> filterByArea(String area) {
+        return mealsService.filterByArea(area);
+    }
+
+    @Override
+    public Single<MealsResponse> filterByIngredient(String ingredient) {
+        return mealsService.filterByIngredient(ingredient);
+    }
+
+    @Override
+    public Single<MealsResponse> searchMealById(String meal) {
+        return mealsService.searchMealById(meal);
     }
 
 }

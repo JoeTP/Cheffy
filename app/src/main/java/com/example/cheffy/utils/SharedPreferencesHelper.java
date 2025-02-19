@@ -21,12 +21,12 @@ public class SharedPreferencesHelper {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString(key, value);
             editor.apply();
-        }).subscribeOn(Schedulers.io());
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
     public static Single<String> getString(String key, String defaultValue) {
         return Single.fromCallable(() -> sharedPreferences.getString(key, defaultValue))
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
     public static Completable saveInt(String key, int value) {
@@ -34,12 +34,13 @@ public class SharedPreferencesHelper {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putInt(key, value);
             editor.apply();
-        }).subscribeOn(Schedulers.io());
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
     public static Single<Integer> getInt(String key, int defaultValue) {
         return Single.fromCallable(() -> sharedPreferences.getInt(key, defaultValue))
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public static Completable saveBoolean(String key, boolean value) {
@@ -60,7 +61,7 @@ public class SharedPreferencesHelper {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.remove(key);
             editor.apply();
-        }).subscribeOn(Schedulers.io());
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
 

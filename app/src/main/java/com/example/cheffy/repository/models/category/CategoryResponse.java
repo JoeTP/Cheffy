@@ -6,9 +6,10 @@ import androidx.room.PrimaryKey;
 
 import com.example.cheffy.utils.AppStrings;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CategoryResponse {
+public class CategoryResponse  {
     List<Category> categories;
 
 
@@ -20,7 +21,7 @@ public class CategoryResponse {
         this.categories = categories;
     }
 
-    public static class Category {
+    public static class Category implements Serializable {
         String idCategory;
         String strCategory;
         String strCategoryThumb;

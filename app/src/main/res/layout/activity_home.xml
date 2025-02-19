@@ -54,11 +54,13 @@
                 android:outlineSpotShadowColor="@color/main_green_color"
                 android:padding="0dp"
                 android:src="@drawable/calendar"
+                app:tint="@null"
                 app:borderWidth="0dp"
                 app:elevation="8dp"
                 app:fabCustomSize="64dp"
                 app:maxImageSize="38dp"
-                app:shapeAppearanceOverlay="@style/fab_circle" />
+                app:shapeAppearanceOverlay="@style/fab_circle"
+                />
         </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 <!--    </com.google.android.material.bottomappbar.BottomAppBar>-->

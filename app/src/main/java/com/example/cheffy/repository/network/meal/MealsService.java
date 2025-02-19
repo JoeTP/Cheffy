@@ -1,11 +1,11 @@
 package com.example.cheffy.repository.network.meal;
 
 
+import com.example.cheffy.repository.models.ingredient.IngredientResponse;
 import com.example.cheffy.repository.models.meal.MealsResponse;
 import com.example.cheffy.utils.AppStrings;
 
 import io.reactivex.rxjava3.core.Single;
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -14,8 +14,10 @@ public interface MealsService {
     @GET(AppStrings.RANDOM_MEAL_END_POINT)
     public Single<MealsResponse> getDailyMeal();
 
-    @GET(AppStrings.SEARCH_MEAL_END_POINT)
-    public Single<MealsResponse> searchMeal(@Query(AppStrings.SEARCH_QUERY) String mealName);
+    @GET(AppStrings.LOOKUP_END_POINT)
+    public Single<MealsResponse> searchMealById(@Query(AppStrings.ID_QUERY) String mealName);
+    @GET(AppStrings.LOOKUP_END_POINT)
+    public Single<MealsResponse> searchMeal(@Query(AppStrings.ID_QUERY) String mealName);
 
     @GET(AppStrings.FILTER_END_POINT)
     public Single<MealsResponse> filterByCategory(@Query(AppStrings.CATEGORY_QUERY) String category);
@@ -30,6 +32,6 @@ public interface MealsService {
     public Single<MealsResponse> getAreas();
 
     @GET(AppStrings.INGREDIENT_LIST)
-    public Single<MealsResponse> getIngredients();
+    public Single<IngredientResponse> getIngredients();
 
 }
